@@ -1,20 +1,18 @@
 import s from "./index.module.scss";
 import withGlobalProps from "/lib/withGlobalProps";
 import { StartDocument } from "/graphql";
+import { SelectedWorks } from "/components";
 import { usePage } from "/lib/context/page";
 import React from "react";
 
 export type Props = {
 	start: StartRecord
-	artwork: ArtworkRecord[]
 }
 
-export default function Home({ start, artwork }: Props) {
+export default function Home({ start }: Props) {
 
 	return (
-		<div className={s.container}>
-			start
-		</div>
+		<SelectedWorks artwork={start.selectedArtwork} />
 	);
 }
 

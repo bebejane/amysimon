@@ -2,9 +2,9 @@
 	--black: #191919;
 	--white: #ffffff;
 	--red: red;
-	--outer-margin: 1rem;
+	--outer-margin: 2rem;
 	--logo-size: 40px;
-
+	--navbar-height: 2rem;
 
 	@include mq($from: tablet) {}
 

@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-top: calc(var(--navbar-height) + var(--outer-margin));
+  margin: var(--outer-margin);
+
+  ul {
+    list-style: none;
+  }
+
+  >ul {
+    display: flex;
+    flex-direction: column;
+
+    >li {
+      display: flex;
+      flex-direction: row;
+
+      ul {
+        display: flex;
+        flex-direction: row;
+      }
+    }
+
+  }
+}

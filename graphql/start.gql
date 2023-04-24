@@ -4,7 +4,4 @@ query Start {
 			...ArtworkFragment
 		}
 	}
-	artwork: allArtworks(first: 100) {
-		...ArtworkFragment
-	}
 }

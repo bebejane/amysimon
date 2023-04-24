@@ -10,11 +10,8 @@ export type Props = {
 }
 
 export default function MenuMobile({ }: Props) {
-
-
   return (
-
-    <nav>
+    <nav className={s.menuMobile}>
       menu mobile
     </nav>
   )

@@ -1,6 +1,12 @@
 fragment ArtworkFragment on ArtworkRecord {
 	id
 	year
+	title
+	format
+	height
+	width
+	material
+	layout
 	image {
 		...ImageFragment
 	}

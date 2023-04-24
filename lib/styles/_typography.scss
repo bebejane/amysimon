@@ -51,6 +51,7 @@ h2,
 .brauer-intro {
   font-family: $headline-font !important;
   font-size: 24px;
+
   @include mq($from: tablet) {
     font-size: calc(1rem + 13px);
   }
@@ -115,9 +116,11 @@ label,
 
 .body-small {
   font-size: 15px;
+
   @include mq($from: tablet) {
     font-size: 16px;
   }
+
   font-family: $body-font;
 }
 
@@ -139,29 +142,15 @@ b {
 }
 
 article {
-  p + h3,
-  ul + h3,
-  ul + h2,
-  p + h2 {
-    padding-top: 1rem;
-  }
 
-  h3 {
-    color: var(--page-color);
-  }
+  p+h3,
+  ul+h3,
+  ul+h2,
+  p+h2 {}
 
-  ul {
-    padding-left: 1em;
-    list-style-type: disc;
+  h3 {}
 
-    p:last-of-type {
-      margin-bottom: 0.7em;
-    }
-
-    & li:last-child p {
-      margin-bottom: 1em;
-    }
-  }
+  ul {}
 }
 
 button {
