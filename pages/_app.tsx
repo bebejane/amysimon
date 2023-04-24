@@ -9,7 +9,7 @@ import setDefaultOptions from 'date-fns/setDefaultOptions';
 
 setDefaultOptions({ locale: sv })
 
-const siteTitle = 'Konstnärsfrämjandet'
+const siteTitle = 'Amy Simon'
 
 function App({ Component, pageProps, router }) {
 
