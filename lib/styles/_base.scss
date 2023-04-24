@@ -9,8 +9,10 @@
 	--space: 4rem;
 	--small-space: 1rem;
 
-	--z-menu: 1000;
+	--z-next: 700;
+	--z-fade: 800;
 	--z-menu-mobile: 900;
+	--z-menu: 1000;
 	--z-hamburger: 1200;
 
 	@include mq($from: tablet) {}
