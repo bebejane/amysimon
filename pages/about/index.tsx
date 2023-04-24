@@ -1,6 +1,7 @@
 import s from "./index.module.scss";
 import withGlobalProps from "/lib/withGlobalProps";
 import { AboutDocument } from "/graphql";
+import { DatoMarkdown as Markdown } from "dato-nextjs-utils/components";
 import Link from "next/link";
 
 export type Props = {
@@ -16,16 +17,15 @@ export default function About({ about, exhibitions, projects }: Props) {
       <ul>
         <li>
           <h2>Amy Simon</h2>
-          <p>
-            {about.bio}
-          </p>
+          <Markdown>{about.bio}</Markdown>
         </li>
         <li>
           <h2>Selected Solo Exhibitions</h2>
           <ul>
             {exhibitions.map(({ id, title, year, location, city, country }) =>
               <li>
-                {year} {[title, location, city, country].filter(el => el).join(', ')}
+                <span>{year}</span>
+                <span>{[title, location, city, country].filter(el => el).join(', ')}</span>
               </li>
             )}
           </ul>
@@ -35,13 +35,14 @@ export default function About({ about, exhibitions, projects }: Props) {
           <ul>
             {projects.map(({ id, from, until, description }) =>
               <li>
-                {from}{until ? `-${(until + '').substring(2)}` : ''} {description}
+                <span className={s.long}>{from}{until ? `-${(until + '').substring(2)}` : ''}</span>
+                <span>{description}</span>
               </li>
             )}
           </ul>
         </li>
-      </ul>
-    </div>
+      </ul >
+    </div >
   );
 }
 

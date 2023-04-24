@@ -1,6 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
+  margin-right: var(--outer-margin);
+  margin-left: var(--outer-margin);
 
   ul {
     list-style: none;
@@ -22,11 +24,33 @@
         text-align: right;
         padding-right: 1rem;
         white-space: pre;
+
+        @include mq($until: desktop) {
+          display: none;
+        }
       }
 
       ul {
         display: flex;
         flex-direction: column;
+
+        li {
+          display: flex;
+          flex-direction: row;
+
+          span {
+            display: inline-block;
+
+            &:nth-child(1) {
+              min-width: 6ch;
+
+              &.long {
+                min-width: 9ch;
+              }
+            }
+          }
+
+        }
       }
     }
 

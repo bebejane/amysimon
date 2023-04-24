@@ -8,12 +8,16 @@
 	--body-height: calc(100vh - var(--navbar-height));
 	--space: 4rem;
 	--small-space: 1rem;
-	--z-menu: 100000;
+
+	--z-menu: 1000;
+	--z-menu-mobile: 900;
+	--z-hamburger: 1200;
 
 	@include mq($from: tablet) {}
 
 	@include mq($until: desktop) {
-		//--navbar-height: 2rem;
+		--outer-margin: 1rem;
+		--navbar-height: 64px;
 	}
 }
 

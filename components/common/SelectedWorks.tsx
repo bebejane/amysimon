@@ -18,7 +18,7 @@ export default function SelectedWorks({ artwork }: Props) {
     setFade(true)
     setTimeout(() => {
       setIndex(index === artwork.length - 1 ? 0 : index + 1)
-    }, 700)
+    }, 400)
 
     setTimeout(() => {
       setFade(false)

@@ -1,0 +1,97 @@
+.hamburger {
+
+  --line-height: 4px;
+  --line-height-half: calc(var(--line-height) / 2);
+  --height: var(--navbar-height);
+  --width: var(--navbar-height);
+  --padding: 20px;
+
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: var(--z-hamburger);
+  height: var(--height);
+  width: var(--width);
+  max-width: var(--width);
+  min-height: var(--height);
+  cursor: pointer;
+  pointer-events: all;
+
+  @include mq($from: desktop) {
+    display: none;
+  }
+
+  .wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+
+    >div {
+      position: absolute;
+      top: var(--padding);
+      left: var(--padding);
+      width: calc(100% - var(--padding) * 2);
+      height: var(--line-height);
+      background-color: var(--black);
+      animation-duration: 0.2s;
+      animation-timing-function: steps(8, end);
+      animation-iteration-count: 1;
+      animation-direction: reverse;
+      animation-fill-mode: forwards;
+
+      &.closed {
+        animation-direction: normal;
+      }
+
+      &.opened {
+        animation-direction: reverse;
+      }
+
+      &:nth-child(1) {
+        top: 40%;
+        transform: translateY(-40%);
+      }
+
+      &:nth-child(2) {
+        top: 60%;
+        transform: translateY(-60%);
+      }
+
+
+      &.init {
+        &:nth-child(1) {
+          animation-name: line1;
+        }
+
+        &:nth-child(2) {
+          animation-name: line2;
+        }
+      }
+    }
+  }
+}
+
+@keyframes line1 {
+  0% {
+    top: 40%;
+    transform: translateY(-40%);
+  }
+
+  100% {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+@keyframes line2 {
+  0% {
+
+    top: 60%;
+    transform: translateY(-60%);
+  }
+
+  100% {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
