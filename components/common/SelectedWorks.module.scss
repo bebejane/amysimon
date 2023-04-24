@@ -1,6 +1,7 @@
 .container {
-  height: 100vh;
-  width: 100vw;
+  position: relative;
+  width: 100%;
+  height: var(--body-height);
 
   h2 {
     position: absolute;
@@ -16,15 +17,19 @@
     text-transform: uppercase;
     text-align: center;
     line-height: 1;
+    opacity: 1;
+    transition: opacity;
 
     &.hide {
-      display: none;
+      transition-delay: 3s;
+      opacity: 0;
+      pointer-events: none;
+
     }
 
   }
 
   ul {
-
     list-style: none;
     display: flex;
     flex-direction: row;
@@ -35,39 +40,98 @@
     }
 
     li {
-      flex: 0 0 100vw;
-      height: 100vh;
+
+      flex: 0 0 100%;
 
       figure {
         position: relative;
-        min-height: 100vh;
-        max-height: 100vh;
         cursor: pointer;
+        min-height: var(--body-height);
 
         .image {
           padding: 0;
-        }
-
-        .picture {
-          object-fit: contain;
-          max-height: 100vh;
+          min-width: 100%;
         }
 
         figcaption {
           position: absolute;
           left: 0;
           bottom: 0;
-          margin: var(--outer-margin);
+          z-index: 10;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: 100%;
+          height: var(--navbar-height);
+          padding-left: var(--outer-margin);
+
         }
 
         &.margin {
-          padding-top: calc(1rem + var(--navbar-height));
+          .picture {
+            object-fit: contain;
+            max-height: calc(var(--body-height) - var(--navbar-height));
+          }
+        }
+
+        &.full-bleed {
+          margin-top: calc(-1 * var(--navbar-height));
+          margin-bottom: calc(-1 * var(--navbar-height));
 
           .picture {
-            max-height: calc(100vh - calc(2 * var(--navbar-height))) !important;
+            max-height: 100vh;
+            object-fit: cover;
           }
         }
       }
     }
+  }
+
+  .fade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    width: 100%;
+    margin-top: calc(-1 * var(--navbar-height));
+    pointer-events: none;
+
+    .left,
+    .right {
+      flex: 1 1;
+      background-color: var(--white);
+      opacity: 0;
+      transition-duration: 0.3s;
+      transition-property: opacity;
+      transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+    }
+
+    .left {
+      margin-right: 10px;
+    }
+
+    .right {
+      margin-left: 10px;
+    }
+
+    &.show {
+
+      .left,
+      .right {
+        opacity: 1;
+      }
+
+      .left {
+        transition-delay: 0.2s;
+      }
+
+      .right {
+        transition-delay: 0s;
+      }
+    }
+
   }
 }

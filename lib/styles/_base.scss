@@ -4,7 +4,11 @@
 	--red: red;
 	--outer-margin: 2rem;
 	--logo-size: 40px;
-	--navbar-height: 2rem;
+	--navbar-height: calc(calc(2 * var(--outer-margin)) + 1rem);
+	--body-height: calc(100vh - var(--navbar-height));
+	--space: 4rem;
+	--small-space: 1rem;
+	--z-menu: 100000;
 
 	@include mq($from: tablet) {}
 

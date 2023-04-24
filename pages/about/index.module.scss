@@ -1,8 +1,6 @@
 .container {
   display: flex;
   flex-direction: column;
-  padding-top: calc(var(--navbar-height) + var(--outer-margin));
-  margin: var(--outer-margin);
 
   ul {
     list-style: none;

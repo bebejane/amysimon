@@ -10,6 +10,21 @@ type Props = {
 export default function SelectedWorks({ artwork }: Props) {
 
   const [show, setShow] = useState(false)
+  const [fade, setFade] = useState(false)
+  const [index, setIndex] = useState(0)
+  const style = { transform: `translateX(-${index * 100}%)` }
+  const handleClick = () => {
+
+    setFade(true)
+    setTimeout(() => {
+      setIndex(index === artwork.length - 1 ? 0 : index + 1)
+    }, 700)
+
+    setTimeout(() => {
+      setFade(false)
+    }, 700)
+
+  }
 
   useEffect(() => {
     setTimeout(() => setShow(true), 2000)
@@ -22,9 +37,9 @@ export default function SelectedWorks({ artwork }: Props) {
         WORK<br />
         1997—2023
       </h2>
-      <ul className={cn(s.artwork, show && s.show)}>
-        {artwork.map(({ id, image, year, title, material, format, width, height, layout }) =>
-          <li >
+      <ul className={cn(s.artwork, show && s.show)} style={style}>
+        {artwork.map(({ id, image, year, title, material, format, width, height, layout }, idx) =>
+          <li onClick={handleClick}>
             <figure className={s[layout]}>
               <Image
                 data={image.responsiveImage}
@@ -36,7 +51,10 @@ export default function SelectedWorks({ artwork }: Props) {
           </li>
         )}
       </ul>
-
+      <div className={cn(s.fade, fade && s.show)}>
+        <div className={s.left}></div>
+        <div className={s.right}></div>
+      </div>
     </div>
   )
 }

@@ -2,11 +2,15 @@
   position: fixed;
   display: flex;
   flex-direction: row;
+  align-items: center;
   width: 100%;
   top: 0;
   left: 0;
-  padding: var(--outer-margin);
+  line-height: 1;
   z-index: var(--z-menu);
+  height: var(--navbar-height);
+  padding-left: var(--outer-margin);
+  padding-right: var(--outer-margin);
 
   @include mq($until: desktop) {
     display: none;
