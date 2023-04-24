@@ -1,6 +1,8 @@
 .container {
   display: flex;
   flex-direction: column;
+  margin-left: var(--outer-margin);
+  margin-right: var(--outer-margin);
 
   ul {
     display: flex;
@@ -17,6 +19,7 @@
         font-size: 1rem;
         text-transform: uppercase;
         flex: 0 0;
+        margin-bottom: 1rem;
       }
 
       .image {

@@ -35,7 +35,7 @@ export default function About({ about, exhibitions, projects }: Props) {
           <ul>
             {projects.map(({ id, from, until, description }) =>
               <li>
-                {from}{until ? ` - ${until}` : ''} {description}
+                {from}{until ? `-${(until + '').substring(2)}` : ''} {description}
               </li>
             )}
           </ul>

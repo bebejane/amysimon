@@ -3,7 +3,7 @@ query About {
 		bio(markdown: false)
 		email
 	}
-	exhibitions: allExhibitions(first: 100) {
+	exhibitions: allExhibitions(first: 100, orderBy: year_DESC) {
 		id
 		year
 		title
@@ -11,7 +11,7 @@ query About {
 		city
 		country
 	}
-	projects: allProjects(first: 100) {
+	projects: allProjects(first: 100, orderBy: from_DESC) {
 		id
 		from
 		until

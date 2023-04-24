@@ -1,6 +1,6 @@
 import s from './Layout.module.scss'
 import React, { useState } from 'react'
-import { Content, Grid, Menu, MenuMobile } from '/components'
+import { Content, Grid, Menu } from '/components'
 import { useStore } from '/lib/store'
 
 export type LayoutProps = {
@@ -17,7 +17,6 @@ export default function Layout({ children, title }: LayoutProps) {
 				{children}
 			</Content>
 			<Menu />
-			<MenuMobile />
 			<Grid />
 		</>
 	)

@@ -1,5 +1,0 @@
-.menuMobile {
-  @include mq($from: desktop) {
-    display: none;
-  }
-}
