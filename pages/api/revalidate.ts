@@ -17,6 +17,7 @@ export default withRevalidate(async (record, revalidate) => {
       break;
     case 'artwork':
       paths.push(`/`);
+      paths.push(`/archive`);
       break;
     case 'start':
       paths.push(`/`);

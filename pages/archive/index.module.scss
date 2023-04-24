@@ -9,11 +9,16 @@
     flex-direction: row;
     flex-wrap: wrap;
     list-style: none;
+    height: calc(var(--body-height) - calc(var(--space) *2));
 
     li {
       display: flex;
       flex-direction: column;
+      justify-content: center;
       flex: 0 0 33.33333%;
+      height: 50%;
+      margin-bottom: var(--space);
+      cursor: pointer;
 
       h2 {
         font-size: 1rem;
@@ -26,8 +31,26 @@
         flex: 1 1 auto;
       }
 
-      .picture {
+      .picture,
+      img[role="presentation"] {
         object-fit: contain;
+        max-height: 50%;
+
+        &.active {
+          opacity: 1;
+
+        }
+
+        &.inactive {
+          opacity: 0.2 !important;
+        }
+      }
+
+      img[role="presentation"] {
+        left: 0% !important;
+        top: 0% !important;
+        width: 100% !important;
+        height: 100% !important;
       }
     }
   }

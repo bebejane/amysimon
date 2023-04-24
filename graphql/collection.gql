@@ -1,5 +1,5 @@
 query AllCollections {
-	collections: allCollections(first: 100, orderBy: year_DESC) {
+	collections: allCollections(first: 100, orderBy: year_ASC) {
 		...CollectionFragment
 	}
 }
