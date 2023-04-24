@@ -1,0 +1,7 @@
+fragment ArtworkFragment on ArtworkRecord {
+	id
+	year
+	image {
+		...ImageFragment
+	}
+}

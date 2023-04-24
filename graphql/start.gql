@@ -1,0 +1,10 @@
+query Start {
+	start {
+		selectedArtwork {
+			...ArtworkFragment
+		}
+	}
+	artwork: allArtworks(first: 100) {
+		...ArtworkFragment
+	}
+}

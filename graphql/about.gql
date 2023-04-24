@@ -1,0 +1,19 @@
+query About {
+	about {
+		bio(markdown: false)
+		email
+	}
+	exhibitions: allExhibitions(first: 100) {
+		id
+		title
+		location
+		city
+		country
+	}
+	projects: allProjects(first: 100) {
+		id
+		from
+		until
+		description
+	}
+}
