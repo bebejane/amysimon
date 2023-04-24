@@ -1,0 +1,9 @@
+fragment CollectionFragment on CollectionRecord {
+	id
+	year
+	title
+	description
+	artwork {
+		...ArtworkFragment
+	}
+}

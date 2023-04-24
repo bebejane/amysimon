@@ -5,6 +5,7 @@ query About {
 	}
 	exhibitions: allExhibitions(first: 100) {
 		id
+		year
 		title
 		location
 		city

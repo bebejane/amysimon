@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  padding-top: calc(var(--navbar-height) + var(--outer-margin));
+  margin: var(--outer-margin);
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    list-style: none;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      flex: 0 0 33.33333%;
+
+      h2 {
+        font-size: 1rem;
+        text-transform: uppercase;
+        flex: 0 0;
+      }
+
+      .image {
+        flex: 1 1 auto;
+      }
+
+      .picture {
+        object-fit: contain;
+      }
+    }
+  }
+}

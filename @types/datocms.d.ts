@@ -126,7 +126,7 @@ type ArtworkRecord = RecordInterface & {
   height?: Maybe<Scalars['IntType']>;
   id: Scalars['ItemId'];
   image: FileField;
-  layout?: Maybe<Scalars['String']>;
+  layout: Scalars['String'];
   material?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   width?: Maybe<Scalars['IntType']>;
@@ -207,7 +207,7 @@ type CollectionRecord = RecordInterface & {
   _status: ItemStatus;
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
   _updatedAt: Scalars['DateTime'];
-  artwork: Array<Scalars['String']>;
+  artwork: Array<ArtworkRecord>;
   description?: Maybe<Scalars['String']>;
   id: Scalars['ItemId'];
   title?: Maybe<Scalars['String']>;
@@ -2847,9 +2847,16 @@ type focalPoint = {
 type AboutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'AboutRecord', bio: string, email?: string | null } | null, exhibitions: Array<{ __typename?: 'ExhibitionRecord', id: any, title: string, location?: string | null, city?: string | null, country?: string | null }>, projects: Array<{ __typename?: 'ProjectRecord', id: any, from: any, until?: any | null, description: string }> };
+type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'AboutRecord', bio: string, email?: string | null } | null, exhibitions: Array<{ __typename?: 'ExhibitionRecord', id: any, year: any, title: string, location?: string | null, city?: string | null, country?: string | null }>, projects: Array<{ __typename?: 'ProjectRecord', id: any, from: any, until?: any | null, description: string }> };
 
-type ArtworkFragment = { __typename?: 'ArtworkRecord', id: any, year: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout?: string | null, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null } };
+type AllCollectionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+type AllCollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, year: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null } }> }> };
+
+type ArtworkFragment = { __typename?: 'ArtworkRecord', id: any, year: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null } };
+
+type CollectionFragment = { __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, year: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null } }> };
 
 type ImageFragment = { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null };
 
@@ -2864,4 +2871,4 @@ type VideoFragment = { __typename?: 'FileField', id: any, alt?: string | null, b
 type StartQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type StartQuery = { __typename?: 'Query', start?: { __typename?: 'StartRecord', selectedArtwork: Array<{ __typename?: 'ArtworkRecord', id: any, year: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout?: string | null, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null } }> } | null };
+type StartQuery = { __typename?: 'Query', start?: { __typename?: 'StartRecord', selectedArtwork: Array<{ __typename?: 'ArtworkRecord', id: any, year: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null } }> } | null };

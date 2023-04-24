@@ -8,10 +8,28 @@ declare module '*/about.gql' {
 }
     
 
+declare module '*/collection.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const AllCollections: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
 declare module '*/ArtworkFragment.gql' {
   import { DocumentNode } from 'graphql';
   const defaultDocument: DocumentNode;
   export const ArtworkFragment: DocumentNode;
+
+  export default defaultDocument;
+}
+    
+
+declare module '*/CollectionFragment.gql' {
+  import { DocumentNode } from 'graphql';
+  const defaultDocument: DocumentNode;
+  export const CollectionFragment: DocumentNode;
 
   export default defaultDocument;
 }
