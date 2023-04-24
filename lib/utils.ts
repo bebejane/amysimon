@@ -1,7 +1,6 @@
 import { TypedDocumentNode } from "@apollo/client/core";
 import { apiQuery } from "dato-nextjs-utils/api";
 import type { ApiQueryOptions } from "dato-nextjs-utils/api";
-import React from "react";
 
 export const isServer = typeof window === 'undefined';
 

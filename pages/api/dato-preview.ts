@@ -1,37 +1,32 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { allDistricts, primarySubdomain } from '/lib/utils';
 import { apiQuery } from 'dato-nextjs-utils/api';
-import { ProjectBySubpageDocument } from '/graphql';
 
 const generatePreviewUrl = async ({ item, itemType, locale }) => {
 
   let path = null;
-  const { slug, district: districtId } = item.attributes
-  const district = districtId ? (await allDistricts()).find(({ id }) => id === districtId) : undefined
-  const districtSlug = district && district.subdomain !== primarySubdomain ? `/${district.subdomain}` : ''
+  const { slug, api_key } = item.attributes
 
-  switch (itemType.attributes.api_key) {
-    case 'news':
-      path = `/aktuellt/${slug}`;
-      break;
+  switch (api_key) {
     case 'about':
-      path = `/om/${slug}`;
+      path = `/about`;
       break;
     case 'project':
-      path = `/projekt/${slug}`;
+      path = `/about`;
       break;
-    case 'project_subpage':
-      const { project } = await apiQuery(ProjectBySubpageDocument, { variables: { subpageId: item.id } })
-      project && (path = `/projekt/${project.slug}/${slug}`)
+    case 'exhibition':
+      path = `/about`;
       break;
-    case 'district':
-      path = '/';
+    case 'artwork':
+      path = `/`;
+      break;
+    case 'start':
+      path = `/`;
       break;
     default:
       break;
   }
 
-  return path ? `${districtSlug}${path}` : null
+  return path
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
