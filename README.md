@@ -1,3 +1,3 @@
-## Konstnärscentrum
+## Amy Simon
 
 Website
