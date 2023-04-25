@@ -88,11 +88,11 @@
     }
 
     .left {
-      margin-right: 10px;
+      margin-right: 0px;
     }
 
     .right {
-      margin-left: 10px;
+      margin-left: 0px;
     }
 
     &.show {
@@ -103,7 +103,7 @@
       }
 
       .left {
-        transition-delay: 0.2s;
+        transition-delay: 0s;
       }
 
       .right {
@@ -120,6 +120,13 @@
     margin-top: calc(-1 * var(--navbar-height));
     transform: translateY(-50%);
     margin-right: var(--outer-margin);
+    transition: opacity 0.3s ease-in-out;
+    opacity: 1;
+
+    &.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
   }
 }
 
@@ -144,6 +151,5 @@
     transition-delay: 3s;
     opacity: 0;
     pointer-events: none;
-
   }
 }

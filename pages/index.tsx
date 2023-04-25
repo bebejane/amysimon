@@ -4,6 +4,7 @@ import { StartDocument } from '/graphql'
 import cn from 'classnames'
 import { useEffect, useState, useRef } from 'react'
 import { Image } from 'react-datocms'
+import { artworkCaption } from '/lib/utils'
 
 type Props = {
 	start: StartRecord
@@ -28,8 +29,11 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 
 	const handleClick = () => {
 		setFade(true)
-		setTimeout(() => setIndex(index === selectedArtwork.length - 1 ? 0 : index + 1), 400)
-		setTimeout(() => setFade(false), 700)
+		setTimeout(() => {
+			setIndex(index === selectedArtwork.length - 1 ? 0 : index + 1)
+			setFade(false)
+		}, 200)
+
 	}
 
 	useEffect(() => {
@@ -58,7 +62,7 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 									pictureClassName={s.picture}
 								/>
 								<figcaption>
-									{[title, material, width && height ? `${width} × ${height}` : undefined, year].filter(el => el).join(', ')}
+									{artworkCaption(currentArtwork)}
 								</figcaption>
 							</figure>
 						</li>
@@ -69,11 +73,8 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 					<div className={s.left}></div>
 					<div className={s.right}></div>
 				</div>
-
-				{nextTopMargin && show &&
-					<nav className={s.next} style={{ top: `${nextTopMargin}px` }}>Next</nav>
-				}
-			</div>
+				<nav className={cn(s.next, (!nextTopMargin || !show) && s.hide)} style={{ top: `${nextTopMargin}px` }}>Next</nav>
+			</div >
 		</>
 	)
 }

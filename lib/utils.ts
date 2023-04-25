@@ -101,3 +101,8 @@ export const randomInt = (min, max) => {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+export const artworkCaption = (artwork: ArtworkRecord) => {
+  const { title, material, format, width, height, year } = artwork
+  return [title, material, format, width && height ? `${width} × ${height}` : undefined, year].filter(el => el).join(', ')
+}
