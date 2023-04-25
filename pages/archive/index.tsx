@@ -19,6 +19,7 @@ const transition = async (image: HTMLImageElement, dImage: HTMLImageElement, dur
   const dBounds = dImage.getBoundingClientRect();
 
   //clone image and position it over the original
+  const easing = 'cubic-bezier(0.245, 0.765, 0.035, 0.920)'
   const clone = image.cloneNode(true) as HTMLImageElement;
   clone.style.position = 'absolute';
   clone.style.top = `${bounds.top}px`;
@@ -29,7 +30,7 @@ const transition = async (image: HTMLImageElement, dImage: HTMLImageElement, dur
   clone.style.objectPosition = 'center';
   clone.style.zIndex = 'var(--z-trans-image)';
   clone.style.pointerEvents = 'none';
-  clone.style.transition = `all cubic-bezier(0.245, 0.765, 0.035, 0.920) ${dur}ms`;
+  clone.style.transition = ['top', 'left', 'width', 'height'].map(prop => `${prop} ${easing} ${dur}ms`).join(',');
   clone.style.opacity = '1';
   document.body.appendChild(clone);
 
@@ -63,30 +64,33 @@ export default function Archive({ collections }: Props) {
 
     setTransitioning(true)
     setCollectionId(id)
-
     await sleep(100)
     const image = document.getElementById(id).querySelector<HTMLImageElement>('picture>img')
     const dImage = figureRef.current.querySelector<HTMLImageElement>('picture>img')
     const clone = await transition(image, dImage, 600)
-
-    console.log('transitioning done')
     setTransitioning(false)
-    clone.style.opacity = '0';
+    setTimeout(() => clone.style.opacity = '0', 100)
+
   }
 
   const handleZoomOut = async () => {
     if (!collectionId) return
 
     setTransitioning(true)
-
+    setCollectionId(null)
     const dImage = document.getElementById(collectionId).querySelector<HTMLImageElement>('picture>img')
     const image = figureRef.current.querySelector<HTMLImageElement>('picture>img')
     const clone = await transition(image, dImage, 600)
 
     dImage.style.opacity = '1';
-    clone.style.opacity = '0';
-    setTransitioning(false)
-    setCollectionId(null)
+
+    setTimeout(() => {
+      clone.style.opacity = '0';
+      clone.remove()
+      setTransitioning(false)
+      setIndex(0)
+    }, 100)
+
   }
 
   return (
