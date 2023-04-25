@@ -52,7 +52,7 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 				onMouseMove={handleMouseMove}
 			>
 				<ul className={cn(s.artwork, show && s.show)} style={style}>
-					{selectedArtwork.map(({ id, image, year, title, material, format, width, height, layout }, idx) =>
+					{selectedArtwork.map(({ id, image, title, material, format, width, height, layout }, idx) =>
 						<li onClick={handleClick} >
 							<figure className={s[layout]}>
 								<Image

@@ -1,6 +1,5 @@
 fragment ArtworkFragment on ArtworkRecord {
 	id
-	year
 	title
 	format
 	height
@@ -9,5 +8,8 @@ fragment ArtworkFragment on ArtworkRecord {
 	layout
 	image {
 		...ImageFragment
+	}
+	_allReferencingCollections {
+		year
 	}
 }

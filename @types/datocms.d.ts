@@ -111,6 +111,12 @@ enum ArtworkModelOrderBy {
 /** Record of type Artwork (artwork) */
 type ArtworkRecord = RecordInterface & {
   __typename?: 'ArtworkRecord';
+  _allReferencingCollections: Array<CollectionRecord>;
+  /** Returns meta information regarding a record collection */
+  _allReferencingCollectionsMeta: CollectionMetadata;
+  _allReferencingStarts: Array<StartRecord>;
+  /** Returns meta information regarding a record collection */
+  _allReferencingStartsMeta: CollectionMetadata;
   _createdAt: Scalars['DateTime'];
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
@@ -135,6 +141,40 @@ type ArtworkRecord = RecordInterface & {
 
 
 /** Record of type Artwork (artwork) */
+type ArtworkRecord_allReferencingCollectionsArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  first?: InputMaybe<Scalars['IntType']>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<CollectionModelOrderBy>>>;
+  skip?: InputMaybe<Scalars['IntType']>;
+  through?: InputMaybe<InverseRelationshipFilterBetweenCollectionAndArtwork>;
+};
+
+
+/** Record of type Artwork (artwork) */
+type ArtworkRecord_allReferencingCollectionsMetaArgs = {
+  through?: InputMaybe<InverseRelationshipFilterBetweenCollectionAndArtwork>;
+};
+
+
+/** Record of type Artwork (artwork) */
+type ArtworkRecord_allReferencingStartsArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  first?: InputMaybe<Scalars['IntType']>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<StartModelOrderBy>>>;
+  skip?: InputMaybe<Scalars['IntType']>;
+  through?: InputMaybe<InverseRelationshipFilterBetweenStartAndArtwork>;
+};
+
+
+/** Record of type Artwork (artwork) */
+type ArtworkRecord_allReferencingStartsMetaArgs = {
+  through?: InputMaybe<InverseRelationshipFilterBetweenStartAndArtwork>;
+};
+
+
+/** Record of type Artwork (artwork) */
 type ArtworkRecord_seoMetaTagsArgs = {
   locale?: InputMaybe<SiteLocale>;
 };
@@ -149,6 +189,11 @@ type CollectionMetadata = {
   __typename?: 'CollectionMetadata';
   count: Scalars['IntType'];
 };
+
+/** Linking fields */
+enum CollectionModelFieldsReferencingArtworkModel {
+  collection_artwork = 'collection_artwork'
+}
 
 type CollectionModelFilter = {
   AND?: InputMaybe<Array<InputMaybe<CollectionModelFilter>>>;
@@ -1967,6 +2012,38 @@ type IntegerFilter = {
   neq?: InputMaybe<Scalars['IntType']>;
 };
 
+/** Specifies how to filter by linking fields */
+type InverseRelationshipFieldFilterBetweenCollectionAndArtwork = {
+  /** Filter linking records that reference current record in at least one of the specified fields */
+  anyIn?: InputMaybe<Array<CollectionModelFieldsReferencingArtworkModel>>;
+  /** Filter linking records that do not reference current record in any of the specified fields */
+  notIn?: InputMaybe<Array<CollectionModelFieldsReferencingArtworkModel>>;
+};
+
+/** Specifies how to filter by linking fields */
+type InverseRelationshipFieldFilterBetweenStartAndArtwork = {
+  /** Filter linking records that reference current record in at least one of the specified fields */
+  anyIn?: InputMaybe<Array<StartModelFieldsReferencingArtworkModel>>;
+  /** Filter linking records that do not reference current record in any of the specified fields */
+  notIn?: InputMaybe<Array<StartModelFieldsReferencingArtworkModel>>;
+};
+
+/** Specifies how to filter linking records */
+type InverseRelationshipFilterBetweenCollectionAndArtwork = {
+  /** Specifies how to filter by linking fields */
+  fields?: InputMaybe<InverseRelationshipFieldFilterBetweenCollectionAndArtwork>;
+  /** Specifies how to filter by linking locales */
+  locales?: InputMaybe<LinkingLocalesFilter>;
+};
+
+/** Specifies how to filter linking records */
+type InverseRelationshipFilterBetweenStartAndArtwork = {
+  /** Specifies how to filter by linking fields */
+  fields?: InputMaybe<InverseRelationshipFieldFilterBetweenStartAndArtwork>;
+  /** Specifies how to filter by linking locales */
+  locales?: InputMaybe<LinkingLocalesFilter>;
+};
+
 /** Specifies how to filter by ID */
 type ItemIdFilter = {
   /** Search the record with the specified ID */
@@ -1984,6 +2061,20 @@ enum ItemStatus {
   published = 'published',
   updated = 'updated'
 }
+
+/** Linking locales */
+enum LinkingLocale {
+  _nonLocalized = '_nonLocalized',
+  en = 'en'
+}
+
+/** Specifies how to filter by linking locales */
+type LinkingLocalesFilter = {
+  /** Filter linking records that link to current record in at least one of the specified locales */
+  anyIn?: InputMaybe<Array<LinkingLocale>>;
+  /** Filter linking records that do not link to current record in any of the specified locales */
+  notIn?: InputMaybe<Array<LinkingLocale>>;
+};
 
 /** Specifies how to filter Multiple-links fields */
 type LinksFilter = {
@@ -2385,6 +2476,32 @@ type SiteglobalSeoArgs = {
 
 enum SiteLocale {
   en = 'en'
+}
+
+/** Linking fields */
+enum StartModelFieldsReferencingArtworkModel {
+  start_selectedArtwork = 'start_selectedArtwork'
+}
+
+enum StartModelOrderBy {
+  _createdAt_ASC = '_createdAt_ASC',
+  _createdAt_DESC = '_createdAt_DESC',
+  _firstPublishedAt_ASC = '_firstPublishedAt_ASC',
+  _firstPublishedAt_DESC = '_firstPublishedAt_DESC',
+  _isValid_ASC = '_isValid_ASC',
+  _isValid_DESC = '_isValid_DESC',
+  _publicationScheduledAt_ASC = '_publicationScheduledAt_ASC',
+  _publicationScheduledAt_DESC = '_publicationScheduledAt_DESC',
+  _publishedAt_ASC = '_publishedAt_ASC',
+  _publishedAt_DESC = '_publishedAt_DESC',
+  _status_ASC = '_status_ASC',
+  _status_DESC = '_status_DESC',
+  _unpublishingScheduledAt_ASC = '_unpublishingScheduledAt_ASC',
+  _unpublishingScheduledAt_DESC = '_unpublishingScheduledAt_DESC',
+  _updatedAt_ASC = '_updatedAt_ASC',
+  _updatedAt_DESC = '_updatedAt_DESC',
+  id_ASC = 'id_ASC',
+  id_DESC = 'id_DESC'
 }
 
 /** Record of type Start (start) */
@@ -2852,11 +2969,11 @@ type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'AboutRecord', 
 type AllCollectionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type AllCollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, year: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null } }> }> };
+type AllCollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', year?: any | null }> }> }> };
 
-type ArtworkFragment = { __typename?: 'ArtworkRecord', id: any, year: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null } };
+type ArtworkFragment = { __typename?: 'ArtworkRecord', id: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', year?: any | null }> };
 
-type CollectionFragment = { __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, year: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null } }> };
+type CollectionFragment = { __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', year?: any | null }> }> };
 
 type ImageFragment = { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null };
 
@@ -2871,4 +2988,4 @@ type VideoFragment = { __typename?: 'FileField', id: any, alt?: string | null, b
 type StartQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type StartQuery = { __typename?: 'Query', start?: { __typename?: 'StartRecord', selectedArtwork: Array<{ __typename?: 'ArtworkRecord', id: any, year: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null } }> } | null };
+type StartQuery = { __typename?: 'Query', start?: { __typename?: 'StartRecord', selectedArtwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', year?: any | null }> }> } | null };
