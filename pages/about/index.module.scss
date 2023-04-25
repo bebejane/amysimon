@@ -3,6 +3,7 @@
   flex-direction: column;
   margin-right: calc(var(--outer-margin));
   margin-left: var(--outer-margin);
+  margin-top: var(--outer-margin);
 
   @include mq($from: tablet) {
     margin-right: calc(6 * var(--outer-margin));
@@ -29,7 +30,7 @@
         flex: 0 0 25%;
         text-align: right;
         padding-right: 3rem;
-        white-space: pre;
+        //white-space: pre;
 
         @include mq($until: desktop) {
           display: none;
