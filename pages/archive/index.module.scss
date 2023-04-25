@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
 
+
   ul {
     display: flex;
     flex-direction: row;
@@ -19,7 +20,16 @@
       flex: 0 0 33.33333%;
       height: 50%;
       margin-bottom: var(--space);
+      transition: opacity ease-in-out 1000ms;
       cursor: pointer;
+
+      &.active {
+        opacity: 1;
+      }
+
+      &.inactive {
+        opacity: 0;
+      }
 
       h2 {
         font-size: 1rem;
@@ -36,15 +46,7 @@
       img[role="presentation"] {
         object-fit: contain;
         max-height: 50%;
-
-        &.active {
-          opacity: 1;
-
-        }
-
-        &.inactive {
-          opacity: 0.2 !important;
-        }
+        transition: all;
       }
     }
   }
@@ -61,6 +63,7 @@
     max-height: var(--body-height);
     height: var(--body-height);
     visibility: hidden;
+    cursor: pointer;
 
     &.visible {
       visibility: visible;
@@ -69,7 +72,6 @@
     &.invisible {
       visibility: hidden;
     }
-
 
     .image {
       height: calc(var(--body-height) - var(--navbar-height));
@@ -95,4 +97,7 @@
     width: 100% !important;
     height: 100% !important;
   }
+
+
+
 }
