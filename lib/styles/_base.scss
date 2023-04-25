@@ -2,7 +2,7 @@
 	--black: #191919;
 	--white: #ffffff;
 	--red: red;
-	--outer-margin: 2rem;
+	--outer-margin: 2.5rem;
 	--logo-size: 40px;
 	--navbar-height: calc(calc(2 * var(--outer-margin)) + 1rem);
 	--body-height: calc(100vh - var(--navbar-height));
@@ -15,7 +15,8 @@
 	--z-menu: 1000;
 	--z-hamburger: 1200;
 
-	@include mq($from: tablet) {}
+	@include mq($from: tablet) {
+	}
 
 	@include mq($until: desktop) {
 		--outer-margin: 1rem;
@@ -100,9 +101,11 @@ article p a {
 	margin-top: -0.2em;
 }
 
-button {}
+button {
+}
 
-figcaption {}
+figcaption {
+}
 
 input,
 textarea,

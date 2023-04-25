@@ -1,18 +1,24 @@
 .container {
   display: flex;
   flex-direction: column;
-  margin-right: var(--outer-margin);
+  margin-right: calc(var(--outer-margin));
   margin-left: var(--outer-margin);
+
+  @include mq($from: tablet) {
+    margin-right: calc(6 * var(--outer-margin));
+    margin-left: calc(6 * var(--outer-margin));
+  }
 
   ul {
     list-style: none;
+    line-height: 1.5;
   }
 
-  >ul {
+  > ul {
     display: flex;
     flex-direction: column;
 
-    >li {
+    > li {
       display: flex;
       flex-direction: row;
       margin-bottom: 1rem;
@@ -22,7 +28,7 @@
         text-transform: uppercase;
         flex: 0 0 25%;
         text-align: right;
-        padding-right: 1rem;
+        padding-right: 3rem;
         white-space: pre;
 
         @include mq($until: desktop) {
@@ -37,22 +43,21 @@
         li {
           display: flex;
           flex-direction: row;
+          padding-bottom: 0.5em;
 
           span {
             display: inline-block;
 
             &:nth-child(1) {
-              min-width: 6ch;
+              min-width: 9ch;
 
               &.long {
                 min-width: 9ch;
               }
             }
           }
-
         }
       }
     }
-
   }
 }

@@ -76,6 +76,7 @@
 		"eslint": "^8.26.0",
 		"eslint-config-next": "^12.3.1",
 		"tsx": "^3.12.3",
+		"typescript": "5.0.4",
 		"watch": "^1.0.2"
 	}
 }

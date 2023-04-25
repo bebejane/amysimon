@@ -1,3 +1,10 @@
 // FONT EMBEDDING & TYPO VARIABLES
-$body-font: Helvetica, Sans-Serif;
-$headline-font: Helvetica, Arial, Sans-Serif;
+$body-font: "Sans", Helvetica, Sans-Serif;
+$headline-font: "Sans", Helvetica, Arial, Sans-Serif;
+
+@font-face {
+  font-family: "Sans";
+  src: url("../../public/fonts/IndivisibleWebVariableRoman.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
