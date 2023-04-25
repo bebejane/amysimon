@@ -1,0 +1,16 @@
+.next {
+  position: absolute;
+  z-index: var(--z-next);
+  top: 0;
+  right: 0;
+  //margin-top: calc(-1 * var(--navbar-height));
+  transform: translateY(-50%);
+  margin-right: var(--outer-margin);
+  transition: opacity 0.3s ease-in-out;
+  opacity: 1;
+
+  &.hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

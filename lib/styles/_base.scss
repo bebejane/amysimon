@@ -14,9 +14,10 @@
 	--z-menu-mobile: 900;
 	--z-menu: 1000;
 	--z-hamburger: 1200;
+	--z-overlay: 2000;
+	--z-trans-image: 2001;
 
-	@include mq($from: tablet) {
-	}
+	@include mq($from: tablet) {}
 
 	@include mq($until: desktop) {
 		--outer-margin: 1rem;
@@ -101,11 +102,9 @@ article p a {
 	margin-top: -0.2em;
 }
 
-button {
-}
+button {}
 
-figcaption {
-}
+figcaption {}
 
 input,
 textarea,
