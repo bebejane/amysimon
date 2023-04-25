@@ -1,5 +1,6 @@
 export { default as Block } from './blocks'
 export { default as Loader } from './common/Loader'
+export { default as NextNav } from './common/NextNav'
 export { default as Content } from './layout/Content'
 export { default as Grid } from './layout/Grid'
 export { default as Hamburger } from './layout/Hamburger'

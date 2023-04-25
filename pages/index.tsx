@@ -5,6 +5,7 @@ import cn from 'classnames'
 import { useEffect, useState, useRef } from 'react'
 import { Image } from 'react-datocms'
 import { artworkCaption } from '/lib/utils'
+import { NextNav } from '/components'
 
 type Props = {
 	start: StartRecord
@@ -17,6 +18,7 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 	const [index, setIndex] = useState(0)
 	const [nextTopMargin, setNextTopMargin] = useState<number | undefined>()
 	const timeoutRef = useRef<NodeJS.Timer | null>()
+	const containerRef = useRef<HTMLDivElement | null>()
 	const currentArtwork = selectedArtwork[index]
 
 	const style = { transform: `translateX(-${index * 100}%)` }
@@ -47,10 +49,7 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 				WORK<br />
 				1997—2023
 			</h2>
-			<div
-				className={cn(s.container, s[currentArtwork.layout])}
-				onMouseMove={handleMouseMove}
-			>
+			<div ref={containerRef} className={cn(s.container, s[currentArtwork.layout])}>
 				<ul className={cn(s.artwork, show && s.show)} style={style}>
 					{selectedArtwork.map(({ id, image, title, material, format, width, height, layout }, idx) =>
 						<li onClick={handleClick} >
@@ -73,7 +72,7 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 					<div className={s.left}></div>
 					<div className={s.right}></div>
 				</div>
-				<nav className={cn(s.next, (!nextTopMargin || !show) && s.hide)} style={{ top: `${nextTopMargin}px` }}>Next</nav>
+				<NextNav show={show} ref={containerRef} className={s.next} />
 			</div >
 		</>
 	)
