@@ -70,7 +70,6 @@ type ArtworkModelFilter = {
   material?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   width?: InputMaybe<IntegerFilter>;
-  year?: InputMaybe<IntegerFilter>;
 };
 
 enum ArtworkModelOrderBy {
@@ -103,9 +102,7 @@ enum ArtworkModelOrderBy {
   title_ASC = 'title_ASC',
   title_DESC = 'title_DESC',
   width_ASC = 'width_ASC',
-  width_DESC = 'width_DESC',
-  year_ASC = 'year_ASC',
-  year_DESC = 'year_DESC'
+  width_DESC = 'width_DESC'
 }
 
 /** Record of type Artwork (artwork) */
@@ -136,7 +133,6 @@ type ArtworkRecord = RecordInterface & {
   material?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   width?: Maybe<Scalars['IntType']>;
-  year: Scalars['IntType'];
 };
 
 
