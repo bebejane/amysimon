@@ -147,8 +147,16 @@
       width: 100%;
       opacity: 0;
       transition: opacity ease-in-out 700ms;
-
       cursor: pointer;
+
+      @include mq($until: tablet) {
+        position: relative;
+
+      }
+
+      &.show {
+        opacity: 1;
+      }
 
       &.visible {
         visibility: visible;

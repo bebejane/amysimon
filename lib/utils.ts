@@ -128,23 +128,22 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
   clone.style.transition = ['top', 'left', 'width', 'height', 'opacity'].map(prop => `${prop} ${easing} ${dur}ms`).join(',');
   clone.style.opacity = '1';
   clone.style.willChange = 'top, left, width, height, opacity';
-
   document.body.appendChild(clone);
 
   await sleep(100)
+
+  image.style.visibility = 'hidden';
+  dImage.style.visibility = 'hidden';
 
   clone.style.top = `${scrollY + dBounds.top}px`;
   clone.style.left = `${dBounds.left}px`;
   clone.style.width = `${dBounds.width}px`;
   clone.style.height = `${dBounds.height}px`;
 
-  image.style.opacity = '0';
-  dImage.style.opacity = '0';
-  dImage.style.transition = `opacity ${easing} 100ms`
+  await sleep(dur)
 
-  await sleep(dur + 200)
-  dImage.style.opacity = '1';
-  await sleep(100)
+  image.style.visibility = 'visible';
+  dImage.style.visibility = 'visible';
   clone.remove();
   return clone
 }

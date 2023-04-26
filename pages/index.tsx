@@ -43,7 +43,7 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 							<span style={{
 								transition: `
 									color 0.1s ease-in-out ${Math.abs(-2 + (idx + 1 * i) / 4)}s, 
-									opacity 12s cubic-bezier(.02,.9,.2,.98) 3s
+									opacity 12s cubic-bezier(.02,.9,.2,.98) 2.5s
 								`
 							}}>{w}</span>
 						)}
