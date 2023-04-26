@@ -8,7 +8,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     list-style: none;
-    height: calc(var(--body-height) - calc(var(--space) *2));
+    height: calc(var(--body-height) - calc(var(--space) * 2));
     margin-left: var(--outer-margin);
     margin-right: var(--outer-margin);
 
@@ -21,6 +21,9 @@
       margin-bottom: var(--space);
       transition: opacity ease-in-out 1000ms;
       cursor: pointer;
+
+      padding-left: var(--outer-margin);
+      padding-right: var(--outer-margin);
 
       &.active {
         opacity: 1;
