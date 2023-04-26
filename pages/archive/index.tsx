@@ -21,7 +21,7 @@ export default function Archive({ collections }: Props) {
   const [aIndex, setAIndex] = useState<{ [key: string]: number }>({});
   const [hoverCollectionId, setHoverCollectionId] = useState<string | null>(null);
   const [transitioning, setTransitioning] = useState(false);
-  const figureRef = useRef<HTMLDivElement>(null);
+  const slidesRef = useRef<HTMLDivElement>(null);
 
   const handleClick = () => {
     const idx = index >= collection.artwork.length - 1 ? 0 : index + 1
@@ -39,20 +39,19 @@ export default function Archive({ collections }: Props) {
     await sleep(100)
 
     const image = document.getElementById(id).querySelector<HTMLImageElement>('picture>img')
-    const dImage = figureRef.current.querySelector<HTMLImageElement>('picture>img')
+    const dImage = slidesRef.current.querySelector<HTMLImageElement>('picture>img')
     const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
     const dCaption = document.getElementById('gallery-caption')
     const year = document.getElementById(id).querySelector<HTMLElement>('header')
     const dYear = document.getElementById('gallery-year')
 
-    const [clone, cClone] = await Promise.all([
+    await Promise.all([
       transitionImage(image, dImage, transitionDuration),
       transitionElement(caption, dCaption, transitionDuration, -9),
       transitionElement(year, dYear, transitionDuration)
     ])
 
     setTransitioning(false)
-    setTimeout(() => clone.style.opacity = '0', 100)
 
   }
 
@@ -63,18 +62,11 @@ export default function Archive({ collections }: Props) {
     setCollectionId(null)
 
     const dImage = document.getElementById(collectionId).querySelector<HTMLImageElement>('picture>img')
-    const image = figureRef.current.querySelector<HTMLImageElement>('picture>img')
-    const clone = await transitionImage(image, dImage, 600)
-
-    dImage.style.opacity = '1';
-
-    setTimeout(() => {
-      clone.style.opacity = '0';
-      clone.remove()
-      setTransitioning(false)
-      setIndex(0)
-    }, 100)
-
+    const figure = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${index + 1})`)
+    const image = figure.querySelector<HTMLImageElement>('picture>img')
+    await transitionImage(image, dImage, 600)
+    setTransitioning(false)
+    setIndex(0)
   }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -85,10 +77,9 @@ export default function Archive({ collections }: Props) {
     const bounds = target.getBoundingClientRect();
     const p = (e.clientX - bounds.left) / bounds.width;
     const collection = collections.find(({ id }) => id === target.closest('figure').dataset.collectionId)
-    const idx = Math.max(0, Math.floor(p * collection.artwork.length))
+    const idx = Math.max(0, Math.floor(p * collection.artwork.length) - 1)
     setAIndex((s) => ({ ...s, [collection.id]: idx }))
     setCollection(collection)
-
   }
 
   return (
@@ -132,31 +123,35 @@ export default function Archive({ collections }: Props) {
               <span id="gallery-year" className={s.year}>{collection.year}</span>
               <span className={s.close} onClick={handleZoomOut}>Close</span>
             </header>
-            <figure
-              ref={figureRef}
-              className={cn(transitioning ? s.invisible : s.visible)}
-              onClick={handleClick}
-            >
-              <Image
-                data={collection.artwork[aIndex[collectionId] ?? 0].image.responsiveImage}
-                className={s.image}
-                fadeInDuration={0}
-                pictureClassName={cn(s.picture)}
-              />
-              <figcaption>
-                <span id="gallery-caption">{collection.title}</span>
-                <span>{artworkCaption(collection.artwork[index])}</span>
-              </figcaption>
-
-            </figure>
+            <div className={s.slides} ref={slidesRef}>
+              {collection.artwork.map((artwork, i) =>
+                <figure
+                  key={artwork.id}
+                  className={cn(transitioning ? s.invisible : s.visible)}
+                  onClick={handleClick}
+                  style={{ opacity: i === aIndex[collection.id] ? 1 : 0 }}
+                >
+                  <Image
+                    data={artwork.image.responsiveImage}
+                    className={s.image}
+                    fadeInDuration={100}
+                    usePlaceholder={false}
+                    lazyLoad={false}
+                    pictureClassName={s.picture}
+                  />
+                  <figcaption>
+                    <span id="gallery-caption">{collection.title}</span>
+                    <span>{artworkCaption(artwork)}</span>
+                  </figcaption>
+                </figure>
+              )}
+            </div>
             <div className={s.pagination}>
               {index + 1}/{collection.artwork.length}
             </div>
-
+            <NextNav ref={slidesRef} show={true} />
           </>
-
         }
-        <NextNav ref={figureRef} show={true} />
       </div>
 
     </>

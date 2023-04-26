@@ -37,7 +37,7 @@ const NextNav = React.forwardRef<HTMLDivElement, NextNavProps>(({ show = true, c
       //@ts-ignore
       ref.current?.addEventListener('mouseenter', handleMouseEnter)
     }
-  }, [])
+  }, [ref])
 
   if (!show) return null
 
