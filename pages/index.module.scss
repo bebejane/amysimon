@@ -3,9 +3,11 @@
   width: 100%;
   height: var(--body-height);
 
-  &.full-bleed {}
+  &.full-bleed {
+  }
 
-  &.margin {}
+  &.margin {
+  }
 
   ul {
     list-style: none;
@@ -18,7 +20,6 @@
     }
 
     li {
-
       flex: 0 0 100%;
 
       figure {
@@ -42,7 +43,6 @@
           width: 100%;
           height: var(--navbar-height);
           padding-left: var(--outer-margin);
-
         }
 
         &.margin {
@@ -55,6 +55,11 @@
         &.full-bleed {
           margin-top: calc(-1 * var(--navbar-height));
           margin-bottom: calc(-1 * var(--navbar-height));
+
+          span {
+            color: var(--white);
+            text-shadow: 0px 0px 5px rgb(0, 0, 0);
+          }
 
           .picture {
             max-height: 100vh;
@@ -96,7 +101,6 @@
     }
 
     &.show {
-
       .left,
       .right {
         opacity: 1;
@@ -114,7 +118,6 @@
 
   .next {
     margin-top: calc(-1 * var(--navbar-height));
-
   }
 }
 

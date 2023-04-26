@@ -17,12 +17,13 @@
 	--z-overlay: 2000;
 	--z-trans-image: 2001;
 
-	@include mq($from: tablet) {
-	}
-
 	@include mq($until: desktop) {
 		--outer-margin: 1rem;
 		--navbar-height: 64px;
+	}
+
+	@include mq($from: wide) {
+		--outer-margin: 2rem;
 	}
 }
 

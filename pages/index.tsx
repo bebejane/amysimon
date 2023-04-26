@@ -66,8 +66,9 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 									placeholderClassName={s.picture}
 									pictureClassName={s.picture}
 								/>
-								<figcaption>
+								<figcaption><span>
 									{artworkCaption(currentArtwork)}
+								</span>
 								</figcaption>
 							</figure>
 						</li>

@@ -19,12 +19,12 @@
     width: 10rem;
 
     &:hover {
-      font-variation-settings: "MONO" 0, "CASL" 0, "CRSV" 0, "wght" 500, "slnt" 0;
+      font-variation-settings: "MONO" 0, "CASL" 0, "CRSV" 0, "wght" 600, "slnt" 0;
     }
 
     &.logo {
       text-align: center;
-      font-weight: bold;
+      font-variation-settings: "MONO" 0, "CASL" 0, "CRSV" 0, "wght" 600, "slnt" 0;
       letter-spacing: 0.1em;
     }
 

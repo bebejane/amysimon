@@ -3,7 +3,6 @@
   display: flex;
   flex-direction: column;
 
-
   ul {
     display: flex;
     flex-direction: row;
@@ -12,14 +11,15 @@
     height: calc(var(--body-height) - calc(var(--space) * 2));
     margin-left: var(--outer-margin);
     margin-right: var(--outer-margin);
-    padding-bottom: var(--space);
+    padding-bottom: 10rem; //Denna gör ingen skillnad?
+    padding-top: 1rem;
 
     li {
       display: flex;
       flex-direction: column;
       justify-content: center;
       flex: 0 0 33.33333%;
-      height: 50%;
+      height: 40vh;
       margin-bottom: var(--space);
       transition: opacity ease-in-out 1000ms;
       cursor: pointer;

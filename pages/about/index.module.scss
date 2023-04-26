@@ -4,6 +4,7 @@
   margin-right: calc(var(--outer-margin));
   margin-left: var(--outer-margin);
   margin-top: var(--outer-margin);
+  padding-bottom: var(--outer-margin);
 
   @include mq($from: tablet) {
     margin-right: calc(6 * var(--outer-margin));
@@ -22,7 +23,7 @@
     > li {
       display: flex;
       flex-direction: row;
-      margin-bottom: 1rem;
+      margin-bottom: 3rem;
 
       h2 {
         font-size: 1rem;
