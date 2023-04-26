@@ -37,15 +37,36 @@
         margin-bottom: 1rem;
       }
 
-      .image {
+      figure {
+        display: flex;
+        flex-direction: column;
+        position: relative;
         flex: 1 1 auto;
-      }
+        height: 100%;
 
-      .picture,
-      img[role="presentation"] {
-        object-fit: contain;
-        max-height: 50%;
-        transition: all;
+        .image {
+          flex: 1 1 auto;
+        }
+
+        .picture,
+        img[role="presentation"] {
+          object-fit: contain;
+          max-height: 50%;
+          transition: all;
+        }
+
+        figcaption {
+          display: flex;
+          align-items: flex-end;
+          height: 2em;
+          min-height: 2em;
+          transition: opacity ease-in-out 0.2s;
+          opacity: 0;
+
+          &.show {
+            opacity: 1;
+          }
+        }
       }
     }
   }
@@ -56,8 +77,6 @@
     width: 100% !important;
     height: 100% !important;
   }
-
-
 }
 
 .gallery {

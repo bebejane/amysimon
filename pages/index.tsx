@@ -51,7 +51,7 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 			</h2>
 			<div ref={containerRef} className={cn(s.container, s[currentArtwork.layout])}>
 				<ul className={cn(s.artwork, show && s.show)} style={style}>
-					{selectedArtwork.map(({ id, image, title, material, format, width, height, layout }, idx) =>
+					{selectedArtwork.map(({ image, layout }, idx) =>
 						<li onClick={handleClick} >
 							<figure className={s[layout]}>
 								<Image

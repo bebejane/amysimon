@@ -62,7 +62,6 @@ type ArtworkModelFilter = {
   _status?: InputMaybe<StatusFilter>;
   _unpublishingScheduledAt?: InputMaybe<PublishedAtFilter>;
   _updatedAt?: InputMaybe<UpdatedAtFilter>;
-  format?: InputMaybe<StringFilter>;
   height?: InputMaybe<IntegerFilter>;
   id?: InputMaybe<ItemIdFilter>;
   image?: InputMaybe<FileFilter>;
@@ -89,8 +88,6 @@ enum ArtworkModelOrderBy {
   _unpublishingScheduledAt_DESC = '_unpublishingScheduledAt_DESC',
   _updatedAt_ASC = '_updatedAt_ASC',
   _updatedAt_DESC = '_updatedAt_DESC',
-  format_ASC = 'format_ASC',
-  format_DESC = 'format_DESC',
   height_ASC = 'height_ASC',
   height_DESC = 'height_DESC',
   id_ASC = 'id_ASC',
@@ -125,7 +122,6 @@ type ArtworkRecord = RecordInterface & {
   _status: ItemStatus;
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
   _updatedAt: Scalars['DateTime'];
-  format?: Maybe<Scalars['String']>;
   height?: Maybe<Scalars['IntType']>;
   id: Scalars['ItemId'];
   image: FileField;
@@ -2965,11 +2961,11 @@ type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'AboutRecord', 
 type AllCollectionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type AllCollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', year?: any | null }> }> }> };
+type AllCollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> }> };
 
-type ArtworkFragment = { __typename?: 'ArtworkRecord', id: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', year?: any | null }> };
+type ArtworkFragment = { __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> };
 
-type CollectionFragment = { __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', year?: any | null }> }> };
+type CollectionFragment = { __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> };
 
 type ImageFragment = { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null };
 
@@ -2984,4 +2980,4 @@ type VideoFragment = { __typename?: 'FileField', id: any, alt?: string | null, b
 type StartQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type StartQuery = { __typename?: 'Query', start?: { __typename?: 'StartRecord', selectedArtwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, format?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', year?: any | null }> }> } | null };
+type StartQuery = { __typename?: 'Query', start?: { __typename?: 'StartRecord', selectedArtwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> } | null };

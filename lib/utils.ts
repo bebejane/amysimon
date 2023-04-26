@@ -103,7 +103,7 @@ export const randomInt = (min, max) => {
 }
 
 export const artworkCaption = (artwork: ArtworkRecord) => {
-  const { title, material, format, width, height, _allReferencingCollections } = artwork
+  const { title, material, width, height, _allReferencingCollections } = artwork
   const year = _allReferencingCollections[0]?.year
-  return [title, material, format, width && height ? `${width} × ${height}` : undefined, year].filter(el => el).join(', ')
+  return [title, material, width && height ? `${width} × ${height}` : undefined, year].filter(el => el).join(', ')
 }
