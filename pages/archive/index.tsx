@@ -4,7 +4,7 @@ import withGlobalProps from "/lib/withGlobalProps";
 import { AllCollectionsDocument } from "/graphql";
 import { Image } from "react-datocms/image";
 import { useState, useRef, useEffect } from "react";
-import { artworkCaption, sleep } from "/lib/utils";
+import { artworkCaption, sleep, transitionElement, transitionImage } from "/lib/utils";
 import { NextNav } from "/components";
 
 export type Props = {
@@ -16,12 +16,12 @@ const transitionDuration = 600;
 export default function Archive({ collections }: Props) {
 
   const [collectionId, setCollectionId] = useState<string | null>(null);
+  const [collection, setCollection] = useState<CollectionRecord | null>(null);
   const [index, setIndex] = useState(0);
   const [aIndex, setAIndex] = useState<{ [key: string]: number }>({});
   const [hoverCollectionId, setHoverCollectionId] = useState<string | null>(null);
   const [transitioning, setTransitioning] = useState(false);
   const figureRef = useRef<HTMLDivElement>(null);
-  const collection = collections.find(({ id }) => id === collectionId)
 
   const handleClick = () => {
     const idx = index >= collection.artwork.length - 1 ? 0 : index + 1
@@ -34,6 +34,7 @@ export default function Archive({ collections }: Props) {
 
     setTransitioning(true)
     setCollectionId(id)
+    setCollection(collections.find(el => el.id === id))
 
     await sleep(100)
 
@@ -51,9 +52,7 @@ export default function Archive({ collections }: Props) {
     ])
 
     setTransitioning(false)
-    setTimeout(() => {
-      clone.style.opacity = '0'
-    }, 100)
+    setTimeout(() => clone.style.opacity = '0', 100)
 
   }
 
@@ -80,12 +79,15 @@ export default function Archive({ collections }: Props) {
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
 
+    if (transitioning) return
+
     const target = (e.target as HTMLDivElement)
     const bounds = target.getBoundingClientRect();
     const p = (e.clientX - bounds.left) / bounds.width;
     const collection = collections.find(({ id }) => id === target.closest('figure').dataset.collectionId)
     const idx = Math.max(0, Math.floor(p * collection.artwork.length))
     setAIndex((s) => ({ ...s, [collection.id]: idx }))
+    setCollection(collection)
 
   }
 
@@ -123,7 +125,7 @@ export default function Archive({ collections }: Props) {
         </ul>
       </div>
 
-      <div className={cn(s.gallery, collection && s.visible)}>
+      <div className={cn(s.gallery, collectionId && s.visible)}>
         {collection &&
           <>
             <header>
@@ -152,75 +154,6 @@ export default function Archive({ collections }: Props) {
       </div>
     </>
   );
-}
-
-
-
-const transitionImage = async (image: HTMLImageElement, dImage: HTMLImageElement, dur: number = 700) => {
-
-  const bounds = image.getBoundingClientRect();
-  const dBounds = dImage.getBoundingClientRect();
-  const easing = 'cubic-bezier(0.245, 0.765, 0.035, 0.920)'
-  const clone = image.cloneNode(true) as HTMLImageElement;
-  const { scrollY } = window;
-
-  clone.style.position = 'absolute';
-  clone.style.top = `${bounds.top + scrollY}px`;
-  clone.style.left = `${bounds.left}px`;
-  clone.style.width = `${bounds.width}px`;
-  clone.style.height = `${bounds.height}px`;
-  clone.style.objectFit = 'contain';
-  clone.style.objectPosition = 'center';
-  clone.style.zIndex = 'var(--z-trans-image)';
-  clone.style.pointerEvents = 'none';
-  clone.style.transition = ['top', 'left', 'width', 'height'].map(prop => `${prop} ${easing} ${dur}ms`).join(',');
-  clone.style.opacity = '1';
-  clone.style.willChange = 'top, left, width, height, opacity';
-  document.body.appendChild(clone);
-  await sleep(100)
-
-  clone.style.top = `${scrollY + dBounds.top}px`;
-  clone.style.left = `${dBounds.left}px`;
-  clone.style.width = `${dBounds.width}px`;
-  clone.style.height = `${dBounds.height}px`;
-  image.style.opacity = '0';
-
-  await sleep(dur)
-  return clone
-}
-
-const transitionElement = async (el: HTMLElement, dEl: HTMLElement, dur: number = 700, topMargin: number = 0) => {
-
-  const bounds = el.getBoundingClientRect();
-  const cStyle = getComputedStyle(el);
-  const dBounds = dEl.getBoundingClientRect();
-  const easing = 'cubic-bezier(0.245, 0.765, 0.035, 0.920)'
-  const clone = el.cloneNode(true) as HTMLElement;
-  const { scrollY } = window;
-
-  clone.style.position = 'absolute';
-  clone.style.top = `${bounds.top + scrollY + topMargin}px`;
-  clone.style.left = `${bounds.left}px`;
-  clone.style.zIndex = 'var(--z-trans-image)';
-  clone.style.transition = ['top', 'left', 'opacity'].map(prop => `${prop} ${easing} ${dur}ms`).join(',');
-  clone.style.opacity = '1';
-  clone.style.willChange = 'top, left, opacity';
-
-  document.body.appendChild(clone);
-
-  el.style.opacity = '0';
-  dEl.style.opacity = '0';
-
-  await sleep(100)
-
-  clone.style.top = `${dBounds.top + scrollY + topMargin}px`;
-  clone.style.left = `${dBounds.left}px`;
-  await sleep(dur + 200)
-  el.style.opacity = '1';
-  dEl.style.opacity = '1';
-  clone.remove()
-
-  return clone
 }
 
 export const getStaticProps = withGlobalProps({ queries: [AllCollectionsDocument] }, async ({ props, revalidate }: any) => {

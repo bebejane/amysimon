@@ -121,6 +121,7 @@
 .header {
   position: absolute;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   top: 0;
@@ -139,5 +140,10 @@
     transition-delay: 3s;
     opacity: 0;
     pointer-events: none;
+
+    span {
+      transition: opacity 0.1s ease-in-out;
+      opacity: 0;
+    }
   }
 }

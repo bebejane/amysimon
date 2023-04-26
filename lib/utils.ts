@@ -107,3 +107,82 @@ export const artworkCaption = (artwork: ArtworkRecord) => {
   const year = _allReferencingCollections[0]?.year
   return [title, material, width && height ? `${width} × ${height}` : undefined, year].filter(el => el).join(', ')
 }
+
+export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImageElement, dur: number = 600) => {
+
+  const bounds = image.getBoundingClientRect();
+  const dBounds = dImage.getBoundingClientRect();
+  const easing = 'cubic-bezier(0.245, 0.765, 0.035, 0.920)'
+  const { scrollY } = window;
+
+
+
+  const clone = image.cloneNode(true) as HTMLImageElement;
+  clone.style.position = 'absolute';
+  clone.style.top = `${bounds.top + scrollY}px`;
+  clone.style.left = `${bounds.left}px`;
+  clone.style.width = `${bounds.width}px`;
+  clone.style.height = `${bounds.height}px`;
+  clone.style.objectFit = 'contain';
+  clone.style.objectPosition = 'center';
+  clone.style.zIndex = 'var(--z-trans-image)';
+  clone.style.pointerEvents = 'none';
+  clone.style.transition = ['top', 'left', 'width', 'height'].map(prop => `${prop} ${easing} ${dur}ms`).join(',');
+  clone.style.opacity = '1';
+  clone.style.willChange = 'top, left, width, height, opacity';
+
+  document.body.appendChild(clone);
+  await sleep(100)
+
+  image.style.opacity = '0';
+
+  clone.style.top = `${scrollY + dBounds.top}px`;
+  clone.style.left = `${dBounds.left}px`;
+  clone.style.width = `${dBounds.width}px`;
+  clone.style.height = `${dBounds.height}px`;
+
+  await sleep(dur + 200)
+
+  dImage.style.opacity = '1';
+  await sleep(100)
+  clone.style.opacity = '0';
+
+  //await sleep(200)
+  //clone.remove();
+  return clone
+}
+
+export const transitionElement = async (el: HTMLElement, dEl: HTMLElement, dur: number = 600, topMargin: number = 0) => {
+
+  const bounds = el.getBoundingClientRect();
+  const dBounds = dEl.getBoundingClientRect();
+  const easing = 'cubic-bezier(0.245, 0.765, 0.035, 0.920)'
+  const clone = el.cloneNode(true) as HTMLElement;
+  const { scrollY } = window;
+
+  clone.style.position = 'absolute';
+  clone.style.top = `${bounds.top + scrollY + topMargin}px`;
+  clone.style.left = `${bounds.left}px`;
+  clone.style.zIndex = 'var(--z-trans-image)';
+  clone.style.transition = ['top', 'left', 'opacity'].map(prop => `${prop} ${easing} ${dur}ms`).join(',');
+  clone.style.opacity = '1';
+  clone.style.willChange = 'top, left, opacity';
+
+  document.body.appendChild(clone);
+
+  el.style.opacity = '0';
+  dEl.style.opacity = '0';
+
+  await sleep(100)
+
+  clone.style.top = `${dBounds.top + scrollY + topMargin}px`;
+  clone.style.left = `${dBounds.left}px`;
+
+  await sleep(dur + 200)
+
+  el.style.opacity = '1';
+  dEl.style.opacity = '1';
+  clone.remove()
+
+  return clone
+}

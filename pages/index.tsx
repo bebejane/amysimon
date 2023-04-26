@@ -42,16 +42,22 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 		setTimeout(() => setShow(true), 1500)
 	}, [])
 
+	const header = [['SELECTED'], ['WORK'], ['1997', '—', '2023']]
+
 	return (
 		<>
 			<h2 className={cn(s.header, show && s.hide)}>
-				SELECTED<br />
-				WORK<br />
-				1997—2023
+				{header.map((words, idx) =>
+					<div>
+						{words.map((w, i) =>
+							<span style={{ transitionDelay: `${Math.abs(-2 + (idx + 1 * i) / 4)}s` }}>{w}</span>
+						)}
+					</div>
+				)}
 			</h2>
 			<div ref={containerRef} className={cn(s.container, s[currentArtwork.layout])}>
 				<ul className={cn(s.artwork, show && s.show)} style={style}>
-					{selectedArtwork.map(({ image, layout }, idx) =>
+					{selectedArtwork.map(({ id, image, title, material, width, height, layout }, idx) =>
 						<li onClick={handleClick} >
 							<figure className={s[layout]}>
 								<Image
