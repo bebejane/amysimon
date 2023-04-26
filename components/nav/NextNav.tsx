@@ -16,7 +16,6 @@ const NextNav = React.forwardRef<HTMLDivElement, NextNavProps>(({ show = true, c
 
   const handleMouseMove = ({ clientY }: React.MouseEvent) => {
     setHide(false)
-
     timeoutRef.current = setTimeout(() => setHide(true), 1500)
   }
 
@@ -40,6 +39,7 @@ const NextNav = React.forwardRef<HTMLDivElement, NextNavProps>(({ show = true, c
     }
   }, [])
 
+  if (!show) return null
 
   return (
     <nav className={cn(s.next, hide && s.hide, className)}>

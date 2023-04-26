@@ -5,14 +5,13 @@
   padding-bottom: var(--outer-margin);
 
   ul {
+    position: relative;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     list-style: none;
-    height: calc(var(--body-height) - calc(var(--space) * 2));
     margin-left: var(--outer-margin);
     margin-right: var(--outer-margin);
-    padding-bottom: 10rem; //Denna gör ingen skillnad?
     padding-top: 1rem;
 
     li {
