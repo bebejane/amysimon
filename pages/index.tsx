@@ -16,18 +16,9 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 	const [show, setShow] = useState(false)
 	const [fade, setFade] = useState(false)
 	const [index, setIndex] = useState(0)
-	const [nextTopMargin, setNextTopMargin] = useState<number | undefined>()
-	const timeoutRef = useRef<NodeJS.Timer | null>()
 	const containerRef = useRef<HTMLDivElement | null>()
 	const currentArtwork = selectedArtwork[index]
-
 	const style = { transform: `translateX(-${index * 100}%)` }
-
-	const handleMouseMove = ({ clientY }: React.MouseEvent) => {
-		setNextTopMargin(clientY)
-		clearTimeout(timeoutRef.current)
-		timeoutRef.current = setTimeout(() => setNextTopMargin(undefined), 1000)
-	}
 
 	const handleClick = () => {
 		setFade(true)
@@ -35,7 +26,6 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 			setIndex(index === selectedArtwork.length - 1 ? 0 : index + 1)
 			setFade(false)
 		}, 200)
-
 	}
 
 	useEffect(() => {
@@ -89,10 +79,8 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 				<div className={s.pagination}>
 					{index + 1}/{selectedArtwork.length}
 				</div>
-
-				<NextNav show={show} ref={containerRef} className={s.next} />
-
-			</div >
+			</div>
+			<NextNav show={show} ref={containerRef} className={s.next} />
 		</>
 	)
 }

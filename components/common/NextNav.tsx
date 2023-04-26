@@ -15,9 +15,9 @@ const NextNav = React.forwardRef<HTMLDivElement, NextNavProps>(({ show = true, c
   const timeoutRef = useRef<NodeJS.Timer | null>()
 
   const handleMouseMove = ({ clientY }: React.MouseEvent) => {
-    setNextTopMargin(clientY)
-    clearTimeout(timeoutRef.current)
-    timeoutRef.current = setTimeout(() => setNextTopMargin(undefined), 1000)
+    setHide(false)
+
+    timeoutRef.current = setTimeout(() => setHide(true), 1500)
   }
 
   const handleMouseLeave = ({ clientY }: React.MouseEvent) => setHide(true)
@@ -42,8 +42,7 @@ const NextNav = React.forwardRef<HTMLDivElement, NextNavProps>(({ show = true, c
 
 
   return (
-
-    <nav className={cn(s.next, (!nextTopMargin || !show || hide) && s.hide, className)}>
+    <nav className={cn(s.next, hide && s.hide, className)}>
       <span>
         Next
       </span>
