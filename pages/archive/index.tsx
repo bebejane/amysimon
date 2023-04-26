@@ -2,7 +2,6 @@ import s from "./index.module.scss";
 import cn from 'classnames'
 import withGlobalProps from "/lib/withGlobalProps";
 import { AllCollectionsDocument } from "/graphql";
-import Link from "next/link";
 import { Image } from "react-datocms/image";
 import { useState, useRef, useEffect } from "react";
 import { artworkCaption, sleep } from "/lib/utils";
@@ -10,41 +9,9 @@ import { NextNav } from "/components";
 
 export type Props = {
   collections: CollectionRecord[]
-
 }
 
-const transition = async (image: HTMLImageElement, dImage: HTMLImageElement, dur: number = 700) => {
-
-  const bounds = image.getBoundingClientRect();
-  const dBounds = dImage.getBoundingClientRect();
-  const easing = 'cubic-bezier(0.245, 0.765, 0.035, 0.920)'
-  const clone = image.cloneNode(true) as HTMLImageElement;
-
-  clone.style.position = 'absolute';
-  clone.style.top = `${bounds.top}px`;
-  clone.style.left = `${bounds.left}px`;
-  clone.style.width = `${bounds.width}px`;
-  clone.style.height = `${bounds.height}px`;
-  clone.style.objectFit = 'contain';
-  clone.style.objectPosition = 'center';
-  clone.style.zIndex = 'var(--z-trans-image)';
-  clone.style.pointerEvents = 'none';
-  clone.style.transition = ['top', 'left', 'width', 'height'].map(prop => `${prop} ${easing} ${dur}ms`).join(',');
-  clone.style.opacity = '1';
-  clone.style.willChange = 'top, left, width, height, opacity';
-  document.body.appendChild(clone);
-  await sleep(100)
-
-  clone.style.top = `${dBounds.top}px`;
-  clone.style.left = `${dBounds.left}px`;
-  clone.style.width = `${dBounds.width}px`;
-  clone.style.height = `${dBounds.height}px`;
-  image.style.opacity = '0';
-
-  await sleep(dur)
-  return clone
-}
-
+const transitionDuration = 600;
 
 export default function Archive({ collections }: Props) {
 
@@ -72,9 +39,21 @@ export default function Archive({ collections }: Props) {
 
     const image = document.getElementById(id).querySelector<HTMLImageElement>('picture>img')
     const dImage = figureRef.current.querySelector<HTMLImageElement>('picture>img')
-    const clone = await transition(image, dImage, 600)
+    const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
+    const dCaption = document.getElementById('gallery-caption')
+    const year = document.getElementById(id).querySelector<HTMLElement>('header')
+    const dYear = document.getElementById('gallery-year')
+
+    const [clone, cClone] = await Promise.all([
+      transitionImage(image, dImage, transitionDuration),
+      transitionElement(caption, dCaption, transitionDuration, -9),
+      transitionElement(year, dYear, transitionDuration)
+    ])
+
     setTransitioning(false)
-    setTimeout(() => clone.style.opacity = '0', 100)
+    setTimeout(() => {
+      clone.style.opacity = '0'
+    }, 100)
 
   }
 
@@ -86,7 +65,7 @@ export default function Archive({ collections }: Props) {
 
     const dImage = document.getElementById(collectionId).querySelector<HTMLImageElement>('picture>img')
     const image = figureRef.current.querySelector<HTMLImageElement>('picture>img')
-    const clone = await transition(image, dImage, 600)
+    const clone = await transitionImage(image, dImage, 600)
 
     dImage.style.opacity = '1';
 
@@ -121,7 +100,7 @@ export default function Archive({ collections }: Props) {
               onClick={handleZoomIn}
               className={cn(id === collection?.id || collectionId === null ? s.active : s.inactive)}
             >
-              <h2>{year}</h2>
+              <header>{year}</header>
               <figure
                 className={s.wrapper}
                 data-collection-id={id}
@@ -136,7 +115,7 @@ export default function Archive({ collections }: Props) {
                   pictureClassName={s.picture}
                 />
                 <figcaption className={cn(hoverCollectionId === id && s.show)}>
-                  {title}
+                  <span>{title}</span>
                 </figcaption>
               </figure>
             </li>
@@ -148,7 +127,7 @@ export default function Archive({ collections }: Props) {
         {collection &&
           <>
             <header>
-              <span className={s.year}>{collection.year}</span>
+              <span id="gallery-year" className={s.year}>{collection.year}</span>
               <span className={s.close} onClick={handleZoomOut}>Close</span>
             </header>
             <figure
@@ -163,7 +142,8 @@ export default function Archive({ collections }: Props) {
                 pictureClassName={cn(s.picture)}
               />
               <figcaption>
-                {collection.title}&nbsp;&nbsp;{artworkCaption(collection.artwork[index])}
+                <span id="gallery-caption">{collection.title}</span>
+                <span>{artworkCaption(collection.artwork[index])}</span>
               </figcaption>
               <NextNav ref={figureRef} show={true} />
             </figure>
@@ -172,6 +152,75 @@ export default function Archive({ collections }: Props) {
       </div>
     </>
   );
+}
+
+
+
+const transitionImage = async (image: HTMLImageElement, dImage: HTMLImageElement, dur: number = 700) => {
+
+  const bounds = image.getBoundingClientRect();
+  const dBounds = dImage.getBoundingClientRect();
+  const easing = 'cubic-bezier(0.245, 0.765, 0.035, 0.920)'
+  const clone = image.cloneNode(true) as HTMLImageElement;
+  const { scrollY } = window;
+
+  clone.style.position = 'absolute';
+  clone.style.top = `${bounds.top + scrollY}px`;
+  clone.style.left = `${bounds.left}px`;
+  clone.style.width = `${bounds.width}px`;
+  clone.style.height = `${bounds.height}px`;
+  clone.style.objectFit = 'contain';
+  clone.style.objectPosition = 'center';
+  clone.style.zIndex = 'var(--z-trans-image)';
+  clone.style.pointerEvents = 'none';
+  clone.style.transition = ['top', 'left', 'width', 'height'].map(prop => `${prop} ${easing} ${dur}ms`).join(',');
+  clone.style.opacity = '1';
+  clone.style.willChange = 'top, left, width, height, opacity';
+  document.body.appendChild(clone);
+  await sleep(100)
+
+  clone.style.top = `${scrollY + dBounds.top}px`;
+  clone.style.left = `${dBounds.left}px`;
+  clone.style.width = `${dBounds.width}px`;
+  clone.style.height = `${dBounds.height}px`;
+  image.style.opacity = '0';
+
+  await sleep(dur)
+  return clone
+}
+
+const transitionElement = async (el: HTMLElement, dEl: HTMLElement, dur: number = 700, topMargin: number = 0) => {
+
+  const bounds = el.getBoundingClientRect();
+  const cStyle = getComputedStyle(el);
+  const dBounds = dEl.getBoundingClientRect();
+  const easing = 'cubic-bezier(0.245, 0.765, 0.035, 0.920)'
+  const clone = el.cloneNode(true) as HTMLElement;
+  const { scrollY } = window;
+
+  clone.style.position = 'absolute';
+  clone.style.top = `${bounds.top + scrollY + topMargin}px`;
+  clone.style.left = `${bounds.left}px`;
+  clone.style.zIndex = 'var(--z-trans-image)';
+  clone.style.transition = ['top', 'left', 'opacity'].map(prop => `${prop} ${easing} ${dur}ms`).join(',');
+  clone.style.opacity = '1';
+  clone.style.willChange = 'top, left, opacity';
+
+  document.body.appendChild(clone);
+
+  el.style.opacity = '0';
+  dEl.style.opacity = '0';
+
+  await sleep(100)
+
+  clone.style.top = `${dBounds.top + scrollY + topMargin}px`;
+  clone.style.left = `${dBounds.left}px`;
+  await sleep(dur + 200)
+  el.style.opacity = '1';
+  dEl.style.opacity = '1';
+  clone.remove()
+
+  return clone
 }
 
 export const getStaticProps = withGlobalProps({ queries: [AllCollectionsDocument] }, async ({ props, revalidate }: any) => {
@@ -186,3 +235,4 @@ export const getStaticProps = withGlobalProps({ queries: [AllCollectionsDocument
     revalidate
   };
 });
+
