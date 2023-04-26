@@ -1,10 +1,12 @@
 .next {
+  display: flex;
+  align-items: center;
   position: absolute;
-  z-index: var(--z-next);
   top: 0;
   right: 0;
-  //margin-top: calc(-1 * var(--navbar-height));
-  transform: translateY(-50%);
+  height: 100%;
+  padding-top: var(--navbar-height);
+  z-index: var(--z-next);
   margin-right: var(--outer-margin);
   transition: opacity 0.3s ease-in-out;
   opacity: 1;

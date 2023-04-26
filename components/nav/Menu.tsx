@@ -13,6 +13,7 @@ export type MenuProps = {
 export default function Menu({ }: MenuProps) {
 
 	const router = useRouter()
+	const { asPath } = router
 	const [showMenu, setShowMenu] = useStore((state) => [state.showMenu, state.setShowMenu])
 
 	useEffect(() => {
@@ -24,14 +25,14 @@ export default function Menu({ }: MenuProps) {
 	return (
 		<>
 			<nav className={cn(s.menu)}>
-				<Link href="/archive">Archive</Link>
-				<Link href="/" className={s.logo}>AMY SIMON</Link>
-				<Link href="/about">About</Link>
+				<Link href="/archive" className={cn(asPath === '/archive' && s.selected)}>Archive</Link>
+				<Link href="/" className={cn(s.logo, asPath === '/' && s.selected)}>AMY SIMON</Link>
+				<Link href="/about" className={cn(asPath === '/about' && s.selected)}>About</Link>
 			</nav>
 			<nav className={cn(s.mobile, showMenu && s.show)}>
-				<Link href="/">Selected Work</Link>
-				<Link href="/archive">Archive</Link>
-				<Link href="/about">About</Link>
+				<Link href="/" className={cn(asPath === '/' && s.selected)}>Selected Work</Link>
+				<Link href="/archive" className={cn(asPath === '/archive' && s.selected)}>Archive</Link>
+				<Link href="/about" className={cn(asPath === '/about' && s.selected)}>About</Link>
 			</nav>
 			<Hamburger />
 		</>

@@ -1,7 +1,7 @@
 .container {
   position: relative;
   width: 100%;
-  height: var(--body-height);
+  height: calc(var(--body-height) + 1px);
 
   &.full-bleed {}
 
@@ -113,6 +113,16 @@
         transition-delay: 0s;
       }
     }
+  }
+
+  .pagination {
+    position: fixed;
+    display: flex;
+    align-items: center;
+    bottom: 0;
+    right: var(--outer-margin);
+    z-index: 10000;
+    height: var(--navbar-height);
   }
 
   .next {

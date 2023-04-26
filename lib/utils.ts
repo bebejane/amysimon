@@ -115,8 +115,6 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
   const easing = 'cubic-bezier(0.245, 0.765, 0.035, 0.920)'
   const { scrollY } = window;
 
-
-
   const clone = image.cloneNode(true) as HTMLImageElement;
   clone.style.position = 'absolute';
   clone.style.top = `${bounds.top + scrollY}px`;
@@ -182,6 +180,7 @@ export const transitionElement = async (el: HTMLElement, dEl: HTMLElement, dur: 
 
   el.style.opacity = '1';
   dEl.style.opacity = '1';
+  await sleep(100)
   clone.remove()
 
   return clone

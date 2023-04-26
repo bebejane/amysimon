@@ -42,9 +42,12 @@ const NextNav = React.forwardRef<HTMLDivElement, NextNavProps>(({ show = true, c
 
 
   return (
-    <nav className={cn(s.next, (!nextTopMargin || !show || hide) && s.hide, className)} style={{ top: `${nextTopMargin}px` }}>
-      Next
-    </nav >
+
+    <nav className={cn(s.next, (!nextTopMargin || !show || hide) && s.hide, className)}>
+      <span>
+        Next
+      </span>
+    </nav>
   )
 
 })

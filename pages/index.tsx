@@ -53,16 +53,17 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 							<span style={{
 								transition: `
 									color 0.1s ease-in-out ${Math.abs(-2 + (idx + 1 * i) / 4)}s, 
-									opacity 1s ease-in-out 3s
+									opacity 12s cubic-bezier(.02,.9,.2,.98) 3s
 								`
 							}}>{w}</span>
 						)}
 					</div>
 				)}
 			</h2>
+
 			<div ref={containerRef} className={cn(s.container, s[currentArtwork.layout])}>
 				<ul className={cn(s.artwork, show && s.show)} style={style}>
-					{selectedArtwork.map(({ id, image, title, material, width, height, layout }, idx) =>
+					{selectedArtwork.map(({ id, image, title, material, width, height, layout, _allReferencingCollections: collections }, idx) =>
 						<li onClick={handleClick} >
 							<figure className={s[layout]}>
 								<Image
@@ -72,7 +73,7 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 									pictureClassName={s.picture}
 								/>
 								<figcaption><span>
-									{artworkCaption(currentArtwork)}
+									{collections[0]?.title} {artworkCaption(currentArtwork)}
 								</span>
 								</figcaption>
 							</figure>
@@ -84,7 +85,13 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 					<div className={s.left}></div>
 					<div className={s.right}></div>
 				</div>
+
+				<div className={s.pagination}>
+					{index + 1}/{selectedArtwork.length}
+				</div>
+
 				<NextNav show={show} ref={containerRef} className={s.next} />
+
 			</div >
 		</>
 	)

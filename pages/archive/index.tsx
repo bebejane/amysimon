@@ -149,8 +149,13 @@ export default function Archive({ collections }: Props) {
               </figcaption>
               <NextNav ref={figureRef} show={true} />
             </figure>
+            <div className={s.pagination}>
+              {index + 1}/{collection.artwork.length}
+            </div>
           </>
+
         }
+
       </div>
     </>
   );
