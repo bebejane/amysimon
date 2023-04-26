@@ -3,11 +3,9 @@
   width: 100%;
   height: var(--body-height);
 
-  &.full-bleed {
-  }
+  &.full-bleed {}
 
-  &.margin {
-  }
+  &.margin {}
 
   ul {
     list-style: none;
@@ -101,6 +99,7 @@
     }
 
     &.show {
+
       .left,
       .right {
         opacity: 1;
@@ -141,12 +140,12 @@
 
   &.hide {
     transition-delay: 3s;
-    opacity: 0;
+    color: var(--white);
     pointer-events: none;
 
     span {
-      transition: opacity 0.1s ease-in-out;
       opacity: 0;
     }
   }
+
 }

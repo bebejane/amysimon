@@ -50,7 +50,12 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 				{header.map((words, idx) =>
 					<div>
 						{words.map((w, i) =>
-							<span style={{ transitionDelay: `${Math.abs(-2 + (idx + 1 * i) / 4)}s` }}>{w}</span>
+							<span style={{
+								transition: `
+									color 0.1s ease-in-out ${Math.abs(-2 + (idx + 1 * i) / 4)}s, 
+									opacity 1s ease-in-out 3s
+								`
+							}}>{w}</span>
 						)}
 					</div>
 				)}
