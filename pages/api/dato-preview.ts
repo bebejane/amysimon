@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { apiQuery } from 'dato-nextjs-utils/api';
 
-const generatePreviewUrl = async ({ item, itemType, locale }) => {
+const generatePreviewUrl = async ({ item }) => {
 
   let path = null;
   const { api_key } = item.attributes
@@ -48,6 +47,5 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     url: `${baseUrl}/api/preview?slug=${url}&secret=${process.env.DATOCMS_PREVIEW_SECRET}`,
   }]
 
-  console.log(previewLinks)
   return res.status(200).json({ previewLinks });
 };
