@@ -131,7 +131,6 @@ export default function Archive({ collections }: Props) {
               id={id}
               key={id}
               onClick={handleZoomIn}
-              style={{ animationDelay: `${(idx * 150)}ms` }}
               className={cn(id === collection?.id || collectionId === null ? s.active : s.inactive)}
             >
               <header>{year}</header>
@@ -141,6 +140,7 @@ export default function Archive({ collections }: Props) {
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setHoverCollectionId(id)}
                 onMouseLeave={() => setHoverCollectionId(null)}
+                style={{ animationDelay: `${(idx * 250)}ms` }}
               >
                 {artwork[index[id]]?.image &&
                   <Image
