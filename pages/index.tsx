@@ -27,7 +27,7 @@ export default function Home({ start: { selectedArtwork }, firstCollection, last
 	const handleNext = () => setIndex(index >= selectedArtwork.length - 1 ? 0 : index + 1)
 
 	useEffect(() => {
-		setTimeout(() => setShow(true), 2000)
+		setTimeout(() => setShow(true), 1000)
 	}, [])
 
 	return (
