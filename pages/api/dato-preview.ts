@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
-const generatePreviewUrl = async ({ item }) => {
+const generatePreviewUrl = async ({ itemType }) => {
 
   let path = null;
-  const { api_key } = item.attributes
+  const { api_key } = itemType.attributes
 
   switch (api_key) {
     case 'about':
@@ -24,8 +24,7 @@ const generatePreviewUrl = async ({ item }) => {
     default:
       break;
   }
-  console.log(api_key, path)
-  console.log(item)
+
   return path
 };
 
