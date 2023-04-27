@@ -17,6 +17,7 @@
     font-variation-settings: "MONO" 0, "CASL" 1, "CRSV" 0, "wght" 400, "slnt" 0;
     transform: all 2s;
     width: 10rem;
+    transition: font-variation-settings 0.3s ease;
 
     &:hover {
       font-variation-settings: "MONO" 0, "CASL" 0, "CRSV" 0, "wght" 600, "slnt" 0;
@@ -37,7 +38,6 @@
     }
 
     @include mq($until: desktop) {
-
       &:nth-child(1),
       &:nth-child(3) {
         display: none;
