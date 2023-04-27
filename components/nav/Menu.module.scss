@@ -21,7 +21,7 @@
     @include mobile-only();
     position: absolute;
     background-color: var(--line-color);
-    width: calc(100% - calc(var(--outer-margin)*2));
+    width: calc(100% - calc(var(--outer-margin) * 2));
     height: 1px;
     left: var(--outer-margin);
     bottom: 0;
@@ -77,7 +77,6 @@
   background-color: rgba(255, 255, 255, 0.9);
   pointer-events: none;
   font-size: 2rem;
-  font-weight: bold;
 
   line-height: 2;
   opacity: 0;

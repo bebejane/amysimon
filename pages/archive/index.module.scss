@@ -16,7 +16,11 @@
     list-style: none;
     margin-left: var(--outer-margin);
     margin-right: var(--outer-margin);
-    padding-top: 1rem;
+    padding-top: 2rem;
+
+    @include mq($from: tablet) {
+      padding-top: 1rem;
+    }
 
     li {
       display: flex;
@@ -33,7 +37,10 @@
 
       @include mq($until: tablet) {
         flex: 0 0 50%;
-        height: 30vh;
+        height: 25vh;
+        figcaption {
+          display: none !important;
+        }
       }
 
       &.active {
@@ -145,17 +152,16 @@
     z-index: var(--z-menu-mobile);
 
     span {
-      flex: 0 0 50%;
+      width: 100%;
 
       &.title {
-        font-weight: bold;
+        font-variation-settings: "MONO" 0, "CASL" 0, "CRSV" 0, "wght" 600, "slnt" 0;
       }
 
       &.back {
         text-align: right;
       }
     }
-
   }
 
   header.desktop {
@@ -223,10 +229,10 @@
       img[role="presentation"] {
         object-fit: contain;
         height: calc(var(--body-height) - var(--navbar-height));
-
       }
 
       &.description {
+        font-size: 1.4rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -238,12 +244,15 @@
 
         span {
           display: block;
-          padding-left: var(--outer-margin);
-          padding-right: var(--outer-margin);
-          line-height: 1;
-          text-align: left;
+          line-height: 1.45;
+          text-align: center;
+          padding-left: calc(2 * var(--outer-margin));
+          padding-right: calc(2 * var(--outer-margin));
+          @include mq($from: tablet) {
+            padding-left: calc(5 * var(--outer-margin));
+            padding-right: calc(5 * var(--outer-margin));
+          }
         }
-
       }
 
       @include mq($until: tablet) {
@@ -253,7 +262,7 @@
           height: auto;
           width: 100%;
           margin-bottom: var(--space);
-          min-height: 50vh;
+          //min-height: 50vh;
 
           span {
             text-align: center;
@@ -272,7 +281,6 @@
         }
       }
 
-
       figcaption {
         display: flex;
         flex-direction: row;
@@ -284,7 +292,7 @@
 
         span:first-child {
           margin-right: 1em;
-          @include desktop-only()
+          @include desktop-only();
         }
 
         @include mq($until: tablet) {
@@ -295,7 +303,6 @@
       }
     }
   }
-
 
   img[role="presentation"] {
     left: 0% !important;
@@ -314,7 +321,5 @@
     right: var(--outer-margin);
     z-index: 10000;
     height: var(--navbar-height);
-
-
   }
 }
