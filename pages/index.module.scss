@@ -69,7 +69,6 @@
 
           .title {
             margin-right: 0.3em;
-            @include mobile-only();
           }
 
           @include mq($until: tablet) {
