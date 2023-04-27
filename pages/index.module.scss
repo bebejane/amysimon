@@ -3,11 +3,9 @@
   width: 100%;
   height: calc(var(--body-height) + 0px);
 
-  &.full-bleed {
-  }
+  &.full-bleed {}
 
-  &.margin {
-  }
+  &.margin {}
 
   ul {
     position: relative;
@@ -194,7 +192,7 @@
 
   @keyframes hide {
     to {
-      font-variation-settings: "MONO" 0, "CASL" 1, "CRSV" 0, "wght" 100, "slnt" 0;
+      font-variation-settings: "MONO" 0, "CASL" 1, "CRSV" 0, "wght" 0, "slnt" 0;
       opacity: 0;
     }
   }

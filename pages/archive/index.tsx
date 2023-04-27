@@ -140,6 +140,7 @@ export default function Archive({ collections }: Props) {
                     data={artwork[index[id]].image.responsiveImage}
                     className={s.image}
                     fadeInDuration={100}
+                    placeholderClassName={s.picture}
                     pictureClassName={s.picture}
                   />
                 }
@@ -176,6 +177,7 @@ export default function Archive({ collections }: Props) {
                     fadeInDuration={0}
                     usePlaceholder={false}
                     lazyLoad={false}
+                    placeholderClassName={s.picture}
                     pictureClassName={s.picture}
                   />
                   <figcaption id={`caption-${i}`}>
