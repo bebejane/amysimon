@@ -25,13 +25,14 @@ const generatePreviewUrl = async ({ item }) => {
       break;
   }
   console.log(api_key, path)
+  console.log(item)
   return path
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST');
+  res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.setHeader('Content-Type', 'application/json');
 
@@ -39,6 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   const path = await generatePreviewUrl(req.body);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
+
   const previewLinks = !path ? [] : [{
     label: 'Live',
     url: `${baseUrl}${path}`
