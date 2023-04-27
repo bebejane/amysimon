@@ -6,6 +6,7 @@ import { Image } from "react-datocms/image";
 import { useState, useRef, useEffect } from "react";
 import { artworkCaption, sleep, transitionElement, transitionImage } from "/lib/utils";
 import { NextNav } from "/components";
+import useDevice from "/lib/hooks/useDevice";
 
 export type Props = {
   collections: CollectionRecord[]
@@ -20,7 +21,14 @@ export default function Archive({ collections }: Props) {
   const [index, setIndex] = useState<{ [key: string]: number }>({});
   const [hoverCollectionId, setHoverCollectionId] = useState<string | null>(null);
   const [transitioning, setTransitioning] = useState(false);
+  const { isMobile } = useDevice()
   const slidesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const idx = {}
+    collections.forEach((collection) => (idx[collection.id] = 0))
+    setIndex(idx)
+  }, [])
 
   const handleClick = () => {
     const idx = index[collection.id] >= collection.artwork.length - 1 ? 0 : index[collection.id] + 1
@@ -28,11 +36,14 @@ export default function Archive({ collections }: Props) {
   }
 
   const handleZoomIn = async ({ target }) => {
+
     const id = target.closest('li').id;
 
     setTransitioning(true)
     setCollectionId(id)
     setCollection(collections.find(el => el.id === id))
+
+    if (isMobile) return
 
     await sleep(100)
 
@@ -55,18 +66,20 @@ export default function Archive({ collections }: Props) {
   const handleZoomOut = async () => {
     if (!collectionId) return
 
+    setCollectionId(null)
+
+    if (isMobile) return
+
     const dImage = document.getElementById(collectionId).querySelector<HTMLImageElement>('picture>img')
     const image = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${index[collection.id] + 1}) picture>img`)
-
     setTransitioning(true)
-    setCollectionId(null)
     await transitionImage(image, dImage, transitionDuration)
     setTransitioning(false)
   }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
 
-    if (transitioning) return
+    if (transitioning || isMobile) return
 
     const target = (e.target as HTMLDivElement)
     const bounds = target.getBoundingClientRect();
@@ -115,15 +128,19 @@ export default function Archive({ collections }: Props) {
       <div className={cn(s.gallery, collectionId && s.visible)}>
         {collection &&
           <>
-            <header>
+            <header className={s.desktop}>
               <span id="gallery-year" className={s.year}>{collection.year}</span>
               <span className={s.close} onClick={handleZoomOut}>Close</span>
+            </header>
+            <header className={s.mobile}>
+              <span className={s.title}>{collection.title}, {collection.year}</span>
+              <span className={s.back} onClick={handleZoomOut}>Back</span>
             </header>
             <div className={s.slides} ref={slidesRef}>
               {collection.artwork.map((artwork, i) =>
                 <figure
                   key={artwork.id}
-                  className={cn(i === index[collection.id] && s.show)}
+                  className={cn((i === index[collection.id] || isMobile) && s.show)}
                   onClick={handleClick}
                 >
                   <Image

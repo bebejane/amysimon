@@ -16,7 +16,7 @@ export default function About({ about, exhibitions, projects }: Props) {
     <div className={s.container}>
       <ul>
         <li>
-          <h2>Amy Simon</h2>
+          <h2 className={s.bio}>Amy Simon</h2>
           <Markdown>{about.bio}</Markdown>
         </li>
         <li>

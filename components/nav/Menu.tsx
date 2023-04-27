@@ -28,6 +28,7 @@ export default function Menu({ }: MenuProps) {
 				<Link href="/archive" className={cn(asPath === '/archive' && s.selected)}>Archive</Link>
 				<Link href="/" className={cn(s.logo, asPath === '/' && s.selected)}>AMY SIMON</Link>
 				<Link href="/about" className={cn(asPath === '/about' && s.selected)}>About</Link>
+				<hr />
 			</nav>
 			<nav className={cn(s.mobile, showMenu && s.show)}>
 				<Link href="/" className={cn(asPath === '/' && s.selected)}>Selected Work</Link>

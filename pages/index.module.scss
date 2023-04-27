@@ -1,29 +1,51 @@
 .container {
   position: relative;
   width: 100%;
-  height: calc(var(--body-height) + 1px);
+  height: calc(var(--body-height) + 0px);
 
   &.full-bleed {}
 
   &.margin {}
 
   ul {
+    position: relative;
     list-style: none;
-    display: flex;
-    flex-direction: row;
     opacity: 0;
+    min-height: 100%;
 
     &.show {
       opacity: 1;
     }
 
     li {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       flex: 0 0 100%;
+      opacity: 0;
+      transition: opacity ease-in-out 700ms;
+
+      &.show {
+        opacity: 1;
+      }
+
+      @include mq($until: tablet) {
+        position: relative;
+        opacity: 1;
+        height: auto;
+        margin-bottom: 1rem;
+      }
 
       figure {
         position: relative;
-        cursor: pointer;
         min-height: var(--body-height);
+        cursor: pointer;
+
+        @include mq($until: tablet) {
+          min-height: auto;
+        }
 
         .image {
           padding: 0;
@@ -41,12 +63,57 @@
           width: 100%;
           height: var(--navbar-height);
           padding-left: var(--outer-margin);
+
+          .title {
+            margin-right: 0.3em;
+            @include mobile-only()
+          }
+
+          @include mq($until: tablet) {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding-left: 0;
+            height: var(--navbar-height);
+
+            span {
+              display: block;
+              width: 100%;
+              line-height: 1;
+              text-align: center;
+
+            }
+
+            .title {
+              margin-right: 0;
+              font-weight: bold;
+            }
+          }
         }
 
         &.margin {
+          .image {
+            padding-left: var(--outer-margin);
+            padding-right: var(--outer-margin);
+          }
+
           .picture {
             object-fit: contain;
             max-height: calc(var(--body-height) - var(--navbar-height));
+          }
+
+          @include mq($until: tablet) {
+            .image {
+              margin: 0;
+              padding-left: var(--outer-margin);
+              padding-right: var(--outer-margin);
+            }
+
+            .picture {
+              max-height: auto;
+            }
           }
         }
 
@@ -63,6 +130,21 @@
             max-height: 100vh;
             object-fit: cover;
           }
+
+          @include mq($until: tablet) {
+            margin: 0;
+
+            span {
+              color: var(--black);
+              text-shadow: none;
+            }
+
+            .picture {
+              max-height: auto;
+            }
+
+          }
+
         }
       }
     }

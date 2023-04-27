@@ -9,9 +9,8 @@ export const breakpoints = {
   tablet: 740,
   desktop: 980,
   wide: 1441,
-  navBreak: 1368
+  navBreak: 1100
 }
-
 
 export const parseDatoError = (err: any) => {
   const apiError = err.response?.body?.data;
