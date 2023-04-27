@@ -6,6 +6,7 @@ import { Image } from "react-datocms/image";
 import { useState, useRef, useEffect } from "react";
 import { artworkCaption, sleep, transitionElement, transitionImage } from "/lib/utils";
 import { NextNav } from "/components";
+import useDevice from "/lib/hooks/useDevice";
 
 export type Props = {
   collections: CollectionRecord[]
@@ -20,53 +21,77 @@ export default function Archive({ collections }: Props) {
   const [index, setIndex] = useState<{ [key: string]: number }>({});
   const [hoverCollectionId, setHoverCollectionId] = useState<string | null>(null);
   const [transitioning, setTransitioning] = useState(false);
+  const { isMobile } = useDevice()
   const slidesRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const idx = {}
+    collections.forEach((collection) => (idx[collection.id] = 0))
+    setIndex(idx)
+  }, [])
+
   const handleClick = () => {
-    const idx = index[collection.id] >= collection.artwork.length - 1 ? 0 : index[collection.id] + 1
+    const idx = index[collection.id] >= collection.artwork.length ? 0 : index[collection.id] + 1
     setIndex((s) => ({ ...s, [collection.id]: idx }))
   }
 
   const handleZoomIn = async ({ target }) => {
+
     const id = target.closest('li').id;
 
-    setTransitioning(true)
-    setCollectionId(id)
     setCollection(collections.find(el => el.id === id))
+    setCollectionId(id)
+    setTransitioning(true)
 
-    await sleep(100)
+    if (!isMobile) {
 
-    const image = document.getElementById(id).querySelector<HTMLImageElement>('picture>img')
-    const dImage = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${index[collection.id] + 1}) picture>img`)
-    const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
-    const dCaption = document.getElementById('gallery-caption')
-    const year = document.getElementById(id).querySelector<HTMLElement>('header')
-    const dYear = document.getElementById('gallery-year')
+      await sleep(100)
 
-    await Promise.all([
-      transitionImage(image, dImage, transitionDuration),
-      transitionElement(caption, dCaption, transitionDuration, -9),
-      transitionElement(year, dYear, transitionDuration)
-    ])
+      const image = document.getElementById(id).querySelector<HTMLImageElement>('picture>img')
+      const dImage = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${index[collection.id] + 1}) picture>img`)
+      const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
+      const dCaption = document.getElementById(`caption-${index[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
+      const year = document.getElementById(id).querySelector<HTMLElement>('header')
+      const dYear = document.getElementById('gallery-year')
 
+      await Promise.all([
+        transitionImage(image, dImage, transitionDuration),
+        transitionElement(caption, dCaption, transitionDuration, -9),
+        transitionElement(year, dYear, transitionDuration)
+      ])
+    }
     setTransitioning(false)
   }
 
   const handleZoomOut = async () => {
     if (!collectionId) return
 
-    const dImage = document.getElementById(collectionId).querySelector<HTMLImageElement>('picture>img')
-    const image = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${index[collection.id] + 1}) picture>img`)
+    const idx = index[collection.id] >= collection.artwork.length ? 0 : index[collection.id]
 
+    setIndex((s) => ({ ...s, [collection.id]: idx }))
     setTransitioning(true)
     setCollectionId(null)
-    await transitionImage(image, dImage, transitionDuration)
+    setCollection(null)
+
+    if (!isMobile) {
+
+      const dImage = document.getElementById(collectionId).querySelector<HTMLImageElement>('picture>img')
+      const image = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${idx + 1}) picture>img`)
+
+      if (image && dImage)
+        await transitionImage(image, dImage, transitionDuration)
+      else
+        await sleep(transitionDuration)
+
+    }
+
     setTransitioning(false)
+
   }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
 
-    if (transitioning) return
+    if (transitioning || isMobile) return
 
     const target = (e.target as HTMLDivElement)
     const bounds = target.getBoundingClientRect();
@@ -97,12 +122,14 @@ export default function Archive({ collections }: Props) {
                 onMouseEnter={() => setHoverCollectionId(id)}
                 onMouseLeave={() => setHoverCollectionId(null)}
               >
-                <Image
-                  data={artwork[index[id] ?? 0].image.responsiveImage}
-                  className={s.image}
-                  fadeInDuration={100}
-                  pictureClassName={s.picture}
-                />
+                {artwork[index[id]]?.image &&
+                  <Image
+                    data={artwork[index[id]].image.responsiveImage}
+                    className={s.image}
+                    fadeInDuration={100}
+                    pictureClassName={s.picture}
+                  />
+                }
                 <figcaption className={cn(hoverCollectionId === id && s.show)}>
                   <span>{title}</span>
                 </figcaption>
@@ -115,15 +142,19 @@ export default function Archive({ collections }: Props) {
       <div className={cn(s.gallery, collectionId && s.visible)}>
         {collection &&
           <>
-            <header>
+            <header className={s.desktop}>
               <span id="gallery-year" className={s.year}>{collection.year}</span>
               <span className={s.close} onClick={handleZoomOut}>Close</span>
+            </header>
+            <header className={s.mobile}>
+              <span className={s.title}>{collection.title}, {collection.year}</span>
+              <span className={s.back} onClick={handleZoomOut}>Back</span>
             </header>
             <div className={s.slides} ref={slidesRef}>
               {collection.artwork.map((artwork, i) =>
                 <figure
                   key={artwork.id}
-                  className={cn(i === index[collection.id] && s.show)}
+                  className={cn(((i === index[collection.id] && collectionId) || isMobile) && s.show)}
                   onClick={handleClick}
                 >
                   <Image
@@ -134,15 +165,18 @@ export default function Archive({ collections }: Props) {
                     lazyLoad={false}
                     pictureClassName={s.picture}
                   />
-                  <figcaption>
-                    <span id="gallery-caption">{collection.title}</span>
+                  <figcaption id={`caption-${i}`}>
+                    <span>{collection.title}</span>
                     <span>{artworkCaption(artwork)}</span>
                   </figcaption>
                 </figure>
               )}
+              <figure onClick={handleClick} className={cn(s.description, (index[collection.id] === collection.artwork.length || isMobile) && s.show)}>
+                <span>{collection.description}</span>
+              </figure>
             </div>
             <div className={s.pagination}>
-              {index[collection.id] + 1}/{collection.artwork.length}
+              {Math.min(collection.artwork.length, index[collection.id] + 1)}/{collection.artwork.length}
             </div>
             {collection.artwork.length > 1 &&
               <NextNav ref={slidesRef} show={true} />

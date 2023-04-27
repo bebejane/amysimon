@@ -11,6 +11,10 @@
   opacity: 1;
   pointer-events: none;
 
+  @include mq($until: tablet) {
+    display: none;
+  }
+
   &.hide {
     opacity: 0;
 

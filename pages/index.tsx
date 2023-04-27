@@ -18,14 +18,9 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 	const [index, setIndex] = useState(0)
 	const containerRef = useRef<HTMLDivElement | null>()
 	const currentArtwork = selectedArtwork[index]
-	const style = { transform: `translateX(-${index * 100}%)` }
 
 	const handleClick = () => {
-		setFade(true)
-		setTimeout(() => {
-			setIndex(index === selectedArtwork.length - 1 ? 0 : index + 1)
-			setFade(false)
-		}, 200)
+		setIndex(index === selectedArtwork.length - 1 ? 0 : index + 1)
 	}
 
 	useEffect(() => {
@@ -38,9 +33,9 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 		<>
 			<h2 className={cn(s.header, show && s.hide)}>
 				{header.map((words, idx) =>
-					<div>
+					<div key={idx}>
 						{words.map((w, i) =>
-							<span style={{
+							<span key={`w-${i}`} style={{
 								transition: `
 									color 0.1s ease-in-out ${Math.abs(-2 + (idx + 1 * i) / 4)}s, 
 									opacity 12s cubic-bezier(.02,.9,.2,.98) 2.5s
@@ -52,9 +47,9 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 			</h2>
 
 			<div ref={containerRef} className={cn(s.container, s[currentArtwork.layout])}>
-				<ul className={cn(s.artwork, show && s.show)} style={style}>
+				<ul className={cn(s.artwork, show && s.show)}>
 					{selectedArtwork.map(({ id, image, title, material, width, height, layout, _allReferencingCollections: collections }, idx) =>
-						<li onClick={handleClick} >
+						<li onClick={handleClick} className={cn(index === idx && s.show)}>
 							<figure className={s[layout]}>
 								<Image
 									data={image.responsiveImage}
@@ -62,19 +57,14 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 									placeholderClassName={s.picture}
 									pictureClassName={s.picture}
 								/>
-								<figcaption><span>
-									{collections[0]?.title} {artworkCaption(currentArtwork)}
-								</span>
+								<figcaption>
+									<span className={s.title}>{collections[0]?.title}</span>
+									<span>{artworkCaption(currentArtwork)}</span>
 								</figcaption>
 							</figure>
 						</li>
 					)}
 				</ul>
-
-				<div className={cn(s.fade, fade && s.show)}>
-					<div className={s.left}></div>
-					<div className={s.right}></div>
-				</div>
 
 				<div className={s.pagination}>
 					{index + 1}/{selectedArtwork.length}

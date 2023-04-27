@@ -9,9 +9,8 @@ export const breakpoints = {
   tablet: 740,
   desktop: 980,
   wide: 1441,
-  navBreak: 1368
+  navBreak: 1100
 }
-
 
 export const parseDatoError = (err: any) => {
   const apiError = err.response?.body?.data;
@@ -174,11 +173,10 @@ export const transitionElement = async (el: HTMLElement, dEl: HTMLElement, dur: 
   clone.style.top = `${dBounds.top + scrollY + topMargin}px`;
   clone.style.left = `${dBounds.left}px`;
 
-  await sleep(dur + 200)
+  await sleep(dur)
 
   el.style.opacity = '1';
   dEl.style.opacity = '1';
-  await sleep(100)
   clone.remove()
 
   return clone
