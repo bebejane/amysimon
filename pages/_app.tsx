@@ -19,7 +19,7 @@ function App({ Component, pageProps, router }) {
     <>
       <DefaultDatoSEO siteTitle={siteTitle} />
       <PageProvider value={{ ...page }} key={router.locale}>
-        <Layout footer={{}} title={page?.title}>
+        <Layout title={page?.title}>
           <Component {...pageProps} />
         </Layout>
       </PageProvider>
