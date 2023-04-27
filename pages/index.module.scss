@@ -150,53 +150,6 @@
     }
   }
 
-  .fade {
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: var(--z-fade);
-    display: flex;
-    flex-direction: row;
-    height: 100vh;
-    width: 100%;
-    margin-top: calc(-1 * var(--navbar-height));
-    pointer-events: none;
-
-    .left,
-    .right {
-      flex: 1 1;
-      background-color: var(--white);
-      opacity: 0;
-      transition-duration: 0.3s;
-      transition-property: opacity;
-      transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
-    }
-
-    .left {
-      margin-right: 0px;
-    }
-
-    .right {
-      margin-left: 0px;
-    }
-
-    &.show {
-
-      .left,
-      .right {
-        opacity: 1;
-      }
-
-      .left {
-        transition-delay: 0s;
-      }
-
-      .right {
-        transition-delay: 0s;
-      }
-    }
-  }
-
   .pagination {
 
     position: fixed;
