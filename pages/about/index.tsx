@@ -12,6 +12,8 @@ export type Props = {
 
 export default function About({ about, exhibitions, projects }: Props) {
 
+  let animationDelay = 0;
+
   return (
     <div className={s.container}>
       <ul>
@@ -22,8 +24,8 @@ export default function About({ about, exhibitions, projects }: Props) {
         <li>
           <h2>Exhibitions</h2>
           <ul>
-            {exhibitions.map(({ id, title, year, location, city, country }) =>
-              <li>
+            {exhibitions.map(({ id, title, year, location, city, country }, idx) =>
+              <li key={idx} style={{ animationDelay: `${(animationDelay += 100)}ms` }}>
                 <span>{year}</span>
                 <span>{[title, location, city, country].filter(el => el).join(', ')}</span>
               </li>
@@ -33,8 +35,8 @@ export default function About({ about, exhibitions, projects }: Props) {
         <li>
           <h2>Awards / Projects</h2>
           <ul>
-            {projects.map(({ id, from, until, description }) =>
-              <li>
+            {projects.map(({ id, from, until, description }, idx) =>
+              <li key={idx}>
                 <span className={s.long}>{from}{until ? `-${(until + '').substring(2)}` : ''}</span>
                 <span>{description}</span>
               </li>
