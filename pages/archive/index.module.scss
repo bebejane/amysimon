@@ -38,6 +38,7 @@
       @include mq($until: tablet) {
         flex: 0 0 50%;
         height: 25vh;
+
         figcaption {
           display: none !important;
         }
@@ -248,6 +249,7 @@
           text-align: center;
           padding-left: calc(2 * var(--outer-margin));
           padding-right: calc(2 * var(--outer-margin));
+
           @include mq($from: tablet) {
             padding-left: calc(5 * var(--outer-margin));
             padding-right: calc(5 * var(--outer-margin));
@@ -319,6 +321,7 @@
     top: 0% !important;
     width: 100% !important;
     height: 100% !important;
+    object-fit: contain
   }
 
   .pagination {
