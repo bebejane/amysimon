@@ -188,18 +188,18 @@
   text-align: center;
   line-height: 1;
   opacity: 1;
-  animation: hide 2s ease-out 1s forwards;
+  animation: hide 1s ease-in 1.8s forwards;
   pointer-events: none;
   font-variation-settings: "MONO" 0, "CASL" 1, "CRSV" 0, "wght" 400, "slnt" 0;
 
   @keyframes hide {
     to {
-      font-variation-settings: "MONO" 0, "CASL" 1, "CRSV" 0, "wght" 100, "slnt" 0;
+      font-variation-settings: "MONO" 0, "CASL" 1, "CRSV" 0, "wght" 000, "slnt" 0;
       opacity: 0;
     }
   }
 
   @include mq($from: tablet) {
-    font-size: 4rem;
+    font-size: 5rem;
   }
 }

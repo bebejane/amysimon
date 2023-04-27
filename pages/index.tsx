@@ -28,7 +28,7 @@ export default function Home({ start: { selectedArtwork }, firstCollection, last
 	}
 
 	useEffect(() => {
-		setTimeout(() => setShow(true), 4000)
+		setTimeout(() => setShow(true), 2000)
 	}, [])
 
 	return (
