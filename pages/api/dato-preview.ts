@@ -24,7 +24,7 @@ const generatePreviewUrl = async ({ item }) => {
     default:
       break;
   }
-
+  console.log(api_key, path)
   return path
 };
 
@@ -37,14 +37,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   if (req.method === 'OPTIONS') return res.status(200).send('ok');
 
-  const url = await generatePreviewUrl(req.body);
+  const path = await generatePreviewUrl(req.body);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL
-  const previewLinks = !url ? [] : [{
+  const previewLinks = !path ? [] : [{
     label: 'Live',
-    url: `${baseUrl}${url}`
+    url: `${baseUrl}${path}`
   }, {
     label: 'Utkast',
-    url: `${baseUrl}/api/preview?slug=${url}&secret=${process.env.DATOCMS_PREVIEW_SECRET}`,
+    url: `${baseUrl}/api/preview?slug=${path}&secret=${process.env.DATOCMS_PREVIEW_SECRET}`,
   }]
 
   return res.status(200).json({ previewLinks });
