@@ -31,15 +31,17 @@ export default function Archive({ collections }: Props) {
   }, [])
 
   const handleClick = () => {
-    const idx = index[collection.id] >= collection.artwork.length ? 0 : index[collection.id] + 1
+    const slideCount = collection.description ? collection.artwork.length + 1 : collection.artwork.length
+    const idx = index[collection.id] >= slideCount - 1 ? 0 : index[collection.id] + 1
     setIndex((s) => ({ ...s, [collection.id]: idx }))
   }
 
   const handleZoomIn = async ({ target }) => {
 
     const id = target.closest('li').id;
+    const collection = collections.find(el => el.id === id)
 
-    setCollection(collections.find(el => el.id === id))
+    setCollection(collection)
     setCollectionId(id)
     setTransitioning(true)
 
@@ -51,15 +53,26 @@ export default function Archive({ collections }: Props) {
       const dImage = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${index[collection.id] + 1}) picture>img`)
       const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
       const dCaption = document.getElementById(`caption-${index[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
+      const dCaptionText = document.getElementById(`caption-${index[id]}`).querySelector<HTMLElement>('span:nth-child(2)')
       const year = document.getElementById(id).querySelector<HTMLElement>('header')
       const dYear = document.getElementById('gallery-year')
+
+      dCaptionText.style.visibility = 'hidden'
+      dCaptionText.style.opacity = '0'
 
       await Promise.all([
         transitionImage(image, dImage, transitionDuration),
         transitionElement(caption, dCaption, transitionDuration, -9),
         transitionElement(year, dYear, transitionDuration)
       ])
+
+      setTimeout(() => {
+        dCaptionText.style.visibility = 'visible'
+        dCaptionText.style.opacity = '1'
+      }, 200)
+
     }
+
     setTransitioning(false)
   }
 
@@ -167,7 +180,7 @@ export default function Archive({ collections }: Props) {
                   />
                   <figcaption id={`caption-${i}`}>
                     <span>{collection.title}</span>
-                    <span>{artworkCaption(artwork)}</span>
+                    <span>{artworkCaption(artwork, isMobile)}</span>
                   </figcaption>
                 </figure>
               )}

@@ -240,7 +240,6 @@
         justify-content: center;
         background-color: var(--white);
         width: 100%;
-        pointer-events: none;
         height: calc(var(--body-height) - var(--navbar-height));
 
         span {
@@ -258,7 +257,6 @@
 
       @include mq($until: tablet) {
         &.description {
-          //display: block;
           opacity: 1;
           height: auto;
           width: 100%;
@@ -290,6 +288,10 @@
         justify-content: flex-start;
         padding-left: var(--outer-margin);
         height: var(--navbar-height);
+
+        span:last-child {
+          transition: opacity ease-in-out 1s;
+        }
 
         span:first-child {
           margin-right: 1em;

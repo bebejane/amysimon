@@ -9,47 +9,40 @@ import { NextNav } from '/components'
 
 type Props = {
 	start: StartRecord
+	firstCollection: CollectionRecord
+	lastCollection: CollectionRecord
 }
 
-export default function Home({ start: { selectedArtwork } }: Props) {
+export default function Home({ start: { selectedArtwork }, firstCollection, lastCollection }: Props) {
 
 	const [show, setShow] = useState(false)
 	const [fade, setFade] = useState(false)
 	const [index, setIndex] = useState(0)
 	const containerRef = useRef<HTMLDivElement | null>()
 	const currentArtwork = selectedArtwork[index]
+	const startYear = firstCollection.year
+	const endYear = lastCollection.year
 
 	const handleClick = () => {
 		setIndex(index === selectedArtwork.length - 1 ? 0 : index + 1)
 	}
 
 	useEffect(() => {
-		setTimeout(() => setShow(true), 1500)
+		setTimeout(() => setShow(true), 4000)
 	}, [])
-
-	const header = [['SELECTED'], ['WORK'], ['1997', '—', '2023']]
 
 	return (
 		<>
-			<h2 className={cn(s.header, show && s.hide)}>
-				{header.map((words, idx) =>
-					<div key={idx}>
-						{words.map((w, i) =>
-							<span key={`w-${i}`} style={{
-								transition: `
-									color 0.1s ease-in-out ${Math.abs(-2 + (idx + 1 * i) / 4)}s, 
-									opacity 12s cubic-bezier(.02,.9,.2,.98) 2.5s
-								`
-							}}>{w}</span>
-						)}
-					</div>
-				)}
+			<h2 className={s.header}>
+				SELECTED<br />
+				WORK<br />
+				{startYear}—{endYear}
 			</h2>
 
 			<div ref={containerRef} className={cn(s.container, s[currentArtwork.layout])}>
 				<ul className={cn(s.artwork, show && s.show)}>
 					{selectedArtwork.map(({ id, image, title, material, width, height, layout, _allReferencingCollections: collections }, idx) =>
-						<li onClick={handleClick} className={cn(index === idx && s.show)}>
+						<li onClick={handleClick} className={cn(index === idx && s.show)} key={idx}>
 							<figure className={s[layout]}>
 								<Image
 									data={image.responsiveImage}
@@ -59,7 +52,7 @@ export default function Home({ start: { selectedArtwork } }: Props) {
 								/>
 								<figcaption>
 									<span className={s.title}>{collections[0]?.title}</span>
-									<span>{artworkCaption(currentArtwork)}</span>
+									<span>{artworkCaption(currentArtwork, true)}</span>
 								</figcaption>
 							</figure>
 						</li>
@@ -80,6 +73,8 @@ export const getStaticProps = withGlobalProps({ queries: [StartDocument] }, asyn
 	return {
 		props: {
 			...props,
+			firstCollection: props.firstCollection[0],
+			lastCollection: props.lastCollection[0],
 			page: {
 				title: 'Hem',
 				layout: 'home',
