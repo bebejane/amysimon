@@ -13,6 +13,7 @@ export default function Layout({ children, title }: LayoutProps) {
 
 	return (
 		<>
+
 			<Content title={title}>
 				{children}
 			</Content>

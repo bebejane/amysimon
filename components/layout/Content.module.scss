@@ -1,16 +1,21 @@
 .content {
   position: relative;
+  display: block;
   padding-top: var(--navbar-height);
-  opacity: 0;
-  animation: fade 1s ease-out forwards;
-
-  @keyframes fade {
+  /*
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
 
     to {
       opacity: 1;
     }
   }
 
-  article {}
+  //opacity: 0;
+  animation: fade-in 2s ease-in-out 0s 1 normal forwards;
+
+  */
 
 }
