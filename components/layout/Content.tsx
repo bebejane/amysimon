@@ -1,8 +1,5 @@
 import s from './Content.module.scss'
-import cn from 'classnames'
 import React from 'react'
-import useStore from '/lib/store'
-import { usePage } from '/lib/context/page'
 import { useRouter } from 'next/router'
 
 export type ContentProps = {
@@ -10,12 +7,12 @@ export type ContentProps = {
 	title: string
 }
 
-export default function Content({ children, title }: ContentProps) {
+export default function Content({ children }: ContentProps) {
 	const { asPath } = useRouter()
 
 	return (
 		<>
-			<main id="content" className={cn(s.content)} key={asPath}>
+			<main id="content" className={s.content} key={asPath}>
 				<article>
 					{children}
 				</article>

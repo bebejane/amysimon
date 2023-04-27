@@ -15,6 +15,7 @@ export default function Menu({ }: MenuProps) {
 	const router = useRouter()
 	const { asPath } = router
 	const [showMenu, setShowMenu] = useStore((state) => [state.showMenu, state.setShowMenu])
+	const [active, setActive] = useState<string | null>(null)
 
 	useEffect(() => {
 		const handleRouteChange = () => setShowMenu(false)

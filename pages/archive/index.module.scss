@@ -159,8 +159,6 @@
   }
 
   header.mobile {
-    @include mobile-only();
-
     position: fixed;
     top: 0;
     left: 0;
@@ -172,7 +170,8 @@
     padding-left: var(--outer-margin);
     padding-right: var(--outer-margin);
     background-color: var(--white);
-    z-index: var(--z-menu-mobile);
+    z-index: var(--z-archive-menu-mobile);
+    @include mobile-only();
 
     span {
       width: 100%;
