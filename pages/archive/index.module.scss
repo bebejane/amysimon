@@ -160,6 +160,7 @@
 
       &.back {
         text-align: right;
+        width: 20%;
       }
     }
   }
@@ -261,7 +262,7 @@
           opacity: 1;
           height: auto;
           width: 100%;
-          margin-bottom: var(--space);
+          margin-bottom: 4em;
           //min-height: 50vh;
 
           span {
@@ -298,7 +299,14 @@
         @include mq($until: tablet) {
           margin-bottom: var(--space);
           justify-content: center;
-          padding-left: 0;
+          height: auto;
+          padding-right: var(--outer-margin);
+
+          span {
+            padding-top: 1.5rem;
+            display: block;
+            line-height: 1.45;
+          }
         }
       }
     }

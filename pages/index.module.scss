@@ -78,18 +78,20 @@
             align-items: center;
             justify-content: center;
             padding-left: 0;
-            height: var(--navbar-height);
+            height: auto;
+            padding-top: 1rem;
+            padding-bottom: 2rem;
 
             span {
               display: block;
               width: 100%;
-              line-height: 1;
+              line-height: 1.45;
               text-align: center;
             }
 
             .title {
               margin-right: 0;
-              font-weight: bold;
+              font-variation-settings: "MONO" 0, "CASL" 0, "CRSV" 0, "wght" 600, "slnt" 0;
             }
           }
         }
