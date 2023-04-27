@@ -11,10 +11,11 @@ export type ContentProps = {
 }
 
 export default function Content({ children, title }: ContentProps) {
+	const { asPath } = useRouter()
 
 	return (
 		<>
-			<main id="content" className={cn(s.content)}>
+			<main id="content" className={cn(s.content)} key={asPath}>
 				<article>
 					{children}
 				</article>
