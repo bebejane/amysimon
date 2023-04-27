@@ -30,10 +30,10 @@
       padding-right: var(--outer-margin);
       margin-bottom: var(--space);
       transition: opacity ease-in-out 1000ms;
-      cursor: pointer;
-
       flex: 0 0 33.33333%;
       height: 40vh;
+      cursor: pointer;
+
 
       @include mq($until: tablet) {
         flex: 0 0 50%;
@@ -65,16 +65,38 @@
         position: relative;
         flex: 0 0 100%;
         height: 100%;
+        opacity: 0;
+        transform: translateX(1%);
+        animation: reveal ease-out 1000ms forwards;
+
+        @keyframes reveal {
+          0% {
+            opacity: 0;
+            transform: translateX(2%);
+          }
+
+          100% {
+
+            opacity: 1;
+            transform: translateX(0%)
+          }
+        }
+
 
         .image {
           flex: 1 1 auto;
         }
 
         .picture,
+        .placeholder,
         img[role="presentation"] {
           object-fit: contain;
           max-height: 50%;
           transition: all;
+        }
+
+        .placeholder {
+          opacity: 0.4 !important;
         }
 
         figcaption {

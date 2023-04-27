@@ -4,8 +4,9 @@ import withGlobalProps from "/lib/withGlobalProps";
 import { AllCollectionsDocument } from "/graphql";
 import { Image } from "react-datocms/image";
 import { useState, useRef, useEffect } from "react";
-import { artworkCaption, sleep, transitionElement, transitionImage } from "/lib/utils";
+import { artworkCaption, sleep, transitionElement, transitionImage, randomInt } from "/lib/utils";
 import { GalleryNav } from "/components";
+
 import useDevice from "/lib/hooks/useDevice";
 
 export type Props = {
@@ -125,7 +126,7 @@ export default function Archive({ collections }: Props) {
     <>
       <div className={s.container}>
         <ul>
-          {collections.map(({ id, title, description, year, artwork }) =>
+          {collections.map(({ id, title, description, year, artwork }, idx) =>
             <li
               id={id}
               key={id}
@@ -139,13 +140,14 @@ export default function Archive({ collections }: Props) {
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setHoverCollectionId(id)}
                 onMouseLeave={() => setHoverCollectionId(null)}
+                style={{ animationDelay: `${(idx * 250)}ms` }}
               >
                 {artwork[index[id]]?.image &&
                   <Image
                     data={artwork[index[id]].image.responsiveImage}
                     className={s.image}
                     fadeInDuration={100}
-                    placeholderClassName={s.picture}
+                    placeholderClassName={s.placeholder}
                     pictureClassName={s.picture}
                   />
                 }
