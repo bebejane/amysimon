@@ -300,7 +300,7 @@
         }
 
         @include mq($until: tablet) {
-          margin-bottom: var(--space);
+          margin-bottom: 3rem;
           justify-content: center;
           height: auto;
           padding-right: var(--outer-margin);
