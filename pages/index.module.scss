@@ -3,9 +3,11 @@
   width: 100%;
   height: calc(var(--body-height) + 0px);
 
-  &.full-bleed {}
+  &.full-bleed {
+  }
 
-  &.margin {}
+  &.margin {
+  }
 
   ul {
     position: relative;
@@ -151,7 +153,6 @@
   }
 
   .pagination {
-
     position: fixed;
     display: flex;
     display: none;
@@ -182,20 +183,23 @@
   z-index: 10;
   width: 100%;
   height: 100%;
-  font-size: 4rem;
+  font-size: 3rem;
   text-transform: uppercase;
   text-align: center;
   line-height: 1;
   opacity: 1;
-  animation: hide 3s ease-out 1s forwards;
+  animation: hide 2s ease-out 1s forwards;
   pointer-events: none;
   font-variation-settings: "MONO" 0, "CASL" 1, "CRSV" 0, "wght" 400, "slnt" 0;
 
   @keyframes hide {
-
     to {
       font-variation-settings: "MONO" 0, "CASL" 1, "CRSV" 0, "wght" 100, "slnt" 0;
       opacity: 0;
     }
+  }
+
+  @include mq($from: tablet) {
+    font-size: 4rem;
   }
 }

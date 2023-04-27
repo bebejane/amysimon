@@ -76,10 +76,14 @@
   z-index: var(--z-menu-mobile);
   background-color: rgba(255, 255, 255, 0.9);
   pointer-events: none;
-  font-size: 2rem;
+  font-size: 2.5rem;
 
   line-height: 2;
   opacity: 0;
+
+  a:first-of-type {
+    padding-top: 1rem;
+  }
 
   &.show {
     opacity: 1;
