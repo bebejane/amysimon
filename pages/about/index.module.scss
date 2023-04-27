@@ -20,14 +20,15 @@
     line-height: 1.5;
   }
 
-  > ul {
+  >ul {
     display: flex;
     flex-direction: column;
 
-    > li {
+    >li {
       display: flex;
       flex-direction: row;
       margin-bottom: 1rem;
+
       @include mq($from: tablet) {
         margin-bottom: 3rem;
       }
@@ -62,6 +63,15 @@
           display: flex;
           flex-direction: row;
           padding-bottom: 0.5em;
+          color: var(--white);
+          animation: reveal 0.1s linear forwards;
+
+          @keyframes reveal {
+
+            to {
+              color: var(--black);
+            }
+          }
 
           span {
             display: inline-block;
