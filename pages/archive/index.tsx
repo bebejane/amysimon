@@ -5,7 +5,7 @@ import { AllCollectionsDocument } from "/graphql";
 import { Image } from "react-datocms/image";
 import { useState, useRef, useEffect } from "react";
 import { artworkCaption, sleep, transitionElement, transitionImage } from "/lib/utils";
-import { NextNav } from "/components";
+import { GalleryNav } from "/components";
 import useDevice from "/lib/hooks/useDevice";
 
 export type Props = {
@@ -30,9 +30,14 @@ export default function Archive({ collections }: Props) {
     setIndex(idx)
   }, [])
 
-  const handleClick = () => {
+  const handleNext = () => {
     const slideCount = collection.description ? collection.artwork.length + 1 : collection.artwork.length
     const idx = index[collection.id] >= slideCount - 1 ? 0 : index[collection.id] + 1
+    setIndex((s) => ({ ...s, [collection.id]: idx }))
+  }
+  const handlePrev = () => {
+    const slideCount = collection.description ? collection.artwork.length + 1 : collection.artwork.length
+    const idx = index[collection.id] > 0 ? index[collection.id] - 1 : slideCount - 1
     setIndex((s) => ({ ...s, [collection.id]: idx }))
   }
 
@@ -169,7 +174,7 @@ export default function Archive({ collections }: Props) {
                 <figure
                   key={artwork.id}
                   className={cn(((i === index[collection.id] && collectionId) || isMobile) && s.show)}
-                  onClick={handleClick}
+
                 >
                   <Image
                     data={artwork.image.responsiveImage}
@@ -186,15 +191,16 @@ export default function Archive({ collections }: Props) {
                   </figcaption>
                 </figure>
               )}
-              <figure onClick={handleClick} className={cn(s.description, (index[collection.id] === collection.artwork.length || isMobile) && s.show)}>
+              <figure className={cn(s.description, (index[collection.id] === collection.artwork.length || isMobile) && s.show)}>
                 <span>{collection.description}</span>
               </figure>
+
             </div>
             <div className={s.pagination}>
               {Math.min(collection.artwork.length, index[collection.id] + 1)}/{collection.artwork.length}
             </div>
-            {collection.artwork.length > 1 &&
-              <NextNav ref={slidesRef} show={true} />
+            {collection.artwork.length > 1 && collectionId &&
+              <GalleryNav show={true} onNext={handleNext} onPrev={handlePrev} />
             }
           </>
         }

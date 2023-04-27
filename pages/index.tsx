@@ -5,7 +5,7 @@ import cn from 'classnames'
 import { useEffect, useState, useRef } from 'react'
 import { Image } from 'react-datocms'
 import { artworkCaption } from '/lib/utils'
-import { NextNav } from '/components'
+import { GalleryNav } from '/components'
 
 type Props = {
 	start: StartRecord
@@ -23,9 +23,8 @@ export default function Home({ start: { selectedArtwork }, firstCollection, last
 	const startYear = firstCollection.year
 	const endYear = lastCollection.year
 
-	const handleClick = () => {
-		setIndex(index === selectedArtwork.length - 1 ? 0 : index + 1)
-	}
+	const handlePrev = () => setIndex(index === 0 ? selectedArtwork.length - 1 : index - 1)
+	const handleNext = () => setIndex(index >= selectedArtwork.length - 1 ? 0 : index + 1)
 
 	useEffect(() => {
 		setTimeout(() => setShow(true), 4000)
@@ -42,7 +41,7 @@ export default function Home({ start: { selectedArtwork }, firstCollection, last
 			<div ref={containerRef} className={cn(s.container, s[currentArtwork.layout])}>
 				<ul className={cn(s.artwork, show && s.show)}>
 					{selectedArtwork.map(({ id, image, title, material, width, height, layout, _allReferencingCollections: collections }, idx) =>
-						<li onClick={handleClick} className={cn(index === idx && s.show)} key={idx}>
+						<li className={cn(index === idx && s.show)} key={idx}>
 							<figure className={s[layout]}>
 								<Image
 									data={image.responsiveImage}
@@ -63,7 +62,7 @@ export default function Home({ start: { selectedArtwork }, firstCollection, last
 					{index + 1}/{selectedArtwork.length}
 				</div>
 			</div>
-			<NextNav show={show} ref={containerRef} className={s.next} />
+			<GalleryNav show={show} className={s.next} onNext={handleNext} onPrev={handlePrev} />
 		</>
 	)
 }
