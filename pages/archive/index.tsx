@@ -39,9 +39,9 @@ export default function Archive({ collections }: Props) {
 
     const id = target.closest('li').id;
 
-    setTransitioning(true)
-    setCollectionId(id)
     setCollection(collections.find(el => el.id === id))
+    setCollectionId(id)
+    setTransitioning(true)
 
     if (!isMobile) {
 
@@ -50,7 +50,7 @@ export default function Archive({ collections }: Props) {
       const image = document.getElementById(id).querySelector<HTMLImageElement>('picture>img')
       const dImage = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${index[collection.id] + 1}) picture>img`)
       const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
-      const dCaption = document.getElementById('gallery-caption')
+      const dCaption = document.getElementById(`caption-${index[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
       const year = document.getElementById(id).querySelector<HTMLElement>('header')
       const dYear = document.getElementById('gallery-year')
 
@@ -165,8 +165,8 @@ export default function Archive({ collections }: Props) {
                     lazyLoad={false}
                     pictureClassName={s.picture}
                   />
-                  <figcaption>
-                    <span id="gallery-caption">{collection.title}</span>
+                  <figcaption id={`caption-${i}`}>
+                    <span>{collection.title}</span>
                     <span>{artworkCaption(artwork)}</span>
                   </figcaption>
                 </figure>
