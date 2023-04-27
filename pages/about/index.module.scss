@@ -6,6 +6,10 @@
   margin-top: var(--outer-margin);
   padding-bottom: var(--outer-margin);
 
+  @include mq($until: tablet) {
+    padding-top: 1rem;
+  }
+
   @include mq($from: tablet) {
     margin-right: calc(6 * var(--outer-margin));
     margin-left: calc(6 * var(--outer-margin));

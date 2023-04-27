@@ -1,7 +1,7 @@
 html,
 body {
   font-weight: normal;
-  font-size: 15px;
+  font-size: 16px;
 
   @include mq($from: tablet) {
     font-size: 17px;
