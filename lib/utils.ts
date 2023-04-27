@@ -101,9 +101,9 @@ export const randomInt = (min, max) => {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export const artworkCaption = (artwork: ArtworkRecord) => {
+export const artworkCaption = (artwork: ArtworkRecord, withYear: boolean) => {
   const { title, material, width, height, _allReferencingCollections } = artwork
-  const year = _allReferencingCollections[0]?.year
+  const year = withYear ? _allReferencingCollections[0]?.year : undefined
   return [title, material, width && height ? `${width} × ${height}` : undefined, year].filter(el => el).join(', ')
 }
 

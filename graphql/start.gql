@@ -4,4 +4,10 @@ query Start {
 			...ArtworkFragment
 		}
 	}
+	firstCollection: allCollections(first: 1, orderBy: year_ASC) {
+		year
+	}
+	lastCollection: allCollections(first: 1, orderBy: year_DESC) {
+		year
+	}
 }
