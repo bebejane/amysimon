@@ -1,0 +1,41 @@
+.nav {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  z-index: var(--z-gallery-nav);
+  padding-right: var(--outer-margin);
+  padding-left: var(--outer-margin);
+
+  opacity: 1;
+  pointer-events: all;
+  height: 100%;
+
+  .next,
+  .prev {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    flex: 0 0 50%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+
+    &.show {
+      opacity: 1;
+    }
+  }
+
+  .next {
+    justify-content: flex-end;
+  }
+
+  @include mq($until: tablet) {
+    display: none;
+  }
+}

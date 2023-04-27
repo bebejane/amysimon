@@ -173,6 +173,7 @@
     flex-direction: row;
     align-items: center;
     width: 100%;
+    z-index: 10000;
     height: var(--navbar-height);
     padding-left: var(--outer-margin);
     padding-right: var(--outer-margin);
@@ -227,8 +228,7 @@
         height: calc(var(--body-height) - var(--navbar-height));
       }
 
-      .picture,
-      img[role="presentation"] {
+      .picture {
         object-fit: contain;
         height: calc(var(--body-height) - var(--navbar-height));
       }
@@ -271,8 +271,7 @@
         }
 
         .image,
-        .picture,
-        img[role="presentation"] {
+        .picture {
           height: auto;
         }
 
@@ -314,14 +313,6 @@
         }
       }
     }
-  }
-
-  img[role="presentation"] {
-    left: 0% !important;
-    top: 0% !important;
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain
   }
 
   .pagination {
