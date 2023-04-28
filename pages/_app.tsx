@@ -8,7 +8,7 @@ function App({ Component, pageProps, router }) {
 
   const page = pageProps.page || {} as PageProps
   const { site } = pageProps
-  const description = site?.globalSeo.fallbackSeo.description
+  const description = site?.globalSeo?.fallbackSeo.description
   const errorCode = parseInt(router.pathname.replace('/', ''))
   const isError = (!isNaN(errorCode) && (errorCode > 400 && errorCode < 600)) || router.pathname.replace('/', '') === '_error'
 
