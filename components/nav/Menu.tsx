@@ -18,7 +18,13 @@ export default function Menu({ }: MenuProps) {
 	const [active, setActive] = useState<string | null>(null)
 
 	useEffect(() => {
-		const handleRouteChange = () => setShowMenu(false)
+		const handleRouteChange = (url) => {
+			setActive(url)
+			setTimeout(() => {
+				setShowMenu(false)
+				setActive(null)
+			}, 600)
+		}
 		router.events.on('routeChangeStart', handleRouteChange)
 		return () => router.events.off('routeChangeStart', handleRouteChange)
 	}, [])
@@ -32,9 +38,9 @@ export default function Menu({ }: MenuProps) {
 				<hr />
 			</nav>
 			<nav className={cn(s.mobile, showMenu && s.show)}>
-				<Link href="/" className={cn(asPath === '/' && s.selected)}>Selected Work</Link>
-				<Link href="/archive" className={cn(asPath === '/archive' && s.selected)}>Archive</Link>
-				<Link href="/about" className={cn(asPath === '/about' && s.selected)}>About</Link>
+				<Link href="/" className={cn(asPath === '/' && s.selected, active !== null ? active === '/' ? s.active : s.inactive : null)}>Selected Work</Link>
+				<Link href="/archive" className={cn(asPath === '/archive' && s.selected, active !== null ? active === '/archive' ? s.active : s.inactive : null)}>Archive</Link>
+				<Link href="/about" className={cn(asPath === '/about' && s.selected, active !== null ? active === '/about' ? s.active : s.inactive : null)}>About</Link>
 			</nav>
 			<Hamburger />
 		</>

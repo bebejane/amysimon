@@ -2,20 +2,17 @@
   position: relative;
   display: block;
   padding-top: var(--navbar-height);
-  /*
-  @keyframes fade-in {
-    from {
+
+  animation: fadein 1s ease-in-out;
+
+  @keyframes fadein {
+    0% {
       opacity: 0;
     }
 
-    to {
+    100% {
       opacity: 1;
     }
   }
-
-  //opacity: 0;
-  animation: fade-in 2s ease-in-out 0s 1 normal forwards;
-
-  */
 
 }
