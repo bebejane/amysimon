@@ -4,10 +4,10 @@ query Start {
 			...ArtworkFragment
 		}
 	}
-	firstCollection: allCollections(first: 1, orderBy: year_ASC) {
+	firstCollection: allCollections(first: 1, orderBy: year_ASC, filter: { year: { neq: null } }) {
 		year
 	}
-	lastCollection: allCollections(first: 1, orderBy: year_DESC) {
+	lastCollection: allCollections(first: 1, orderBy: year_DESC, filter: { year: { neq: null } }) {
 		year
 	}
 }

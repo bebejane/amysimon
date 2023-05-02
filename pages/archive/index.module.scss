@@ -306,11 +306,13 @@
 
         span:last-child {
           transition: opacity ease-in-out 1s;
-          width: 100%;
+          flex: 1 1 auto;
         }
 
         span:first-child {
           margin-right: 1em;
+          flex: 0 0;
+          white-space: pre;
           @include desktop-only();
         }
 

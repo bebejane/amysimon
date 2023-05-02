@@ -67,10 +67,12 @@
 
           .title {
             margin-right: 1em;
+            flex: 0 0;
+            white-space: pre;
           }
 
           .artworkTitle {
-            width: 100%;
+            flex: 1 1 auto;
           }
 
           @include mq($until: tablet) {
