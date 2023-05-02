@@ -64,10 +64,9 @@ export default function Archive({ collections }: Props) {
       const dYear = document.getElementById('gallery-year')
 
       dCaptionText.style.visibility = 'hidden'
-      //dCaptionText.style.opacity = '0'
 
       await Promise.all([
-        transitionImage(image, dImage, transitionDuration),
+        transitionImage(image, dImage, transitionDuration, getComputedStyle(dImage).objectFit),
         transitionElement(caption, dCaption, transitionDuration, -9),
         transitionElement(year, dYear, transitionDuration)
       ])
@@ -98,14 +97,12 @@ export default function Archive({ collections }: Props) {
       const image = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${idx + 1}) picture>img`)
 
       if (image && dImage)
-        await transitionImage(image, dImage, transitionDuration)
+        await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
       else
         await sleep(transitionDuration)
 
     }
-
     setTransitioning(false)
-
   }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -121,12 +118,12 @@ export default function Archive({ collections }: Props) {
     setIndex((s) => ({ ...s, [collection.id]: idx }))
     setCollection(collection)
   }
-  console.log(collection)
+
   return (
     <>
       <div className={cn(s.container)}>
         <ul>
-          {collections.map(({ id, title, description, year, artwork }, idx) =>
+          {collections.map(({ id, title, year, artwork }, idx) =>
             <li
               id={id}
               key={id}
@@ -175,7 +172,7 @@ export default function Archive({ collections }: Props) {
               {collection.artwork.map((artwork, i) =>
                 <figure
                   key={artwork.id}
-                  className={cn((s[artwork.layout], (i === index[collection.id] && collectionId) || isMobile) && s.show)}
+                  className={cn(((i === index[collection.id] && collectionId) || isMobile) && s.show, s[artwork.layout])}
                 >
                   <Image
                     data={artwork.image.responsiveImage}
@@ -192,6 +189,7 @@ export default function Archive({ collections }: Props) {
                   </figcaption>
                 </figure>
               )}
+
               <figure className={cn(s.description, (index[collection.id] === collection.artwork.length || isMobile) && s.show)}>
                 <span>{collection.description}</span>
               </figure>
@@ -202,7 +200,7 @@ export default function Archive({ collections }: Props) {
             }
           </>
         }
-      </div>
+      </div >
 
     </>
   );

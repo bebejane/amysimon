@@ -40,7 +40,7 @@ export default function Home({ start: { selectedArtwork }, firstCollection, last
 
 			<div ref={containerRef} className={cn(s.container, s[currentArtwork.layout])}>
 				<ul className={cn(s.artwork, show && s.show)}>
-					{selectedArtwork.map(({ id, image, title, material, width, height, layout, _allReferencingCollections: collections }, idx) =>
+					{selectedArtwork.map(({ image, layout, _allReferencingCollections: collections }, idx) =>
 						<li className={cn(index === idx && s.show)} key={idx}>
 							<figure className={s[layout]}>
 								<Image

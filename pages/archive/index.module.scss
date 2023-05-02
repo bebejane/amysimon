@@ -184,6 +184,7 @@
     height: var(--navbar-height);
     padding-left: var(--outer-margin);
     padding-right: var(--outer-margin);
+    z-index: var(--z-gallery-nav);
 
     span {
       flex: 0 0 50%;
@@ -219,11 +220,6 @@
         pointer-events: all;
       }
 
-      &.full-bleed {
-        margin-top: calc(var(--navbar-height) * -1);
-        margin-bottom: calc(var(--navbar-height) * -1);
-      }
-
       &.show {
         opacity: 1;
         pointer-events: all;
@@ -246,6 +242,7 @@
         object-fit: contain;
         height: calc(var(--body-height) - var(--navbar-height));
       }
+
 
       &.description {
         font-size: 1.4rem;
@@ -270,6 +267,8 @@
           }
         }
       }
+
+
 
       @include mq($until: tablet) {
         &.description {
@@ -324,6 +323,30 @@
             padding-top: 1.5rem;
             display: block;
             line-height: 1.45;
+          }
+        }
+      }
+
+
+      &.full-bleed {
+        @include mq($from: desktop) {
+          height: 100vh;
+          width: 100%;
+          margin-top: calc(var(--navbar-height) * -1);
+          margin-bottom: calc(var(--navbar-height) * -1);
+
+          .picture,
+          .image,
+          img[role="presentation"] {
+            object-fit: cover !important;
+            height: 100vh !important;
+            width: 100% !important;
+          }
+
+          figcaption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
           }
         }
       }

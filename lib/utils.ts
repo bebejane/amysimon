@@ -107,7 +107,7 @@ export const artworkCaption = (artwork: ArtworkRecord, withYear: boolean) => {
   return [material, location, width && height ? `${width} × ${height} cm` : undefined, year].filter(el => el).join(', ')
 }
 
-export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImageElement, dur: number = 600) => {
+export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImageElement, dur: number = 600, objectFit = 'contain') => {
 
   const bounds = image.getBoundingClientRect();
   const dBounds = dImage.getBoundingClientRect();
@@ -120,7 +120,7 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
   clone.style.left = `${bounds.left}px`;
   clone.style.width = `${bounds.width}px`;
   clone.style.height = `${bounds.height}px`;
-  clone.style.objectFit = 'contain';
+  clone.style.objectFit = objectFit;
   clone.style.objectPosition = 'center';
   clone.style.zIndex = 'var(--z-trans-image)';
   clone.style.pointerEvents = 'none';
