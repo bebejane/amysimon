@@ -329,16 +329,4 @@
     width: 100% !important;
     height: 100% !important;
   }
-
-  .pagination {
-    @include desktop-only();
-
-    position: fixed;
-    display: flex;
-    align-items: center;
-    bottom: 0;
-    right: var(--outer-margin);
-    z-index: 10000;
-    height: var(--navbar-height);
-  }
 }

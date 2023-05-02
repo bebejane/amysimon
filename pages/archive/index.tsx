@@ -198,9 +198,6 @@ export default function Archive({ collections }: Props) {
               </figure>
 
             </div>
-            <div className={s.pagination}>
-              {Math.min(collection.artwork.length, index[collection.id] + 1)}/{collection.artwork.length}
-            </div>
             {collection.artwork.length > 1 && collectionId &&
               <GalleryNav show={true} onNext={handleNext} onPrev={handlePrev} />
             }

@@ -57,10 +57,6 @@ export default function Home({ start: { selectedArtwork }, firstCollection, last
 						</li>
 					)}
 				</ul>
-
-				<div className={s.pagination}>
-					{index + 1}/{selectedArtwork.length}
-				</div>
 			</div>
 			<GalleryNav show={show} className={s.next} onNext={handleNext} onPrev={handlePrev} />
 		</>

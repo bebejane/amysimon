@@ -66,6 +66,7 @@ type ArtworkModelFilter = {
   id?: InputMaybe<ItemIdFilter>;
   image?: InputMaybe<FileFilter>;
   layout?: InputMaybe<StringFilter>;
+  location?: InputMaybe<StringFilter>;
   material?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
   width?: InputMaybe<IntegerFilter>;
@@ -94,6 +95,8 @@ enum ArtworkModelOrderBy {
   id_DESC = 'id_DESC',
   layout_ASC = 'layout_ASC',
   layout_DESC = 'layout_DESC',
+  location_ASC = 'location_ASC',
+  location_DESC = 'location_DESC',
   material_ASC = 'material_ASC',
   material_DESC = 'material_DESC',
   title_ASC = 'title_ASC',
@@ -126,6 +129,7 @@ type ArtworkRecord = RecordInterface & {
   id: Scalars['ItemId'];
   image: FileField;
   layout: Scalars['String'];
+  location?: Maybe<Scalars['String']>;
   material?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   width?: Maybe<Scalars['IntType']>;
