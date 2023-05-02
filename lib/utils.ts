@@ -102,9 +102,9 @@ export const randomInt = (min, max) => {
 }
 
 export const artworkCaption = (artwork: ArtworkRecord, withYear: boolean) => {
-  const { title, material, width, height, _allReferencingCollections } = artwork
+  const { title, material, width, height, location, _allReferencingCollections } = artwork
   const year = withYear ? _allReferencingCollections[0]?.year : undefined
-  return [title, material, width && height ? `${width} × ${height}` : undefined, year].filter(el => el).join(', ')
+  return [title, material, location, width && height ? `${width} × ${height} cm` : undefined, year].filter(el => el).join(', ')
 }
 
 export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImageElement, dur: number = 600) => {

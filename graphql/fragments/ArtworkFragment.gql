@@ -4,6 +4,7 @@ fragment ArtworkFragment on ArtworkRecord {
 	height
 	width
 	material
+	location
 	layout
 	image {
 		...ImageFragment

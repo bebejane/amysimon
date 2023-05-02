@@ -64,7 +64,7 @@ export default function Archive({ collections }: Props) {
       const dYear = document.getElementById('gallery-year')
 
       dCaptionText.style.visibility = 'hidden'
-      dCaptionText.style.opacity = '0'
+      //dCaptionText.style.opacity = '0'
 
       await Promise.all([
         transitionImage(image, dImage, transitionDuration),
