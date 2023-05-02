@@ -27,7 +27,7 @@ export default function About({ about, exhibitions, projects }: Props) {
             {exhibitions.map(({ id, title, year, location, city, country }, idx) =>
               <li key={idx} style={{ animationDelay: `${(animationDelay += 100)}ms` }}>
                 <span>{year}</span>
-                <span>{[title, location, city, country].filter(el => el).join(', ')}</span>
+                <span><em>{title}</em> {[location, city, country].filter(el => el).join(', ')}</span>
               </li>
             )}
           </ul>
