@@ -185,7 +185,7 @@ export default function Archive({ collections }: Props) {
                   />
                   <figcaption id={`caption-${i}`}>
                     <span>{collection.title}</span>
-                    <span><em>{artwork.title}</em>, {artworkCaption(artwork, isMobile)}</span>
+                    <span>{artwork.title && <em>{artwork.title},</em>} {artworkCaption(artwork, isMobile)}</span>
                   </figcaption>
                 </figure>
               )}
