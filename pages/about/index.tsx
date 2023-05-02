@@ -22,7 +22,7 @@ export default function About({ about, exhibitions, projects }: Props) {
           <Markdown>{about.bio}</Markdown>
         </li>
         <li>
-          <h2>Exhibitions</h2>
+          <h2>Selected Solo Exhibitions</h2>
           <ul>
             {exhibitions.map(({ id, title, year, location, city, country }, idx) =>
               <li key={idx} style={{ animationDelay: `${(animationDelay += 100)}ms` }}>

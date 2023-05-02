@@ -8,3 +8,10 @@ $headline-font: "Sans", Helvetica, Arial, Sans-Serif;
   font-weight: normal;
   font-style: normal;
 }
+
+@font-face {
+  font-family: "Sans";
+  src: url("../../public/fonts/IndivisibleWebVariableItalic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: italic;
+}
