@@ -21,7 +21,8 @@ export default function About({ about, exhibitions, projects }: Props) {
           <h2 className={s.bio}>Amy Simon</h2>
           <div>
             <Markdown>{about.bio}
-            </Markdown>Contact at <a href="mailto:">{about.email}</a>
+            </Markdown>
+            Contact at <a href={`mailto:${about.email}`}>{about.email}</a>
           </div>
         </li>
         <li>
