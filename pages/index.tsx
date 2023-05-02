@@ -51,7 +51,7 @@ export default function Home({ start: { selectedArtwork }, firstCollection, last
 								/>
 								<figcaption>
 									<span className={s.title}>{collections[0]?.title}</span>
-									<span>{artworkCaption(currentArtwork, true)}</span>
+									<span><em>{currentArtwork.title}</em> {artworkCaption(currentArtwork, true)}</span>
 								</figcaption>
 							</figure>
 						</li>

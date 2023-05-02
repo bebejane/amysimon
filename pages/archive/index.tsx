@@ -121,10 +121,10 @@ export default function Archive({ collections }: Props) {
     setIndex((s) => ({ ...s, [collection.id]: idx }))
     setCollection(collection)
   }
-
+  console.log(collection)
   return (
     <>
-      <div className={s.container}>
+      <div className={cn(s.container)}>
         <ul>
           {collections.map(({ id, title, description, year, artwork }, idx) =>
             <li
@@ -175,8 +175,7 @@ export default function Archive({ collections }: Props) {
               {collection.artwork.map((artwork, i) =>
                 <figure
                   key={artwork.id}
-                  className={cn(((i === index[collection.id] && collectionId) || isMobile) && s.show)}
-
+                  className={cn((s[artwork.layout], (i === index[collection.id] && collectionId) || isMobile) && s.show)}
                 >
                   <Image
                     data={artwork.image.responsiveImage}
@@ -189,7 +188,7 @@ export default function Archive({ collections }: Props) {
                   />
                   <figcaption id={`caption-${i}`}>
                     <span>{collection.title}</span>
-                    <span>{artworkCaption(artwork, isMobile)}</span>
+                    <span><em>{artwork.title}</em> {artworkCaption(artwork, isMobile)}</span>
                   </figcaption>
                 </figure>
               )}
