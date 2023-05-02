@@ -17,9 +17,12 @@ export default function About({ about, exhibitions, projects }: Props) {
   return (
     <div className={s.container}>
       <ul>
-        <li>
+        <li className={s.about}>
           <h2 className={s.bio}>Amy Simon</h2>
-          <Markdown>{about.bio}</Markdown>
+          <div>
+            <Markdown>{about.bio}
+            </Markdown>Contact at <a href="mailto:">{about.email}</a>
+          </div>
         </li>
         <li>
           <h2>Selected Solo Exhibitions</h2>
