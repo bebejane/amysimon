@@ -4,8 +4,7 @@ import { StartDocument } from '/graphql'
 import cn from 'classnames'
 import { useEffect, useState, useRef } from 'react'
 import { Image } from 'react-datocms'
-import { artworkCaption } from '/lib/utils'
-import { GalleryNav } from '/components'
+import useStore from '/lib/store'
 
 type Props = {
 	start: StartRecord
@@ -13,52 +12,21 @@ type Props = {
 	lastCollection: CollectionRecord
 }
 
-export default function Home({ start: { selectedArtwork }, firstCollection, lastCollection }: Props) {
+export default function Home({ start: { loadingImage, backgroundImage }, firstCollection, lastCollection }: Props) {
 
-	const [show, setShow] = useState(false)
-	const [fade, setFade] = useState(false)
-	const [index, setIndex] = useState(0)
+	const [showIntro, setShowIntro] = useStore((s) => [s.showIntro, s.setShowIntro])
 	const containerRef = useRef<HTMLDivElement | null>()
-	const currentArtwork = selectedArtwork[index]
-	const startYear = firstCollection.year
-	const endYear = lastCollection.year
-
-	const handlePrev = () => setIndex(index === 0 ? selectedArtwork.length - 1 : index - 1)
-	const handleNext = () => setIndex(index >= selectedArtwork.length - 1 ? 0 : index + 1)
 
 	useEffect(() => {
-		setTimeout(() => setShow(true), 1000)
+		setTimeout(() => setShowIntro(false), 2000)
 	}, [])
 
 	return (
 		<>
-			<h2 className={s.header}>
-				SELECTED<br />
-				WORK<br />
-				{startYear}—{endYear}
-			</h2>
-
-			<div ref={containerRef} className={cn(s.container, s[currentArtwork.layout])}>
-				<ul className={cn(s.artwork, show && s.show)}>
-					{selectedArtwork.map(({ image, layout, _allReferencingCollections: collections }, idx) =>
-						<li className={cn(index === idx && s.show)} key={idx}>
-							<figure className={s[layout]}>
-								<Image
-									data={image.responsiveImage}
-									className={s.image}
-									placeholderClassName={s.picture}
-									pictureClassName={s.picture}
-								/>
-								<figcaption>
-									<span className={s.title}>{collections[0]?.title}</span>
-									<span className={s.artworkTitle}>{currentArtwork.title && <><em>{currentArtwork.title},</em></>} {artworkCaption(currentArtwork, true)}</span>
-								</figcaption>
-							</figure>
-						</li>
-					)}
-				</ul>
+			<div ref={containerRef} className={cn(s.container)}>
+				<Image data={loadingImage.responsiveImage} fadeInDuration={0} className={cn(s.loading)} pictureClassName={s.picture} />
+				<Image data={backgroundImage.responsiveImage} fadeInDuration={0} className={s.background} pictureClassName={s.picture} />
 			</div>
-			<GalleryNav show={show} className={s.next} onNext={handleNext} onPrev={handlePrev} />
 		</>
 	)
 }

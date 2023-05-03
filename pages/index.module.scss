@@ -1,191 +1,40 @@
 .container {
   position: relative;
   width: 100%;
-  height: calc(var(--body-height) + 0px);
+  height: 100vh;
+  margin-top: calc(-1 * var(--navbar-height));
 
-  ul {
-    position: relative;
-    list-style: none;
-    opacity: 0;
-    min-height: 100%;
-    transition: opacity ease-in-out 700ms;
+  .loading,
+  .background {
+    height: 100vh;
+    width: 100%;
+    max-width: 100% !important;
 
-    &.show {
-      opacity: 1;
+    .picture {
+      object-fit: cover;
+      width: 100% !important;
+      height: 100% !important;
     }
+  }
 
-    li {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      flex: 0 0 100%;
-      opacity: 0;
-      transition: opacity ease-in-out 700ms;
+  .loading {
+    opacity: 1;
+    z-index: var(--z-overlay);
+    transition: opacity 0.8s ease-out;
+    animation: hide 0.8s ease-out 2s forwards;
+    pointer-events: none;
 
-      &.show {
-        opacity: 1;
-      }
-
-      @include mq($until: tablet) {
-        position: relative;
-        opacity: 1;
-        height: auto;
-        margin-bottom: 1rem;
-      }
-
-      figure {
-        position: relative;
-        min-height: var(--body-height);
-        cursor: pointer;
-
-        @include mq($until: tablet) {
-          min-height: auto;
-        }
-
-        .image {
-          padding: 0;
-          min-width: 100%;
-        }
-
-        figcaption {
-          position: absolute;
-          left: 0;
-          bottom: 0;
-          z-index: 10;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          width: 100%;
-          height: var(--navbar-height);
-          padding-left: var(--outer-margin);
-
-          .title {
-            margin-right: 1em;
-            flex: 0 0;
-            white-space: pre;
-          }
-
-          .artworkTitle {
-            flex: 1 1 auto;
-          }
-
-          @include mq($until: tablet) {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding-left: 0;
-            height: auto;
-            padding-top: 1rem;
-            padding-bottom: 2rem;
-
-            span {
-              display: block;
-              width: 100%;
-              line-height: 1.45;
-              text-align: center;
-            }
-
-            .title {
-              margin-right: 0;
-              font-variation-settings: "MONO" 0, "CASL" 0, "CRSV" 0, "wght" 600, "slnt" 0;
-            }
-          }
-        }
-
-        &.margin {
-          .image {
-            padding-left: var(--outer-margin);
-            padding-right: var(--outer-margin);
-          }
-
-          .picture {
-            object-fit: contain;
-            max-height: calc(var(--body-height) - var(--navbar-height));
-          }
-
-          @include mq($until: tablet) {
-            .image {
-              margin: 0;
-              padding-left: var(--outer-margin);
-              padding-right: var(--outer-margin);
-            }
-
-            .picture {
-              max-height: auto;
-            }
-          }
-        }
-
-        &.full-bleed {
-          margin-top: calc(-1 * var(--navbar-height));
-          margin-bottom: calc(-1 * var(--navbar-height));
-
-          span {
-            color: var(--white);
-            text-shadow: 0px 0px 5px rgb(0, 0, 0);
-          }
-
-          .image,
-          .picture {
-            max-height: 100vh;
-            object-fit: cover;
-            max-width: 100% !important;
-          }
-
-          @include mq($until: tablet) {
-            margin: 0;
-
-            span {
-              color: var(--black);
-              text-shadow: none;
-            }
-
-            .picture {
-              max-height: auto;
-            }
-          }
-        }
+    @keyframes hide {
+      to {
+        opacity: 0;
       }
     }
   }
 
-  .next {
-    margin-top: calc(-1 * var(--navbar-height));
-  }
-}
-
-.header {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  top: 0;
-  left: 0;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-  font-size: 3rem;
-  text-transform: uppercase;
-  text-align: center;
-  line-height: 1;
-  opacity: 1;
-  animation: hide 0.8s ease-in 1s forwards;
-  pointer-events: none;
-  font-variation-settings: "MONO" 0, "CASL" 1, "CRSV" 0, "wght" 400, "slnt" 0;
-
-  @keyframes hide {
-    to {
-      font-variation-settings: "MONO" 0, "CASL" 1, "CRSV" 0, "wght" 000, "slnt" 0;
-      opacity: 0;
-    }
-  }
-
-  @include mq($from: tablet) {
-    font-size: 5rem;
+  .background {
+    position: absolute !important;
+    z-index: 0;
+    top: 0;
+    left: 0;
   }
 }

@@ -12,6 +12,10 @@
   padding-left: var(--outer-margin);
   padding-right: var(--outer-margin);
 
+  &.hide {
+    opacity: 0;
+  }
+
   @include mq($until: tablet) {
     background-color: var(--white);
   }
@@ -44,11 +48,19 @@
     }
 
     &.logo {
+
       text-align: center;
       font-variation-settings: "MONO" 0, "CASL" 0, "CRSV" 0, "wght" 600, "slnt" 0;
       letter-spacing: 0.1em;
+
       img {
         height: 2.5rem;
+      }
+
+      transition: transform 0.8s ease 2s;
+
+      &.intro {
+        transform: translateY(calc(50vh - 1.75rem)) scale(1.5);
       }
     }
 
@@ -57,6 +69,7 @@
     }
 
     @include mq($until: desktop) {
+
       &:nth-child(1),
       &:nth-child(3) {
         display: none;

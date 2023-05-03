@@ -1,9 +1,13 @@
 query Start {
 	start {
-		selectedArtwork {
-			...ArtworkFragment
+		loadingImage {
+			...ImageFragment
+		}
+		backgroundImage {
+			...ImageFragment
 		}
 	}
+
 	firstCollection: allCollections(first: 1, orderBy: year_ASC, filter: { year: { neq: null } }) {
 		year
 	}

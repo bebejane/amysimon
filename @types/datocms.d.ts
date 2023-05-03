@@ -112,9 +112,6 @@ type ArtworkRecord = RecordInterface & {
   _allReferencingCollections: Array<CollectionRecord>;
   /** Returns meta information regarding a record collection */
   _allReferencingCollectionsMeta: CollectionMetadata;
-  _allReferencingStarts: Array<StartRecord>;
-  /** Returns meta information regarding a record collection */
-  _allReferencingStartsMeta: CollectionMetadata;
   _createdAt: Scalars['DateTime'];
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
@@ -152,23 +149,6 @@ type ArtworkRecord_allReferencingCollectionsArgs = {
 /** Record of type Artwork (artwork) */
 type ArtworkRecord_allReferencingCollectionsMetaArgs = {
   through?: InputMaybe<InverseRelationshipFilterBetweenCollectionAndArtwork>;
-};
-
-
-/** Record of type Artwork (artwork) */
-type ArtworkRecord_allReferencingStartsArgs = {
-  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
-  first?: InputMaybe<Scalars['IntType']>;
-  locale?: InputMaybe<SiteLocale>;
-  orderBy?: InputMaybe<Array<InputMaybe<StartModelOrderBy>>>;
-  skip?: InputMaybe<Scalars['IntType']>;
-  through?: InputMaybe<InverseRelationshipFilterBetweenStartAndArtwork>;
-};
-
-
-/** Record of type Artwork (artwork) */
-type ArtworkRecord_allReferencingStartsMetaArgs = {
-  through?: InputMaybe<InverseRelationshipFilterBetweenStartAndArtwork>;
 };
 
 
@@ -2018,26 +1998,10 @@ type InverseRelationshipFieldFilterBetweenCollectionAndArtwork = {
   notIn?: InputMaybe<Array<CollectionModelFieldsReferencingArtworkModel>>;
 };
 
-/** Specifies how to filter by linking fields */
-type InverseRelationshipFieldFilterBetweenStartAndArtwork = {
-  /** Filter linking records that reference current record in at least one of the specified fields */
-  anyIn?: InputMaybe<Array<StartModelFieldsReferencingArtworkModel>>;
-  /** Filter linking records that do not reference current record in any of the specified fields */
-  notIn?: InputMaybe<Array<StartModelFieldsReferencingArtworkModel>>;
-};
-
 /** Specifies how to filter linking records */
 type InverseRelationshipFilterBetweenCollectionAndArtwork = {
   /** Specifies how to filter by linking fields */
   fields?: InputMaybe<InverseRelationshipFieldFilterBetweenCollectionAndArtwork>;
-  /** Specifies how to filter by linking locales */
-  locales?: InputMaybe<LinkingLocalesFilter>;
-};
-
-/** Specifies how to filter linking records */
-type InverseRelationshipFilterBetweenStartAndArtwork = {
-  /** Specifies how to filter by linking fields */
-  fields?: InputMaybe<InverseRelationshipFieldFilterBetweenStartAndArtwork>;
   /** Specifies how to filter by linking locales */
   locales?: InputMaybe<LinkingLocalesFilter>;
 };
@@ -2476,32 +2440,6 @@ enum SiteLocale {
   en = 'en'
 }
 
-/** Linking fields */
-enum StartModelFieldsReferencingArtworkModel {
-  start_selectedArtwork = 'start_selectedArtwork'
-}
-
-enum StartModelOrderBy {
-  _createdAt_ASC = '_createdAt_ASC',
-  _createdAt_DESC = '_createdAt_DESC',
-  _firstPublishedAt_ASC = '_firstPublishedAt_ASC',
-  _firstPublishedAt_DESC = '_firstPublishedAt_DESC',
-  _isValid_ASC = '_isValid_ASC',
-  _isValid_DESC = '_isValid_DESC',
-  _publicationScheduledAt_ASC = '_publicationScheduledAt_ASC',
-  _publicationScheduledAt_DESC = '_publicationScheduledAt_DESC',
-  _publishedAt_ASC = '_publishedAt_ASC',
-  _publishedAt_DESC = '_publishedAt_DESC',
-  _status_ASC = '_status_ASC',
-  _status_DESC = '_status_DESC',
-  _unpublishingScheduledAt_ASC = '_unpublishingScheduledAt_ASC',
-  _unpublishingScheduledAt_DESC = '_unpublishingScheduledAt_DESC',
-  _updatedAt_ASC = '_updatedAt_ASC',
-  _updatedAt_DESC = '_updatedAt_DESC',
-  id_ASC = 'id_ASC',
-  id_DESC = 'id_DESC'
-}
-
 /** Record of type Start (start) */
 type StartRecord = RecordInterface & {
   __typename?: 'StartRecord';
@@ -2516,8 +2454,9 @@ type StartRecord = RecordInterface & {
   _status: ItemStatus;
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
   _updatedAt: Scalars['DateTime'];
+  backgroundImage?: Maybe<FileField>;
   id: Scalars['ItemId'];
-  selectedArtwork: Array<ArtworkRecord>;
+  loadingImage: FileField;
 };
 
 
@@ -3008,4 +2947,4 @@ type GlobalQuery = { __typename?: 'Query', site: { __typename?: 'Site', favicon:
 type StartQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type StartQuery = { __typename?: 'Query', start?: { __typename?: 'StartRecord', selectedArtwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, video?: { __typename?: 'VideoField', provider: string, providerUid: string, thumbnailUrl: string, title: string, url: string, width: any, height: any } | null, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> } | null, firstCollection: Array<{ __typename?: 'CollectionRecord', year?: any | null }>, lastCollection: Array<{ __typename?: 'CollectionRecord', year?: any | null }> };
+type StartQuery = { __typename?: 'Query', start?: { __typename?: 'StartRecord', loadingImage: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, backgroundImage?: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null } | null } | null, firstCollection: Array<{ __typename?: 'CollectionRecord', year?: any | null }>, lastCollection: Array<{ __typename?: 'CollectionRecord', year?: any | null }> };

@@ -14,8 +14,9 @@ export default function Menu({ }: MenuProps) {
 
 	const router = useRouter()
 	const { asPath } = router
-	const [showMenu, setShowMenu] = useStore((state) => [state.showMenu, state.setShowMenu])
+	const [showMenu, setShowMenu, showIntro, setShowIntro] = useStore((state) => [state.showMenu, state.setShowMenu, state.showIntro, state.setShowIntro])
 	const [active, setActive] = useState<string | null>(null)
+	const isShowingIntro = (asPath === '/' && showIntro)
 
 	useEffect(() => {
 		const handleRouteChange = (url) => {
@@ -29,11 +30,12 @@ export default function Menu({ }: MenuProps) {
 		return () => router.events.off('routeChangeStart', handleRouteChange)
 	}, [])
 
+
 	return (
 		<>
-			<nav className={cn(s.menu, "track")}>
+			<nav className={cn(s.menu, "track", isShowingIntro && s.hide)}>
 				<Link href="/archive" className={cn(asPath === '/archive' && s.selected)}>ARCHIVE</Link>
-				<Link href="/" className={cn(s.logo, asPath === '/' && s.selected)}><img src="/images/name.svg" /></Link>
+				<Link href="/" className={cn(s.logo, asPath === '/' && s.selected, isShowingIntro && s.intro)}><img src="/images/name.svg" /></Link>
 				<Link href="/about" className={cn(asPath === '/about' && s.selected)}>ABOUT</Link>
 				<hr />
 			</nav>
