@@ -9,6 +9,15 @@ fragment ArtworkFragment on ArtworkRecord {
 	image {
 		...ImageFragment
 	}
+	video {
+		provider
+		providerUid
+		thumbnailUrl
+		title
+		url
+		width
+		height
+	}
 	_allReferencingCollections {
 		title
 		year

@@ -69,6 +69,7 @@ type ArtworkModelFilter = {
   location?: InputMaybe<StringFilter>;
   material?: InputMaybe<StringFilter>;
   title?: InputMaybe<StringFilter>;
+  video?: InputMaybe<VideoFilter>;
   width?: InputMaybe<IntegerFilter>;
 };
 
@@ -132,6 +133,7 @@ type ArtworkRecord = RecordInterface & {
   location?: Maybe<Scalars['String']>;
   material?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
+  video?: Maybe<VideoField>;
   width?: Maybe<Scalars['IntType']>;
 };
 
@@ -2945,6 +2947,23 @@ type UploadWidthFilter = {
   neq?: InputMaybe<Scalars['IntType']>;
 };
 
+type VideoField = {
+  __typename?: 'VideoField';
+  height: Scalars['IntType'];
+  provider: Scalars['String'];
+  providerUid: Scalars['String'];
+  thumbnailUrl: Scalars['String'];
+  title: Scalars['String'];
+  url: Scalars['String'];
+  width: Scalars['IntType'];
+};
+
+/** Specifies how to filter Video fields */
+type VideoFilter = {
+  /** Filter records with the specified field defined (i.e. with any value) or not */
+  exists?: InputMaybe<Scalars['BooleanType']>;
+};
+
 enum VideoMp4Res {
   high = 'high',
   low = 'low',
@@ -2965,11 +2984,11 @@ type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'AboutRecord', 
 type AllCollectionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type AllCollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> }> };
+type AllCollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, video?: { __typename?: 'VideoField', provider: string, providerUid: string, thumbnailUrl: string, title: string, url: string, width: any, height: any } | null, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> }> };
 
-type ArtworkFragment = { __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> };
+type ArtworkFragment = { __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, video?: { __typename?: 'VideoField', provider: string, providerUid: string, thumbnailUrl: string, title: string, url: string, width: any, height: any } | null, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> };
 
-type CollectionFragment = { __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> };
+type CollectionFragment = { __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, video?: { __typename?: 'VideoField', provider: string, providerUid: string, thumbnailUrl: string, title: string, url: string, width: any, height: any } | null, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> };
 
 type ImageFragment = { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null };
 
@@ -2989,4 +3008,4 @@ type GlobalQuery = { __typename?: 'Query', site: { __typename?: 'Site', favicon:
 type StartQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type StartQuery = { __typename?: 'Query', start?: { __typename?: 'StartRecord', selectedArtwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> } | null, firstCollection: Array<{ __typename?: 'CollectionRecord', year?: any | null }>, lastCollection: Array<{ __typename?: 'CollectionRecord', year?: any | null }> };
+type StartQuery = { __typename?: 'Query', start?: { __typename?: 'StartRecord', selectedArtwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, video?: { __typename?: 'VideoField', provider: string, providerUid: string, thumbnailUrl: string, title: string, url: string, width: any, height: any } | null, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> } | null, firstCollection: Array<{ __typename?: 'CollectionRecord', year?: any | null }>, lastCollection: Array<{ __typename?: 'CollectionRecord', year?: any | null }> };

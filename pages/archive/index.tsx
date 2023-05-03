@@ -2,10 +2,12 @@ import s from "./index.module.scss";
 import cn from 'classnames'
 import withGlobalProps from "/lib/withGlobalProps";
 import { AllCollectionsDocument } from "/graphql";
-import { Image } from "react-datocms/image";
+import { Image } from "react-datocms";
 import { useState, useRef, useEffect } from "react";
-import { artworkCaption, sleep, randomInt } from "/lib/utils";
+import { artworkCaption, sleep } from "/lib/utils";
 import { GalleryNav } from "/components";
+import { BsPlayCircle } from 'react-icons/bs'
+import Youtube from 'react-youtube'
 import useDevice from "/lib/hooks/useDevice";
 
 export type Props = {
@@ -22,6 +24,7 @@ export default function Archive({ collections }: Props) {
   const [index, setIndex] = useState<{ [key: string]: number }>({});
   const [hoverCollectionId, setHoverCollectionId] = useState<string | null>(null);
   const [transitioning, setTransitioning] = useState(false);
+  const [videoPlayId, setVideoPlayId] = useState<string | null>(null)
   const { isMobile } = useDevice()
   const slidesRef = useRef<HTMLDivElement>(null);
 
@@ -155,6 +158,7 @@ export default function Archive({ collections }: Props) {
                       pictureClassName={s.picture}
                     />
                   }
+
                   <figcaption className={cn(hoverCollectionId === id && s.show)}>
                     <span>{title}</span>
                   </figcaption>
@@ -182,15 +186,30 @@ export default function Archive({ collections }: Props) {
                   key={artwork.id}
                   className={cn(((i === index[collection.id] && collectionId) || isMobile) && s.show, s[artwork.layout])}
                 >
-                  <Image
-                    data={artwork.image.responsiveImage}
-                    className={s.image}
-                    fadeInDuration={0}
-                    usePlaceholder={false}
-                    lazyLoad={false}
-                    placeholderClassName={s.picture}
-                    pictureClassName={s.picture}
-                  />
+                  {videoPlayId !== artwork.id &&
+                    <Image
+                      data={artwork.image.responsiveImage}
+                      className={s.image}
+                      fadeInDuration={0}
+                      usePlaceholder={false}
+                      lazyLoad={false}
+                      placeholderClassName={s.picture}
+                      pictureClassName={s.picture}
+                    />
+                  }
+                  {artwork.video &&
+                    <div className={s.video}>
+                      {videoPlayId === artwork.id ?
+                        <Youtube
+                          opts={{ playerVars: { autoplay: true, controls: 0, rel: 0 } }}
+                          videoId={artwork.video.providerUid}
+                          className={cn(s.player, s.show)}
+                        />
+                        :
+                        <BsPlayCircle className={s.play} onClick={() => setVideoPlayId(artwork.id)} />
+                      }
+                    </div>
+                  }
                   <figcaption id={`caption-${i}`}>
                     <span>{collection.title}</span>
                     <span>{artwork.title && <><em>{artwork.title}</em>,&nbsp;</>}{artworkCaption(artwork, isMobile)}</span>

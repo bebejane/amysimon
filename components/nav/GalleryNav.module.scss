@@ -13,25 +13,35 @@
   padding-left: var(--outer-margin);
 
   opacity: 1;
-  pointer-events: all;
+  pointer-events: none;
   height: 100%;
 
   .next,
   .prev {
+
+    position: absolute;
     display: flex;
     align-items: center;
-    cursor: pointer;
-    flex: 0 0 50%;
+    top: 0;
     height: 100%;
+    max-width: 30%;
+    width: 30%;
     opacity: 0;
     transition: opacity 0.3s ease-in-out;
+    pointer-events: all;
+    cursor: pointer;
 
     &.show {
       opacity: 1;
     }
   }
 
+  .prev {
+    left: var(--outer-margin);
+  }
+
   .next {
+    right: var(--outer-margin);
     justify-content: flex-end;
   }
 
