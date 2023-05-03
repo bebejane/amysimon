@@ -38,11 +38,13 @@ export default function Archive({ collections }: Props) {
     const slideCount = collection.description ? collection.artwork.length + 1 : collection.artwork.length
     const idx = index[collection.id] >= slideCount - 1 ? 0 : index[collection.id] + 1
     setIndex((s) => ({ ...s, [collection.id]: idx }))
+    setFullscreen(collection.artwork[idx]?.layout === 'full-bleed')
   }
   const handlePrev = () => {
     const slideCount = collection.description ? collection.artwork.length + 1 : collection.artwork.length
     const idx = index[collection.id] > 0 ? index[collection.id] - 1 : slideCount - 1
     setIndex((s) => ({ ...s, [collection.id]: idx }))
+    setFullscreen(collection.artwork[idx]?.layout === 'full-bleed')
   }
 
   const handleZoomIn = async ({ target }) => {
