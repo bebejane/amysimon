@@ -66,8 +66,6 @@
         flex: 0 0 100%;
         height: 100%;
 
-
-
         .image {
           flex: 1 1 auto;
         }
@@ -185,7 +183,7 @@
     padding-left: var(--outer-margin);
     padding-right: var(--outer-margin);
     z-index: var(--z-close-collection);
-    transition: color .3s ease-in-out;
+    transition: color 0.3s ease-in-out;
 
     &.fullscreen {
       color: var(--white);
@@ -248,7 +246,6 @@
         height: calc(var(--body-height) - var(--navbar-height));
       }
 
-
       &.description {
         font-size: 1.4rem;
         display: flex;
@@ -272,8 +269,6 @@
           }
         }
       }
-
-
 
       @include mq($until: tablet) {
         &.description {
@@ -342,10 +337,10 @@
         }
       }
 
-
       &.full-bleed {
         @include mq($from: desktop) {
           color: var(--white);
+          text-shadow: 2px 2px 4px #000000;
           height: 100vh;
           width: 100%;
           margin-top: calc(var(--navbar-height) * -1);
@@ -358,14 +353,12 @@
             height: 100vh !important;
             width: 100% !important;
             max-width: 100% !important;
-
           }
 
           figcaption {
             position: absolute;
             bottom: 0;
             left: 0;
-
           }
         }
       }
