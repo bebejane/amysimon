@@ -137,7 +137,7 @@ export default function Archive({ collections }: Props) {
                 onClick={handleZoomIn}
                 className={cn(id === collection?.id || collectionId === null ? s.active : s.inactive)}
               >
-                <header>{!sameYear ? year ?? 'Also' : ''}</header>
+                <header className="track">{!sameYear ? year ?? 'Also' : ''}</header>
                 <figure
                   className={s.wrapper}
                   data-collection-id={id}
