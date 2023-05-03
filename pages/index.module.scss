@@ -22,12 +22,12 @@
     opacity: 1;
     z-index: var(--z-overlay);
     transition: opacity 0.8s ease-out;
-    animation: hide 0.8s ease-out 3s forwards;
+    animation: hide 0.5s ease-in-out 3s forwards;
     pointer-events: none;
 
     @keyframes hide {
       to {
-        opacity: 0;
+        transform: translateX(100%);
       }
     }
   }

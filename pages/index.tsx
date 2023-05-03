@@ -19,7 +19,6 @@ export default function Home({ start: { loadingImage, backgroundImage }, firstCo
 
 	useEffect(() => {
 		setTimeout(() => setShowIntroLoading(false), 3000)
-
 	}, [])
 
 	return (
