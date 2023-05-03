@@ -14,11 +14,12 @@ type Props = {
 
 export default function Home({ start: { loadingImage, backgroundImage }, firstCollection, lastCollection }: Props) {
 
-	const [showIntro, setShowIntro] = useStore((s) => [s.showIntro, s.setShowIntro])
+	const [setShowIntroLoading, setShowIntro] = useStore((s) => [s.setShowIntroLoading, s.setShowIntro])
 	const containerRef = useRef<HTMLDivElement | null>()
 
 	useEffect(() => {
-		setTimeout(() => setShowIntro(false), 2000)
+		setTimeout(() => setShowIntroLoading(false), 2000)
+		setTimeout(() => setShowIntro(false), 4000)
 	}, [])
 
 	return (

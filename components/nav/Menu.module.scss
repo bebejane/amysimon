@@ -11,6 +11,8 @@
   height: var(--navbar-height);
   padding-left: var(--outer-margin);
   padding-right: var(--outer-margin);
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out 2s;
 
   &.hide {
     opacity: 0;
@@ -61,7 +63,7 @@
         }
       }
 
-      transition: transform 0.8s ease 2s;
+      transition: transform 0.8s ease;
 
       &.intro {
         transform: translateY(calc(50vh - 1.75rem)) scale(1.5);
