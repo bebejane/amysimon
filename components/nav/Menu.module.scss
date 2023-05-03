@@ -48,13 +48,17 @@
     }
 
     &.logo {
-
       text-align: center;
       font-variation-settings: "MONO" 0, "CASL" 0, "CRSV" 0, "wght" 600, "slnt" 0;
       letter-spacing: 0.1em;
 
       img {
-        height: 2.5rem;
+        height: 2.1rem;
+        margin-top: 0.3em;
+        @include mq($from: tablet) {
+          height: 2.5rem;
+          margin-top: 0;
+        }
       }
 
       transition: transform 0.8s ease 2s;
@@ -69,7 +73,6 @@
     }
 
     @include mq($until: desktop) {
-
       &:nth-child(1),
       &:nth-child(3) {
         display: none;
@@ -91,7 +94,7 @@
   z-index: var(--z-menu-mobile);
   background-color: rgba(255, 255, 255, 0.9);
   pointer-events: none;
-  font-size: 2.5rem;
+  font-size: 2.1rem;
   transition: opacity 0.2s ease-in-out;
   line-height: 2;
   opacity: 0;
