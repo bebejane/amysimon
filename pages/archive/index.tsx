@@ -200,7 +200,7 @@ export default function Archive({ collections }: Props) {
                     <div className={s.video}>
                       {videoPlayId === artwork.id ?
                         <div className={s.wrapper}>
-                          <div className={s.close} onClick={() => setVideoPlayId(null)}>Close</div>
+                          <div className={s.close} onClick={() => setVideoPlayId(null)}>Back</div>
                           <Youtube
                             opts={{ playerVars: { autoplay: true, controls: 0, rel: 0, muted: true } }}
                             videoId={artwork.video.providerUid}
