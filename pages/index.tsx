@@ -18,8 +18,8 @@ export default function Home({ start: { loadingImage, backgroundImage }, firstCo
 	const containerRef = useRef<HTMLDivElement | null>()
 
 	useEffect(() => {
-		setTimeout(() => setShowIntroLoading(false), 2000)
-		setTimeout(() => setShowIntro(false), 4000)
+		setTimeout(() => setShowIntroLoading(false), 3000)
+
 	}, [])
 
 	return (

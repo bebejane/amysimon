@@ -14,7 +14,7 @@ export default function Menu({ }: MenuProps) {
 
 	const router = useRouter()
 	const { asPath } = router
-	const [showMenu, setShowMenu, showIntroLoading, showIntro] = useStore((state) => [state.showMenu, state.setShowMenu, state.showIntroLoading, state.showIntro])
+	const [showMenu, setShowMenu, showIntroLoading, showIntro, setShowIntro] = useStore((state) => [state.showMenu, state.setShowMenu, state.showIntroLoading, state.showIntro, state.setShowIntro])
 	const [active, setActive] = useState<string | null>(null)
 	const introLoading = (asPath === '/' && showIntroLoading)
 
@@ -35,13 +35,12 @@ export default function Menu({ }: MenuProps) {
 	return (
 		<>
 			<nav className={cn(s.menu, "track")}>
-				<Link href="/archive" className={cn(asPath === '/archive' && s.selected)}>ARCHIVE</Link>
+				<Link href="/archive" className={cn(asPath === '/archive' && s.selected)} onClick={() => setShowIntro(false)}>ARCHIVE</Link>
 				<Link href="/" className={cn(s.logo, asPath === '/' && s.selected, showIntro && s.intro)}><img src="/images/name.svg" /></Link>
-				<Link href="/about" className={cn(asPath === '/about' && s.selected)}>ABOUT</Link>
+				<Link href="/about" className={cn(asPath === '/about' && s.selected)} onClick={() => setShowIntro(false)}>ABOUT</Link>
 				<hr />
 			</nav>
 			<nav className={cn(s.mobile, showMenu && s.show)}>
-				<Link href="/" className={cn(asPath === '/' && s.selected, active !== null ? active === '/' ? s.active : s.inactive : null)}>Selected Work</Link>
 				<Link href="/archive" className={cn(asPath === '/archive' && s.selected, active !== null ? active === '/archive' ? s.active : s.inactive : null)}>Archive</Link>
 				<Link href="/about" className={cn(asPath === '/about' && s.selected, active !== null ? active === '/about' ? s.active : s.inactive : null)}>About</Link>
 			</nav>
