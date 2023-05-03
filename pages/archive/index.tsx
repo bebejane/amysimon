@@ -169,7 +169,7 @@ export default function Archive({ collections }: Props) {
         {collection &&
           <>
             <header className={cn(s.desktop, fullscreen && s.fullscreen)}>
-              <span id="gallery-year" className={s.year}>{collection.year ?? 'Also'}</span>
+              <span id="gallery-year" className={cn(s.year, "track")}>{collection.year ?? 'Also'}</span>
               <span className={s.close} onClick={handleZoomOut}>Close</span>
             </header>
             <header className={s.mobile}>
