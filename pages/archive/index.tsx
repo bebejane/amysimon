@@ -123,37 +123,40 @@ export default function Archive({ collections }: Props) {
     <>
       <div className={cn(s.container)}>
         <ul>
-          {collections.map(({ id, title, year, artwork }, idx) =>
-            <li
-              id={id}
-              key={id}
-              onClick={handleZoomIn}
-              className={cn(id === collection?.id || collectionId === null ? s.active : s.inactive)}
-            >
-              <header>{year}</header>
-              <figure
-                className={s.wrapper}
-                data-collection-id={id}
-                onMouseMove={handleMouseMove}
-                onMouseEnter={() => setHoverCollectionId(id)}
-                onMouseLeave={() => setHoverCollectionId(null)}
-                style={{ animationDelay: `${(idx * 250)}ms` }}
+          {collections.map(({ id, title, year, artwork }, idx) => {
+            const sameYear = collections[idx - 1]?.year === year
+            return (
+              <li
+                id={id}
+                key={id}
+                onClick={handleZoomIn}
+                className={cn(id === collection?.id || collectionId === null ? s.active : s.inactive)}
               >
-                {artwork[index[id]]?.image &&
-                  <Image
-                    data={artwork[index[id]].image.responsiveImage}
-                    className={s.image}
-                    fadeInDuration={100}
-                    placeholderClassName={s.placeholder}
-                    pictureClassName={s.picture}
-                  />
-                }
-                <figcaption className={cn(hoverCollectionId === id && s.show)}>
-                  <span>{title}</span>
-                </figcaption>
-              </figure>
-            </li>
-          )}
+                <header>{!sameYear ? year ?? 'Other' : ''}</header>
+                <figure
+                  className={s.wrapper}
+                  data-collection-id={id}
+                  onMouseMove={handleMouseMove}
+                  onMouseEnter={() => setHoverCollectionId(id)}
+                  onMouseLeave={() => setHoverCollectionId(null)}
+                  style={{ animationDelay: `${(idx * 250)}ms` }}
+                >
+                  {artwork[index[id]]?.image &&
+                    <Image
+                      data={artwork[index[id]].image.responsiveImage}
+                      className={s.image}
+                      fadeInDuration={100}
+                      placeholderClassName={s.placeholder}
+                      pictureClassName={s.picture}
+                    />
+                  }
+                  <figcaption className={cn(hoverCollectionId === id && s.show)}>
+                    <span>{title}</span>
+                  </figcaption>
+                </figure>
+              </li>
+            )
+          })}
         </ul>
       </div>
 
@@ -161,7 +164,7 @@ export default function Archive({ collections }: Props) {
         {collection &&
           <>
             <header className={s.desktop}>
-              <span id="gallery-year" className={s.year}>{collection.year}</span>
+              <span id="gallery-year" className={s.year}>{collection.year ?? 'Other'}</span>
               <span className={s.close} onClick={handleZoomOut}>Close</span>
             </header>
             <header className={s.mobile}>
@@ -211,6 +214,7 @@ export const getStaticProps = withGlobalProps({ queries: [AllCollectionsDocument
   return {
     props: {
       ...props,
+      collections: props.collections.sort((a, b) => !a.year ? -1 : a.year > b.year ? -1 : 1),
       page: {
         title: 'Archive'
       }

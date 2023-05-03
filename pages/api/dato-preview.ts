@@ -18,6 +18,9 @@ const generatePreviewUrl = async ({ itemType }) => {
     case 'artwork':
       path = `/archive`;
       break;
+    case 'collection':
+      path = `/archive`;
+      break;
     case 'start':
       path = `/`;
       break;
