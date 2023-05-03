@@ -20,6 +20,14 @@
 
   @include mq($until: tablet) {
     background-color: var(--white);
+
+    &.home {
+      background-color: transparent;
+
+      hr {
+        display: none
+      }
+    }
   }
 
   hr {
@@ -57,6 +65,7 @@
       img {
         height: 2.1rem;
         margin-top: 0.3em;
+
         @include mq($from: tablet) {
           height: 2.5rem;
           margin-top: 0;
@@ -75,6 +84,7 @@
     }
 
     @include mq($until: desktop) {
+
       &:nth-child(1),
       &:nth-child(3) {
         display: none;
