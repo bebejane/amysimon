@@ -186,25 +186,27 @@ export default function Archive({ collections }: Props) {
                   key={artwork.id}
                   className={cn(((i === index[collection.id] && collectionId) || isMobile) && s.show, s[artwork.layout])}
                 >
-                  {videoPlayId !== artwork.id &&
-                    <Image
-                      data={artwork.image.responsiveImage}
-                      className={s.image}
-                      fadeInDuration={0}
-                      usePlaceholder={false}
-                      lazyLoad={false}
-                      placeholderClassName={s.picture}
-                      pictureClassName={s.picture}
-                    />
-                  }
+                  <Image
+                    data={artwork.image.responsiveImage}
+                    className={cn(s.image, videoPlayId === artwork.id && s.hide)}
+                    fadeInDuration={0}
+                    usePlaceholder={false}
+                    lazyLoad={false}
+                    placeholderClassName={s.picture}
+                    pictureClassName={s.picture}
+                  />
+
                   {artwork.video &&
                     <div className={s.video}>
                       {videoPlayId === artwork.id ?
-                        <Youtube
-                          opts={{ playerVars: { autoplay: true, controls: 0, rel: 0 } }}
-                          videoId={artwork.video.providerUid}
-                          className={cn(s.player, s.show)}
-                        />
+                        <div className={s.wrapper}>
+                          <div className={s.close} onClick={() => setVideoPlayId(null)}>Close</div>
+                          <Youtube
+                            opts={{ playerVars: { autoplay: true, controls: 0, rel: 0, muted: true } }}
+                            videoId={artwork.video.providerUid}
+                            className={cn(s.player, s.show)}
+                          />
+                        </div>
                         :
                         <BsPlayCircle className={s.play} onClick={() => setVideoPlayId(artwork.id)} />
                       }
