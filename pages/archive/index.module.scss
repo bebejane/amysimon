@@ -185,6 +185,11 @@
     padding-left: var(--outer-margin);
     padding-right: var(--outer-margin);
     z-index: var(--z-close-collection);
+    transition: color .3s ease-in-out;
+
+    &.fullscreen {
+      color: var(--white);
+    }
 
     span {
       flex: 0 0 50%;
@@ -340,6 +345,7 @@
 
       &.full-bleed {
         @include mq($from: desktop) {
+          color: var(--white);
           height: 100vh;
           width: 100%;
           margin-top: calc(var(--navbar-height) * -1);
@@ -359,6 +365,7 @@
             position: absolute;
             bottom: 0;
             left: 0;
+
           }
         }
       }
