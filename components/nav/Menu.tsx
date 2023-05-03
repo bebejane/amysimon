@@ -33,7 +33,7 @@ export default function Menu({ }: MenuProps) {
 		<>
 			<nav className={cn(s.menu)}>
 				<Link href="/archive" className={cn(asPath === '/archive' && s.selected)}>ARCHIVE</Link>
-				<Link href="/" className={cn(s.logo, asPath === '/' && s.selected)}><img src="/public/image/name.svg"></Link>
+				<Link href="/" className={cn(s.logo, asPath === '/' && s.selected)}><img src="/images/name.svg" /></Link>
 				<Link href="/about" className={cn(asPath === '/about' && s.selected)}>ABOUT</Link>
 				<hr />
 			</nav>
