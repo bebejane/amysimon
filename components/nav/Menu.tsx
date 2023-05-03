@@ -16,7 +16,7 @@ export default function Menu({ }: MenuProps) {
 	const { asPath } = router
 	const [showMenu, setShowMenu, showIntroLoading, showIntro, setShowIntro] = useStore((state) => [state.showMenu, state.setShowMenu, state.showIntroLoading, state.showIntro, state.setShowIntro])
 	const [active, setActive] = useState<string | null>(null)
-	const isHome = asPath === '/'
+	const [isHome, setIsHome] = useState(router.pathname === '/')
 	const introLoading = (isHome && showIntroLoading)
 
 	useEffect(() => {
@@ -30,6 +30,10 @@ export default function Menu({ }: MenuProps) {
 		router.events.on('routeChangeStart', handleRouteChange)
 		return () => router.events.off('routeChangeStart', handleRouteChange)
 	}, [])
+
+	useEffect(() => {
+		setIsHome(asPath === '/')
+	}, [asPath])
 
 	if (introLoading) return null
 
