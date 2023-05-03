@@ -316,6 +316,10 @@
           font-size: 4rem;
           right: 0;
           z-index: var(--z-play);
+
+          @include mq($until: tablet) {
+            bottom: calc(4rem);
+          }
         }
       }
 

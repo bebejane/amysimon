@@ -129,6 +129,10 @@ export default function Archive({ collections }: Props) {
     setCollection(collection)
   }
 
+  useEffect(() => {
+    document.getElementById(`video-${videoPlayId}`)?.scrollIntoView({ behavior: 'smooth' })
+  }, [videoPlayId])
+
   return (
     <>
       <div className={cn(s.container)}>
@@ -199,9 +203,9 @@ export default function Archive({ collections }: Props) {
                   />
 
                   {artwork.video &&
-                    <div className={s.video}>
+                    <div className={s.video} >
                       {videoPlayId === artwork.id ?
-                        <div className={s.wrapper}>
+                        <div className={s.wrapper} id={`video-${artwork.id}`}>
                           <div className={s.close} onClick={() => setVideoPlayId(null)}>Back</div>
                           <Youtube
                             opts={{ playerVars: { autoplay: true, controls: 0, rel: 0 } }}
