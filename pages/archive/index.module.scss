@@ -296,6 +296,7 @@
       }
 
       figcaption {
+        position: relative;
         display: flex;
         flex-direction: row;
         width: 100%;
@@ -304,14 +305,21 @@
         padding-left: var(--outer-margin);
         height: var(--navbar-height);
 
-        span:last-child {
-          transition: opacity ease-in-out 1s;
+        span:first-child {
           flex: 1 1 auto;
         }
 
-        span:first-child {
+        span:last-child {
+          position: absolute;
+          display: flex;
+          top: 0;
+          left: 0;
+          height: 100%;
+          align-items: center;
+          justify-content: center;
+
           margin-right: 1em;
-          flex: 0 0;
+          width: 100%;
           white-space: pre;
           @include desktop-only();
         }
