@@ -16,7 +16,7 @@ export default function Menu({ }: MenuProps) {
 	const { asPath } = router
 	const [showMenu, setShowMenu, showIntroLoading, showIntro, setShowIntro] = useStore((state) => [state.showMenu, state.setShowMenu, state.showIntroLoading, state.showIntro, state.setShowIntro])
 	const [active, setActive] = useState<string | null>(null)
-	const isHome = asPath === '/'
+	const [isHome, setIsHome] = useState(router.pathname === '/')
 	const introLoading = (isHome && showIntroLoading)
 
 	useEffect(() => {
@@ -31,13 +31,17 @@ export default function Menu({ }: MenuProps) {
 		return () => router.events.off('routeChangeStart', handleRouteChange)
 	}, [])
 
+	useEffect(() => {
+		setIsHome(asPath === '/')
+	}, [asPath])
+
 	if (introLoading) return null
 
 	return (
 		<>
 			<nav className={cn(s.menu, "track", isHome && s.home)}>
 				<Link href="/archive" className={cn(asPath === '/archive' && s.selected)} onClick={() => setShowIntro(false)}>ARCHIVE</Link>
-				<Link href="/" className={cn(s.logo, asPath === '/' && s.selected, (showIntro && asPath === '/') && s.intro)}><img src="/images/name.svg" /></Link>
+				<Link href="/" className={cn(s.logo, isHome && s.selected, (showIntro && isHome) && s.intro)}><img src="/images/name.svg" /></Link>
 				<Link href="/about" className={cn(asPath === '/about' && s.selected)} onClick={() => setShowIntro(false)}>ABOUT</Link>
 				<hr />
 			</nav>

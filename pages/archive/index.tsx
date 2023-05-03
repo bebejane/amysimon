@@ -183,7 +183,7 @@ export default function Archive({ collections }: Props) {
               <span className={s.close} onClick={handleZoomOut}>Close</span>
             </header>
             <header className={s.mobile}>
-              <span className={s.title}>{collection.title}, {collection.year}</span>
+              <span className={s.title}>{collection.title}{collection.year && <>, {collection.year}</>}</span>
               <span className={s.back} onClick={handleZoomOut}>Back</span>
             </header>
             <div className={s.slides} ref={slidesRef}>
