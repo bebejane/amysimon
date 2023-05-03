@@ -284,7 +284,6 @@
             text-align: right;
             color: var(--white);
             padding-right: var(--outer-margin);
-
           }
 
           .player {
@@ -316,9 +315,22 @@
           font-size: 4rem;
           right: 0;
           z-index: var(--z-play);
+        }
 
-          @include mq($until: tablet) {
-            bottom: calc(4rem);
+        @include mq($until: tablet) {
+          height: 100%;
+
+          .wrapper {
+            margin-top: 0;
+
+            .player,
+            iframe {
+              height: auto;
+            }
+          }
+
+          .play {
+            bottom: calc(2.5rem + var(--space))
           }
         }
       }
