@@ -25,7 +25,7 @@
       background-color: transparent;
 
       hr {
-        display: none
+        display: none;
       }
     }
   }
@@ -75,7 +75,10 @@
       transition: transform 0.8s ease;
 
       &.intro {
-        transform: translateY(calc(50vh - 1.75rem)) scale(2);
+        transform: translateY(calc(45vh - 1.75rem)) scale(1.8);
+        @include mq($from: tablet) {
+          transform: translateY(calc(48vh - 1.75rem)) scale(2);
+        }
       }
     }
 
@@ -84,7 +87,6 @@
     }
 
     @include mq($until: desktop) {
-
       &:nth-child(1),
       &:nth-child(3) {
         display: none;

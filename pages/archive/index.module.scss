@@ -73,7 +73,7 @@
 
         .image {
           flex: 1 1 auto;
-
+          max-width: none !important;
         }
 
         .picture,
@@ -244,6 +244,7 @@
 
       .image {
         height: calc(var(--body-height) - var(--navbar-height));
+        max-width: none !important;
       }
 
       .picture,
@@ -297,7 +298,6 @@
               height: calc(var(--body-height) - var(--navbar-height));
             }
           }
-
         }
 
         .play {
@@ -330,7 +330,7 @@
           }
 
           .play {
-            bottom: calc(2.5rem + var(--space))
+            bottom: calc(2.5rem + var(--space));
           }
         }
       }
@@ -381,6 +381,7 @@
         .image {
           padding-left: var(--outer-margin);
           padding-right: var(--outer-margin);
+          max-width: none !important;
         }
       }
 
