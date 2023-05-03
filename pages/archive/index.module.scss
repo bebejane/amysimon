@@ -275,6 +275,7 @@
           background-color: var(--black);
           margin-top: calc(-1 * var(--navbar-height));
           z-index: var(--z-overlay);
+          background-color: #000000;
 
           .close {
             display: flex;
@@ -284,11 +285,11 @@
             text-align: right;
             color: var(--white);
             padding-right: var(--outer-margin);
-            background-color: var(--black);
+
           }
 
           .player {
-            background-color: var(--black);
+            background-color: #000000;
             height: calc(var(--body-height) - var(--navbar-height));
 
             iframe {
