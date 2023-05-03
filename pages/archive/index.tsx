@@ -7,6 +7,7 @@ import { useState, useRef, useEffect } from "react";
 import { artworkCaption, sleep } from "/lib/utils";
 import { GalleryNav } from "/components";
 import { BsPlayCircle } from 'react-icons/bs'
+import { useKeys } from 'rooks'
 import Youtube from 'react-youtube'
 import useDevice from "/lib/hooks/useDevice";
 
@@ -35,12 +36,16 @@ export default function Archive({ collections }: Props) {
   }, [])
 
   const handleNext = () => {
+
+    if (!collection) return
+
     const slideCount = collection.description ? collection.artwork.length + 1 : collection.artwork.length
     const idx = index[collection.id] >= slideCount - 1 ? 0 : index[collection.id] + 1
     setIndex((s) => ({ ...s, [collection.id]: idx }))
     setFullscreen(collection.artwork[idx]?.layout === 'full-bleed')
   }
   const handlePrev = () => {
+    if (!collection) return
     const slideCount = collection.description ? collection.artwork.length + 1 : collection.artwork.length
     const idx = index[collection.id] > 0 ? index[collection.id] - 1 : slideCount - 1
     setIndex((s) => ({ ...s, [collection.id]: idx }))
@@ -132,6 +137,17 @@ export default function Archive({ collections }: Props) {
   useEffect(() => {
     document.getElementById(`video-${videoPlayId}`)?.scrollIntoView({ behavior: 'smooth' })
   }, [videoPlayId])
+
+  useEffect(() => { // keyboard navigation
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') handlePrev()
+      if (e.key === 'ArrowRight') handleNext()
+      if (e.key === 'Escape') handleZoomOut()
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+
+  }, [collectionId, collection, index])
 
   return (
     <>

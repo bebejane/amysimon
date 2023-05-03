@@ -1,6 +1,6 @@
 import s from './GalleryNav.module.scss'
 import cn from 'classnames'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 type GalleryNavProps = {
   show: boolean
@@ -13,6 +13,7 @@ export default function GalleryNav({ show: showFromProps = true, className, onPr
 
   const [show, setShow] = useState<'prev' | 'next' | null>(null)
   const timeoutRef = useRef<NodeJS.Timer | null>()
+
 
   const handleMouseMove = ({ }: React.MouseEvent) => {
     clearTimeout(timeoutRef.current)
