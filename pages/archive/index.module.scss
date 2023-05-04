@@ -119,9 +119,28 @@
   }
 }
 
+.galleryBackground {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-gallery-background);
+  opacity: 0;
+  background-color: var(--white);
+  transition: opacity ease-in-out 400ms;
+  pointer-events: none;
+
+  &.visible {
+    opacity: 1;
+  }
+
+}
+
 .gallery {
   position: fixed;
-  background-color: transparent;
+  background-color: var(--white);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -131,7 +150,8 @@
   width: 100%;
   max-height: 100vh;
   height: 100vh;
-  transition: background-color ease-in-out 400ms;
+  opacity: 0;
+  transition: opacity ease-in-out 400ms;
   pointer-events: none;
 
   @include mq($until: tablet) {
@@ -145,7 +165,7 @@
   }
 
   &.visible {
-    background-color: var(--white);
+    opacity: 1;
     pointer-events: all;
   }
 

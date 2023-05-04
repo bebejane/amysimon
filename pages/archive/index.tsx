@@ -11,7 +11,7 @@ import { BsPlayCircle } from 'react-icons/bs'
 import Youtube from 'react-youtube'
 import useDevice from "/lib/hooks/useDevice";
 
-type ArtworkWithThumbnailRecord = ArtworkRecord & {
+export type ArtworkWithThumbnailRecord = ArtworkRecord & {
   thumbnail: ImageFileField
 }
 
@@ -119,22 +119,20 @@ export default function Archive({ collections }: Props) {
 
     setIndex((s) => ({ ...s, [collection.id]: idx }))
     setTransitioning(true)
+    setCollectionId(null)
 
     if (!isMobile) {
 
       const dImage = document.getElementById(collectionId).querySelector<HTMLImageElement>('picture>img')
       const image = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${idx + 1}) picture>img`)
 
-      gallery.classList.add(s.transitioning)
-
-      //await sleep(3000)
       if (image && dImage)
         await transitionImage(image, dImage, transitionDuration / 1.5, getComputedStyle(image).objectFit)
       else
         await sleep(transitionDuration)
     }
 
-    setCollectionId(null)
+
     setCollection(null)
     setFullscreen(false)
 
@@ -171,6 +169,7 @@ export default function Archive({ collections }: Props) {
 
   }, [collectionId, collection, index])
 
+
   return (
     <>
       <div className={cn(s.container)}>
@@ -205,16 +204,17 @@ export default function Archive({ collections }: Props) {
                     />
                   }
 
-                  {artwork.map(({ thumbnail }, idx) =>
-                    <Image
-                      data={thumbnail.responsiveImage}
-                      className={cn(s.image, s.preload)}
-                      fadeInDuration={0}
-                      lazyLoad={false}
-                      placeholderClassName={s.placeholder}
-                      pictureClassName={s.picture}
-                    />
-                  )}
+                  {//@ts-ignore
+                    artwork.map(({ thumbnail }, idx) =>
+                      <Image
+                        data={thumbnail.responsiveImage}
+                        className={cn(s.image, s.preload)}
+                        fadeInDuration={0}
+                        lazyLoad={false}
+                        placeholderClassName={s.placeholder}
+                        pictureClassName={s.picture}
+                      />
+                    )}
 
                   <figcaption className={cn(hoverCollectionId === id && s.show)}>
                     <span>{title}</span>
@@ -227,67 +227,71 @@ export default function Archive({ collections }: Props) {
         </ul>
       </div>
       {collection &&
-        <div id="gallery" className={cn(s.gallery, collectionId && s.visible)}>
-          {collectionId &&
+        <>
+          <div className={cn(s.galleryBackground, collectionId && s.visible)}></div>
+          <div id="gallery" className={cn(s.gallery, collectionId && s.visible)}>
+
             <header className={cn(s.desktop, fullscreen && s.fullscreen)}>
               <span id="gallery-year" className={cn(s.year, "track")}>{collection.year ?? 'Also'}</span>
               <span className={s.close} onClick={handleZoomOut}>Close</span>
             </header>
-          }
-          <header className={s.mobile}>
-            <span className={s.title}>{collection.title}{collection.year && <>, {collection.year}</>}</span>
-            <span className={s.back} onClick={handleZoomOut}>Back</span>
-          </header>
-          <div className={s.slides} ref={slidesRef}>
-            {collection.artwork.map((artwork, i) =>
-              <figure
-                key={artwork.id}
-                className={cn(((i === index[collection.id] && collectionId) || isMobile) && s.show, s[artwork.layout])}
-              >
-                {artwork.image.responsiveImage &&
-                  <Image
-                    data={artwork.image.responsiveImage}
-                    className={cn(s.image, videoPlayId === artwork.id && s.hide)}
-                    fadeInDuration={0}
-                    usePlaceholder={true}
-                    lazyLoad={false}
-                    placeholderClassName={s.picture}
-                    pictureClassName={s.picture}
-                  />
-                }
-                {artwork.video &&
-                  <div className={s.video} >
-                    {videoPlayId === artwork.id ?
-                      <div className={s.wrapper} id={`video-${artwork.id}`}>
-                        <div className={s.close} onClick={() => setVideoPlayId(null)}>Back</div>
-                        <Youtube
-                          opts={{ playerVars: { autoplay: true, controls: 0, rel: 0 } }}
-                          videoId={artwork.video.providerUid}
-                          className={cn(s.player, s.show)}
-                        />
-                      </div>
-                      :
-                      <BsPlayCircle className={s.play} onClick={() => setVideoPlayId(artwork.id)} />
-                    }
-                  </div>
-                }
-                <figcaption id={`caption-${i}`}>
-                  <span>{collection.title}</span>
-                  <span>{artwork.title && <em>{artwork.title}</em>}{artworkCaption(artwork, isMobile) && <>,&nbsp;</>}{artworkCaption(artwork, isMobile)}</span>
-                </figcaption>
+
+            <header className={s.mobile}>
+              <span className={s.title}>{collection.title}{collection.year && <>, {collection.year}</>}</span>
+              <span className={s.back} onClick={handleZoomOut}>Back</span>
+            </header>
+
+            <div className={s.slides} ref={slidesRef}>
+              {collection.artwork.map((artwork, i) =>
+                <figure
+                  key={artwork.id}
+                  className={cn(((i === index[collection.id] && collectionId) || isMobile) && s.show, s[artwork.layout])}
+                >
+                  {artwork.image.responsiveImage &&
+                    <Image
+                      data={artwork.image.responsiveImage}
+                      className={cn(s.image, videoPlayId === artwork.id && s.hide)}
+                      fadeInDuration={0}
+                      usePlaceholder={true}
+                      lazyLoad={false}
+                      placeholderClassName={s.picture}
+                      pictureClassName={s.picture}
+                    />
+                  }
+                  {artwork.video &&
+                    <div className={s.video} >
+                      {videoPlayId === artwork.id ?
+                        <div className={s.wrapper} id={`video-${artwork.id}`}>
+                          <div className={s.close} onClick={() => setVideoPlayId(null)}>Back</div>
+                          <Youtube
+                            opts={{ playerVars: { autoplay: true, controls: 0, rel: 0 } }}
+                            videoId={artwork.video.providerUid}
+                            className={cn(s.player, s.show)}
+                          />
+                        </div>
+                        :
+                        <BsPlayCircle className={s.play} onClick={() => setVideoPlayId(artwork.id)} />
+                      }
+                    </div>
+                  }
+                  <figcaption id={`caption-${i}`}>
+                    <span>{collection.title}</span>
+                    <span>{artwork.title && <em>{artwork.title}</em>}{artworkCaption(artwork, isMobile) && <>,&nbsp;</>}{artworkCaption(artwork, isMobile)}</span>
+                  </figcaption>
+                </figure>
+              )}
+
+              <figure className={cn(s.description, (index[collection.id] === collection.artwork.length || isMobile) && s.show)}>
+                <span>{collection.description}</span>
               </figure>
-            )}
 
-            <figure className={cn(s.description, (index[collection.id] === collection.artwork.length || isMobile) && s.show)}>
-              <span>{collection.description}</span>
-            </figure>
+            </div>
+            {collection.artwork.length > 1 && collectionId && !transitioning &&
+              <GalleryNav show={true} onNext={handleNext} onPrev={handlePrev} />
+            }
 
-          </div>
-          {collection.artwork.length > 1 && collectionId && !transitioning &&
-            <GalleryNav show={true} onNext={handleNext} onPrev={handlePrev} />
-          }
-
-        </div >
+          </div >
+        </>
       }
 
     </>
