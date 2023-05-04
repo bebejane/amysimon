@@ -72,12 +72,20 @@
         }
       }
 
-      transition: transform 0.8s ease;
+      transition: transform 0.8s ease,
+      opacity 0.3s ease-in-out;
 
       &.intro {
         transform: translateY(calc(45vh - 1.75rem)) scale(1.8);
+
         @include mq($from: tablet) {
           transform: translateY(calc(40vh - 1.75rem)) scale(2.5);
+        }
+      }
+
+      @include mq($from: desktop) {
+        &.hide {
+          opacity: 0;
         }
       }
     }
@@ -87,6 +95,7 @@
     }
 
     @include mq($until: desktop) {
+
       &:nth-child(1),
       &:nth-child(3) {
         display: none;
