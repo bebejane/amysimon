@@ -7,11 +7,16 @@ import { useState, useRef, useEffect } from "react";
 import { artworkCaption, sleep } from "/lib/utils";
 import { GalleryNav } from "/components";
 import { BsPlayCircle } from 'react-icons/bs'
+
 import Youtube from 'react-youtube'
 import useDevice from "/lib/hooks/useDevice";
 
+type ArtworkWithThumbnailRecord = ArtworkRecord & {
+  thumbnail: ImageFileField
+}
+
 export type Props = {
-  collections: CollectionRecord[]
+  collections: (CollectionRecord & { artwork: ArtworkWithThumbnailRecord[] })[]
 }
 
 const transitionDuration = 700;
@@ -38,12 +43,22 @@ export default function Archive({ collections }: Props) {
 
     if (!collection) return
 
-    const slideCount = collection.description ? collection.artwork.length + 1 : collection.artwork.length
+    const slideNumber = index[`${collection.id}-count`] ?? 0
+    const atDescription = collection.description && slideNumber >= collection.artwork.length - 1
+    const slideCount = collection.description ? collection.artwork.length + (atDescription ? 1 : 0) : collection.artwork.length
     const idx = index[collection.id] >= slideCount - 1 ? 0 : index[collection.id] + 1
-    setIndex((s) => ({ ...s, [collection.id]: idx }))
+
+    setIndex((s) => ({
+      ...s,
+      [collection.id]: idx,
+      [`${collection.id}-count`]: s[`${collection.id}-count`] ? s[`${collection.id}-count`] + 1 : 1
+    }))
+
     setFullscreen(collection.artwork[idx]?.layout === 'full-bleed')
   }
+
   const handlePrev = () => {
+
     if (!collection) return
     const slideCount = collection.description ? collection.artwork.length + 1 : collection.artwork.length
     const idx = index[collection.id] > 0 ? index[collection.id] - 1 : slideCount - 1
@@ -56,6 +71,7 @@ export default function Archive({ collections }: Props) {
     const id = target.closest('li').id;
     const collection = collections.find(el => el.id === id)
 
+    setIndex((s) => ({ ...s, [`${collection.id}-count`]: 0 }))
     setCollection(collection)
     setCollectionId(id)
     setTransitioning(true)
@@ -88,7 +104,6 @@ export default function Archive({ collections }: Props) {
         dCaptionText.style.visibility = 'visible'
         dCaptionText.style.opacity = '1'
       }, 200)
-
     }
 
     setTransitioning(false)
@@ -98,25 +113,31 @@ export default function Archive({ collections }: Props) {
     if (!collectionId) return
 
     const idx = index[collection.id] >= collection.artwork.length ? 0 : index[collection.id]
+    const gallery = document.getElementById('gallery')
 
     setIndex((s) => ({ ...s, [collection.id]: idx }))
     setTransitioning(true)
-    setCollectionId(null)
-    setCollection(null)
-    setFullscreen(false)
 
     if (!isMobile) {
 
       const dImage = document.getElementById(collectionId).querySelector<HTMLImageElement>('picture>img')
       const image = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${idx + 1}) picture>img`)
 
+      gallery.classList.add(s.transitioning)
+
+      //await sleep(3000)
       if (image && dImage)
         await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
       else
         await sleep(transitionDuration)
-
     }
+
+    setCollectionId(null)
+    setCollection(null)
+    setFullscreen(false)
+
     setTransitioning(false)
+    gallery.classList.remove(s.transitioning)
   }
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -179,10 +200,21 @@ export default function Archive({ collections }: Props) {
                       pictureClassName={s.picture}
                     />
                   }
+                  {artwork.map(({ thumbnail }, idx) =>
+                    <Image
+                      data={thumbnail.responsiveImage}
+                      className={cn(s.image, s.preload)}
+                      fadeInDuration={0}
+                      lazyLoad={false}
+                      placeholderClassName={s.placeholder}
+                      pictureClassName={s.picture}
+                    />
+                  )}
 
                   <figcaption className={cn(hoverCollectionId === id && s.show)}>
                     <span>{title}</span>
                   </figcaption>
+
                 </figure>
               </li>
             )
@@ -190,7 +222,7 @@ export default function Archive({ collections }: Props) {
         </ul>
       </div>
 
-      <div className={cn(s.gallery, collectionId && s.visible)}>
+      <div id="gallery" className={cn(s.gallery, collectionId && s.visible)}>
         {collection &&
           <>
             <header className={cn(s.desktop, fullscreen && s.fullscreen)}>
@@ -216,7 +248,6 @@ export default function Archive({ collections }: Props) {
                       lazyLoad={true}
                       placeholderClassName={s.picture}
                       pictureClassName={s.picture}
-                      onLoad={() => { console.log('loaded') }}
                     />
                   }
                   {artwork.video &&
@@ -247,7 +278,7 @@ export default function Archive({ collections }: Props) {
               </figure>
 
             </div>
-            {collection.artwork.length > 1 && collectionId &&
+            {collection.artwork.length > 1 && collectionId && !transitioning &&
               <GalleryNav show={true} onNext={handleNext} onPrev={handlePrev} />
             }
           </>
@@ -280,6 +311,8 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
   const easing = 'cubic-bezier(0.245, 0.765, 0.035, 0.920)'
   const { scrollY } = window;
 
+  dImage.style.visibility = 'hidden';
+
   const clone = image.cloneNode(true) as HTMLImageElement;
   clone.style.position = 'absolute';
   clone.style.top = `${bounds.top + scrollY}px`;
@@ -292,20 +325,21 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
   clone.style.pointerEvents = 'none';
   clone.style.transition = ['top', 'left', 'width', 'height', 'opacity'].map(prop => `${prop} ${easing} ${dur}ms`).join(',');
   clone.style.opacity = '1';
+  clone.style.visibility = 'visible';
   clone.style.willChange = 'top, left, width, height, opacity';
+
   document.body.appendChild(clone);
 
-  await sleep(100)
+  await new Promise((resolve) => clone.onload = () => resolve(true))
 
   image.style.visibility = 'hidden';
-  dImage.style.visibility = 'hidden';
 
   clone.style.top = `${scrollY + dBounds.top}px`;
   clone.style.left = `${dBounds.left}px`;
   clone.style.width = `${dBounds.width}px`;
   clone.style.height = `${dBounds.height}px`;
 
-  await sleep(dur)
+  await sleep(dur + 100)
 
   image.style.visibility = 'visible';
   dImage.style.visibility = 'visible';

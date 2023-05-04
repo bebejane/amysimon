@@ -74,6 +74,15 @@
         .image {
           flex: 1 1 auto;
           max-width: none !important;
+
+          &.preload {
+            position: absolute;
+            display: none;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            visibility: hidden;
+          }
         }
 
         .picture,
@@ -139,6 +148,11 @@
 
   &.visible {
     opacity: 1;
+    pointer-events: all;
+  }
+
+  &.transitioning {
+    opacity: 0 !important;
     pointer-events: all;
   }
 
@@ -245,6 +259,7 @@
       .image {
         height: calc(var(--body-height) - var(--navbar-height));
         max-width: none !important;
+
       }
 
       .picture,
