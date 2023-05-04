@@ -12,6 +12,7 @@
   padding-left: var(--outer-margin);
   padding-right: var(--outer-margin);
   opacity: 1;
+  pointer-events: none;
   //transition: opacity 0.2s ease-in-out 2s;
 
   &.hide {
@@ -48,6 +49,7 @@
     transform: all 2s;
     width: 10rem;
     transition: font-variation-settings 0.3s ease;
+    pointer-events: all;
 
     &:hover {
       font-variation-settings: "MONO" 0, "CASL" 0, "CRSV" 0, "wght" 600, "slnt" 0;

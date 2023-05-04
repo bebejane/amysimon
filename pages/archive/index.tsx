@@ -16,7 +16,9 @@ type ArtworkWithThumbnailRecord = ArtworkRecord & {
 }
 
 export type Props = {
-  collections: (CollectionRecord & { artwork: ArtworkWithThumbnailRecord[] })[]
+  collections: (CollectionRecord & {
+    artwork: ArtworkWithThumbnailRecord[]
+  })[]
 }
 
 const transitionDuration = 700;
@@ -127,7 +129,7 @@ export default function Archive({ collections }: Props) {
 
       //await sleep(3000)
       if (image && dImage)
-        await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
+        await transitionImage(image, dImage, transitionDuration / 1.5, getComputedStyle(image).objectFit)
       else
         await sleep(transitionDuration)
     }
@@ -195,11 +197,14 @@ export default function Archive({ collections }: Props) {
                     <Image
                       data={artwork[index[id]].thumbnail.responsiveImage}
                       className={s.image}
-                      fadeInDuration={100}
+                      fadeInDuration={0}
+                      usePlaceholder={true}
+                      lazyLoad={false}
                       placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
                     />
                   }
+
                   {artwork.map(({ thumbnail }, idx) =>
                     <Image
                       data={thumbnail.responsiveImage}
@@ -221,69 +226,69 @@ export default function Archive({ collections }: Props) {
           })}
         </ul>
       </div>
-
-      <div id="gallery" className={cn(s.gallery, collectionId && s.visible)}>
-        {collection &&
-          <>
+      {collection &&
+        <div id="gallery" className={cn(s.gallery, collectionId && s.visible)}>
+          {collectionId &&
             <header className={cn(s.desktop, fullscreen && s.fullscreen)}>
               <span id="gallery-year" className={cn(s.year, "track")}>{collection.year ?? 'Also'}</span>
               <span className={s.close} onClick={handleZoomOut}>Close</span>
             </header>
-            <header className={s.mobile}>
-              <span className={s.title}>{collection.title}{collection.year && <>, {collection.year}</>}</span>
-              <span className={s.back} onClick={handleZoomOut}>Back</span>
-            </header>
-            <div className={s.slides} ref={slidesRef}>
-              {collection.artwork.map((artwork, i) =>
-                <figure
-                  key={artwork.id}
-                  className={cn(((i === index[collection.id] && collectionId) || isMobile) && s.show, s[artwork.layout])}
-                >
-                  {artwork.image.responsiveImage &&
-                    <Image
-                      data={artwork.image.responsiveImage}
-                      className={cn(s.image, videoPlayId === artwork.id && s.hide)}
-                      fadeInDuration={0}
-                      usePlaceholder={false}
-                      lazyLoad={true}
-                      placeholderClassName={s.picture}
-                      pictureClassName={s.picture}
-                    />
-                  }
-                  {artwork.video &&
-                    <div className={s.video} >
-                      {videoPlayId === artwork.id ?
-                        <div className={s.wrapper} id={`video-${artwork.id}`}>
-                          <div className={s.close} onClick={() => setVideoPlayId(null)}>Back</div>
-                          <Youtube
-                            opts={{ playerVars: { autoplay: true, controls: 0, rel: 0 } }}
-                            videoId={artwork.video.providerUid}
-                            className={cn(s.player, s.show)}
-                          />
-                        </div>
-                        :
-                        <BsPlayCircle className={s.play} onClick={() => setVideoPlayId(artwork.id)} />
-                      }
-                    </div>
-                  }
-                  <figcaption id={`caption-${i}`}>
-                    <span>{collection.title}</span>
-                    <span>{artwork.title && <em>{artwork.title}</em>}{artworkCaption(artwork, isMobile) && <>,&nbsp;</>}{artworkCaption(artwork, isMobile)}</span>
-                  </figcaption>
-                </figure>
-              )}
-
-              <figure className={cn(s.description, (index[collection.id] === collection.artwork.length || isMobile) && s.show)}>
-                <span>{collection.description}</span>
+          }
+          <header className={s.mobile}>
+            <span className={s.title}>{collection.title}{collection.year && <>, {collection.year}</>}</span>
+            <span className={s.back} onClick={handleZoomOut}>Back</span>
+          </header>
+          <div className={s.slides} ref={slidesRef}>
+            {collection.artwork.map((artwork, i) =>
+              <figure
+                key={artwork.id}
+                className={cn(((i === index[collection.id] && collectionId) || isMobile) && s.show, s[artwork.layout])}
+              >
+                {artwork.image.responsiveImage &&
+                  <Image
+                    data={artwork.image.responsiveImage}
+                    className={cn(s.image, videoPlayId === artwork.id && s.hide)}
+                    fadeInDuration={0}
+                    usePlaceholder={true}
+                    lazyLoad={false}
+                    placeholderClassName={s.picture}
+                    pictureClassName={s.picture}
+                  />
+                }
+                {artwork.video &&
+                  <div className={s.video} >
+                    {videoPlayId === artwork.id ?
+                      <div className={s.wrapper} id={`video-${artwork.id}`}>
+                        <div className={s.close} onClick={() => setVideoPlayId(null)}>Back</div>
+                        <Youtube
+                          opts={{ playerVars: { autoplay: true, controls: 0, rel: 0 } }}
+                          videoId={artwork.video.providerUid}
+                          className={cn(s.player, s.show)}
+                        />
+                      </div>
+                      :
+                      <BsPlayCircle className={s.play} onClick={() => setVideoPlayId(artwork.id)} />
+                    }
+                  </div>
+                }
+                <figcaption id={`caption-${i}`}>
+                  <span>{collection.title}</span>
+                  <span>{artwork.title && <em>{artwork.title}</em>}{artworkCaption(artwork, isMobile) && <>,&nbsp;</>}{artworkCaption(artwork, isMobile)}</span>
+                </figcaption>
               </figure>
+            )}
 
-            </div>
-            {collection.artwork.length > 1 && collectionId && !transitioning &&
-              <GalleryNav show={true} onNext={handleNext} onPrev={handlePrev} />
-            }
-          </>
-        }
-      </div >
+            <figure className={cn(s.description, (index[collection.id] === collection.artwork.length || isMobile) && s.show)}>
+              <span>{collection.description}</span>
+            </figure>
+
+          </div>
+          {collection.artwork.length > 1 && collectionId && !transitioning &&
+            <GalleryNav show={true} onNext={handleNext} onPrev={handlePrev} />
+          }
+
+        </div >
+      }
 
     </>
   );
@@ -311,8 +316,6 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
   const easing = 'cubic-bezier(0.245, 0.765, 0.035, 0.920)'
   const { scrollY } = window;
 
-  dImage.style.visibility = 'hidden';
-
   const clone = image.cloneNode(true) as HTMLImageElement;
   clone.style.position = 'absolute';
   clone.style.top = `${bounds.top + scrollY}px`;
@@ -332,18 +335,19 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
 
   await new Promise((resolve) => clone.onload = () => resolve(true))
 
-  image.style.visibility = 'hidden';
+  image.style.opacity = '0';
+  dImage.style.opacity = '0';
 
   clone.style.top = `${scrollY + dBounds.top}px`;
   clone.style.left = `${dBounds.left}px`;
   clone.style.width = `${dBounds.width}px`;
   clone.style.height = `${dBounds.height}px`;
 
-  await sleep(dur + 100)
+  await sleep(dur + 50)
 
-  image.style.visibility = 'visible';
-  dImage.style.visibility = 'visible';
-  clone.remove();
+  dImage.style.opacity = '1';
+  clone.style.opacity = '0';
+  setTimeout(() => clone.remove(), 200);
   return clone
 }
 
