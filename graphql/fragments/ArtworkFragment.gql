@@ -9,6 +9,9 @@ fragment ArtworkFragment on ArtworkRecord {
 	image {
 		...ImageFragment
 	}
+	thumbnail: image {
+		...ImageThumbnailFragment
+	}
 	video {
 		provider
 		providerUid

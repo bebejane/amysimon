@@ -6,10 +6,7 @@ fragment ImageMediumFragment on FileField {
 	alt
 	height
 	width
-	responsiveImage(
-		imgixParams: { q: 70, ar: "4:4", auto: format }
-		sizes: "(max-width: 46.24em) 100vw, 20vw"
-	) {
+	responsiveImage(imgixParams: { q: 70, auto: format }, sizes: "(max-width: 46.24em) 100vw, 20vw") {
 		src
 		width
 		height

@@ -1,4 +1,4 @@
-fragment ImageThumbnailFragment on FileField {
+fragment ImageThumbnailFragment on ImageFileField {
 	id
 	mimeType
 	url
@@ -7,14 +7,15 @@ fragment ImageThumbnailFragment on FileField {
 	height
 	width
 	responsiveImage(
-		imgixParams: { q: 50, ar: "3:2", fit: crop, auto: format }
-		sizes: "(max-width: 46.24em) 50vw, 25vw"
+		imgixParams: { q: 70, auto: format, w: 500 }
+		sizes: "(max-width: 46.24em) 50vw, 20vw"
 	) {
 		src
 		width
 		height
 		alt
 		title
-		bgColor
+		base64
+		sizes
 	}
 }

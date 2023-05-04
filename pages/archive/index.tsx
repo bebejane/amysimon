@@ -171,9 +171,9 @@ export default function Archive({ collections }: Props) {
                   onMouseLeave={() => setHoverCollectionId(null)}
                   style={{ animationDelay: `${(idx * 250)}ms` }}
                 >
-                  {artwork[index[id]]?.image?.responsiveImage &&
+                  {artwork[index[id]]?.thumbnail &&
                     <Image
-                      data={artwork[index[id]].image.responsiveImage}
+                      data={artwork[index[id]].thumbnail.responsiveImage}
                       className={s.image}
                       fadeInDuration={100}
                       placeholderClassName={s.placeholder}
