@@ -6,6 +6,7 @@ fragment ArtworkFragment on ArtworkRecord {
 	material
 	location
 	layout
+	multiple
 	image {
 		...ImageFragment
 	}

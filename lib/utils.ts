@@ -104,5 +104,5 @@ export const randomInt = (min, max) => {
 export const artworkCaption = (artwork: ArtworkRecord, withYear: boolean) => {
   const { material, width, height, location, _allReferencingCollections } = artwork
   const year = withYear ? _allReferencingCollections[0]?.year : undefined
-  return [material, location, height && width ? `${height} × ${width} cm ${artwork.mutiple ? ' each' : ''}` : undefined, year].filter(el => el).join(', ')
+  return [material, location, height && width ? `${height} × ${width} cm${artwork.multiple ? ' each' : ''}` : undefined, year].filter(el => el).join(', ')
 }
