@@ -7,7 +7,6 @@ import { useState, useRef, useEffect } from "react";
 import { artworkCaption, sleep } from "/lib/utils";
 import { GalleryNav } from "/components";
 import { BsPlayCircle } from 'react-icons/bs'
-import { useKeys } from 'rooks'
 import Youtube from 'react-youtube'
 import useDevice from "/lib/hooks/useDevice";
 
