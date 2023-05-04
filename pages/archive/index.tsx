@@ -127,9 +127,11 @@ export default function Archive({ collections }: Props) {
       const image = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${idx + 1}) picture>img`)
 
       if (image && dImage)
-        await transitionImage(image, dImage, transitionDuration / 1.5, getComputedStyle(image).objectFit)
-      else
+        await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
+      else {
+        console.log('no image')
         await sleep(transitionDuration)
+      }
     }
 
 
@@ -247,7 +249,7 @@ export default function Archive({ collections }: Props) {
                   key={artwork.id}
                   className={cn(((i === index[collection.id] && collectionId) || isMobile) && s.show, s[artwork.layout])}
                 >
-                  {artwork.image.responsiveImage &&
+                  {artwork.image?.responsiveImage &&
                     <Image
                       data={artwork.image.responsiveImage}
                       className={cn(s.image, videoPlayId === artwork.id && s.hide)}
@@ -339,8 +341,11 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
 
   await new Promise((resolve) => clone.onload = () => resolve(true))
 
+
   image.style.opacity = '0';
   dImage.style.opacity = '0';
+
+  await sleep(50)
 
   clone.style.top = `${scrollY + dBounds.top}px`;
   clone.style.left = `${dBounds.left}px`;
@@ -351,6 +356,7 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
 
   dImage.style.opacity = '1';
   clone.style.opacity = '0';
+
   setTimeout(() => clone.remove(), 200);
   return clone
 }
