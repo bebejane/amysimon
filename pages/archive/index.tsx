@@ -171,7 +171,7 @@ export default function Archive({ collections }: Props) {
                   onMouseLeave={() => setHoverCollectionId(null)}
                   style={{ animationDelay: `${(idx * 250)}ms` }}
                 >
-                  {artwork[index[id]]?.image &&
+                  {artwork[index[id]]?.image?.responsiveImage &&
                     <Image
                       data={artwork[index[id]].image.responsiveImage}
                       className={s.image}
@@ -208,16 +208,18 @@ export default function Archive({ collections }: Props) {
                   key={artwork.id}
                   className={cn(((i === index[collection.id] && collectionId) || isMobile) && s.show, s[artwork.layout])}
                 >
-                  <Image
-                    data={artwork.image.responsiveImage}
-                    className={cn(s.image, videoPlayId === artwork.id && s.hide)}
-                    fadeInDuration={0}
-                    usePlaceholder={false}
-                    lazyLoad={false}
-                    placeholderClassName={s.picture}
-                    pictureClassName={s.picture}
-                  />
-
+                  {artwork.image.responsiveImage &&
+                    <Image
+                      data={artwork.image.responsiveImage}
+                      className={cn(s.image, videoPlayId === artwork.id && s.hide)}
+                      fadeInDuration={0}
+                      usePlaceholder={false}
+                      lazyLoad={true}
+                      placeholderClassName={s.picture}
+                      pictureClassName={s.picture}
+                      onLoad={() => { console.log('loaded') }}
+                    />
+                  }
                   {artwork.video &&
                     <div className={s.video} >
                       {videoPlayId === artwork.id ?

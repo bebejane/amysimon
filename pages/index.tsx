@@ -8,11 +8,9 @@ import useStore from '/lib/store'
 
 type Props = {
 	start: StartRecord
-	firstCollection: CollectionRecord
-	lastCollection: CollectionRecord
 }
 
-export default function Home({ start: { loadingImage, backgroundImage }, firstCollection, lastCollection }: Props) {
+export default function Home({ start: { loadingImage, backgroundImage } }: Props) {
 
 	const [setShowIntroLoading, setShowIntro] = useStore((s) => [s.setShowIntroLoading, s.setShowIntro])
 	const containerRef = useRef<HTMLDivElement | null>()
@@ -24,7 +22,7 @@ export default function Home({ start: { loadingImage, backgroundImage }, firstCo
 	return (
 		<>
 			<div ref={containerRef} className={cn(s.container)}>
-				<Image data={loadingImage.responsiveImage} fadeInDuration={0} className={cn(s.loading)} pictureClassName={s.picture} />
+				<Image data={loadingImage.responsiveImage} fadeInDuration={0} className={s.loading} pictureClassName={s.picture} />
 				<Image data={backgroundImage.responsiveImage} fadeInDuration={0} className={s.background} pictureClassName={s.picture} />
 			</div>
 		</>
@@ -36,8 +34,6 @@ export const getStaticProps = withGlobalProps({ queries: [StartDocument] }, asyn
 	return {
 		props: {
 			...props,
-			firstCollection: props.firstCollection[0],
-			lastCollection: props.lastCollection[0],
 			page: {
 				title: 'Hem',
 				layout: 'home',
