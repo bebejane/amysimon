@@ -18,7 +18,7 @@ export default function Home({ start: { loadingImage, backgroundImage } }: Props
 
 	useEffect(() => {
 		if (loaded)
-			setShowIntroLoading(false)
+			setTimeout(() => setShowIntroLoading(false), 3500)
 	}, [loaded])
 
 	return (
