@@ -125,7 +125,7 @@ type ArtworkRecord = RecordInterface & {
   _updatedAt: Scalars['DateTime'];
   height?: Maybe<Scalars['IntType']>;
   id: Scalars['ItemId'];
-  image: FileField;
+  image: ImageFileField;
   layout: Scalars['String'];
   location?: Maybe<Scalars['String']>;
   material?: Maybe<Scalars['String']>;
@@ -550,6 +550,83 @@ type GlobalSeoField = {
   siteName?: Maybe<Scalars['String']>;
   titleSuffix?: Maybe<Scalars['String']>;
   twitterAccount?: Maybe<Scalars['String']>;
+};
+
+type ImageFileField = FileFieldInterface & {
+  __typename?: 'ImageFileField';
+  _createdAt: Scalars['DateTime'];
+  _updatedAt: Scalars['DateTime'];
+  alt?: Maybe<Scalars['String']>;
+  author?: Maybe<Scalars['String']>;
+  basename: Scalars['String'];
+  blurUpThumb?: Maybe<Scalars['String']>;
+  blurhash?: Maybe<Scalars['String']>;
+  colors: Array<ColorField>;
+  copyright?: Maybe<Scalars['String']>;
+  customData: Scalars['CustomData'];
+  exifInfo: Scalars['CustomData'];
+  filename: Scalars['String'];
+  focalPoint: focalPoint;
+  format: Scalars['String'];
+  height: Scalars['IntType'];
+  id: Scalars['UploadId'];
+  md5: Scalars['String'];
+  mimeType: Scalars['String'];
+  notes?: Maybe<Scalars['String']>;
+  responsiveImage: ResponsiveImage;
+  size: Scalars['IntType'];
+  smartTags: Array<Scalars['String']>;
+  tags: Array<Scalars['String']>;
+  thumbhash?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  url: Scalars['String'];
+  video?: Maybe<UploadVideoField>;
+  width: Scalars['IntType'];
+};
+
+
+type ImageFileFieldaltArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+type ImageFileFieldblurUpThumbArgs = {
+  imgixParams?: InputMaybe<ImgixParams>;
+  punch?: Scalars['Float'];
+  quality?: Scalars['Int'];
+  size?: Scalars['Int'];
+};
+
+
+type ImageFileFieldcustomDataArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+type ImageFileFieldfocalPointArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+type ImageFileFieldresponsiveImageArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  imgixParams?: InputMaybe<ImgixParams>;
+  locale?: InputMaybe<SiteLocale>;
+  sizes?: InputMaybe<Scalars['String']>;
+};
+
+
+type ImageFileFieldtitleArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+type ImageFileFieldurlArgs = {
+  imgixParams?: InputMaybe<ImgixParams>;
 };
 
 type ImgixParams = {
@@ -2454,9 +2531,9 @@ type StartRecord = RecordInterface & {
   _status: ItemStatus;
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
   _updatedAt: Scalars['DateTime'];
-  backgroundImage?: Maybe<FileField>;
+  backgroundImage?: Maybe<ImageFileField>;
   id: Scalars['ItemId'];
-  loadingImage: FileField;
+  loadingImage: ImageFileField;
 };
 
 
@@ -2923,13 +3000,13 @@ type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'AboutRecord', 
 type AllCollectionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type AllCollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, video?: { __typename?: 'VideoField', provider: string, providerUid: string, thumbnailUrl: string, title: string, url: string, width: any, height: any } | null, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> }> };
+type AllCollectionsQuery = { __typename?: 'Query', collections: Array<{ __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'ImageFileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height: any, width: any, responsiveImage: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } }, video?: { __typename?: 'VideoField', provider: string, providerUid: string, thumbnailUrl: string, title: string, url: string, width: any, height: any } | null, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> }> };
 
-type ArtworkFragment = { __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, video?: { __typename?: 'VideoField', provider: string, providerUid: string, thumbnailUrl: string, title: string, url: string, width: any, height: any } | null, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> };
+type ArtworkFragment = { __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'ImageFileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height: any, width: any, responsiveImage: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } }, video?: { __typename?: 'VideoField', provider: string, providerUid: string, thumbnailUrl: string, title: string, url: string, width: any, height: any } | null, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> };
 
-type CollectionFragment = { __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, video?: { __typename?: 'VideoField', provider: string, providerUid: string, thumbnailUrl: string, title: string, url: string, width: any, height: any } | null, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> };
+type CollectionFragment = { __typename?: 'CollectionRecord', id: any, year?: any | null, title?: string | null, description?: string | null, artwork: Array<{ __typename?: 'ArtworkRecord', id: any, title?: string | null, height?: any | null, width?: any | null, material?: string | null, location?: string | null, layout: string, image: { __typename?: 'ImageFileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height: any, width: any, responsiveImage: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } }, video?: { __typename?: 'VideoField', provider: string, providerUid: string, thumbnailUrl: string, title: string, url: string, width: any, height: any } | null, _allReferencingCollections: Array<{ __typename?: 'CollectionRecord', title?: string | null, year?: any | null }> }> };
 
-type ImageFragment = { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null };
+type ImageFragment = { __typename?: 'ImageFileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height: any, width: any, responsiveImage: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } };
 
 type ImageMediumFragment = { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, bgColor?: string | null, sizes: string } | null };
 
@@ -2947,4 +3024,4 @@ type GlobalQuery = { __typename?: 'Query', site: { __typename?: 'Site', favicon:
 type StartQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type StartQuery = { __typename?: 'Query', start?: { __typename?: 'StartRecord', loadingImage: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null }, backgroundImage?: { __typename?: 'FileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height?: any | null, width?: any | null, responsiveImage?: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } | null } | null } | null, firstCollection: Array<{ __typename?: 'CollectionRecord', year?: any | null }>, lastCollection: Array<{ __typename?: 'CollectionRecord', year?: any | null }> };
+type StartQuery = { __typename?: 'Query', start?: { __typename?: 'StartRecord', loadingImage: { __typename?: 'ImageFileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height: any, width: any, responsiveImage: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } }, backgroundImage?: { __typename?: 'ImageFileField', id: any, mimeType: string, url: string, title?: string | null, alt?: string | null, height: any, width: any, responsiveImage: { __typename?: 'ResponsiveImage', src: string, width: any, height: any, alt?: string | null, title?: string | null, base64?: string | null, sizes: string } } | null } | null };
