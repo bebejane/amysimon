@@ -22,7 +22,7 @@ export default function About({ about, exhibitions, projects }: Props) {
           <div>
             <Markdown>{about.bio}
             </Markdown>
-            Contact at <a href={`mailto:${about.email}`}>{about.email}</a>
+            Contact: <a href={`mailto:${about.email}`}>{about.email}</a>
           </div>
         </li>
         <li>
