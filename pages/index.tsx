@@ -1,8 +1,7 @@
 import s from './index.module.scss'
 import withGlobalProps from '/lib/withGlobalProps'
 import { StartDocument } from '/graphql'
-import cn from 'classnames'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Image } from 'react-datocms'
 import useStore from '/lib/store'
 

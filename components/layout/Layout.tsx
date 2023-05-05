@@ -15,12 +15,9 @@ export default function Layout({ children, title }: LayoutProps) {
 	return (
 		<>
 			<Menu />
-			{!isHome ?
-				<Content title={title}>
-					{children}
-				</Content>
-				: <>{children}</>
-			}
+			<Content title={title}>
+				{children}
+			</Content>
 			<Grid />
 		</>
 	)

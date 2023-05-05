@@ -16,7 +16,7 @@ const useStore = create<StoreState>((set) => ({
   showMenu: false,
   showIntro: true,
   showIntroLoading: true,
-  isHome: true,
+  isHome: false,
   setIsHome: (isHome: boolean) =>
     set((state) => ({
       isHome
