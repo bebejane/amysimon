@@ -3,6 +3,8 @@ import "swiper/css";
 import { Layout } from '/components';
 import { PageProvider } from '/lib/context/page'
 import { DefaultDatoSEO } from 'dato-nextjs-utils/components';
+import { useEffect } from 'react';
+import useStore from '/lib/store';
 
 function App({ Component, pageProps, router }) {
 
@@ -11,6 +13,9 @@ function App({ Component, pageProps, router }) {
   const description = site?.globalSeo?.fallbackSeo.description
   const errorCode = parseInt(router.pathname.replace('/', ''))
   const isError = (!isNaN(errorCode) && (errorCode > 400 && errorCode < 600)) || router.pathname.replace('/', '') === '_error'
+  const [setIsHome] = useStore((s) => [s.setIsHome])
+
+  useEffect(() => setIsHome(router.pathname === '/'), [router.pathname])
 
   if (isError) return <Component {...pageProps} />
 

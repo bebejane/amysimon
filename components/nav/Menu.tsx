@@ -15,9 +15,8 @@ export default function Menu({ }: MenuProps) {
 
 	const router = useRouter()
 	const { asPath } = router
-	const [showMenu, setShowMenu, showIntroLoading, showIntro, setShowIntro] = useStore((state) => [state.showMenu, state.setShowMenu, state.showIntroLoading, state.showIntro, state.setShowIntro])
+	const [showMenu, setShowMenu, showIntroLoading, showIntro, setShowIntro, isHome] = useStore((state) => [state.showMenu, state.setShowMenu, state.showIntroLoading, state.showIntro, state.setShowIntro, state.isHome])
 	const [active, setActive] = useState<string | null>(null)
-	const [isHome, setIsHome] = useState(router.pathname === '/')
 	const { scrolledPosition } = useScrollInfo()
 
 	useEffect(() => {
@@ -31,10 +30,6 @@ export default function Menu({ }: MenuProps) {
 		router.events.on('routeChangeStart', handleRouteChange)
 		return () => router.events.off('routeChangeStart', handleRouteChange)
 	}, [])
-
-	useEffect(() => {
-		setIsHome(asPath === '/')
-	}, [asPath])
 
 	//if (introLoading) return null
 

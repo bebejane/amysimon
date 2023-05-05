@@ -1,7 +1,8 @@
 import s from './Layout.module.scss'
 import React, { useState } from 'react'
 import { Content, Grid, Menu } from '/components'
-import { useRouter } from 'next/router'
+import useStore from '/lib/store'
+
 export type LayoutProps = {
 	children: React.ReactNode,
 	title: string
@@ -9,13 +10,17 @@ export type LayoutProps = {
 
 export default function Layout({ children, title }: LayoutProps) {
 
+	const [isHome] = useStore((s) => [s.isHome])
+
 	return (
 		<>
 			<Menu />
-			<Content title={title}>
-				{children}
-			</Content>
-
+			{!isHome ?
+				<Content title={title}>
+					{children}
+				</Content>
+				: <>{children}</>
+			}
 			<Grid />
 		</>
 	)
