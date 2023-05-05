@@ -31,6 +31,8 @@ export default function Menu({ }: MenuProps) {
 		return () => router.events.off('routeChangeStart', handleRouteChange)
 	}, [])
 
+	if (showIntroLoading) return null
+
 	return (
 		<>
 			<nav className={cn(s.menu, "track", isHome && s.home)}>
