@@ -31,14 +31,12 @@ export default function Menu({ }: MenuProps) {
 		return () => router.events.off('routeChangeStart', handleRouteChange)
 	}, [])
 
-	//if (introLoading) return null
-
 	return (
 		<>
 			<nav className={cn(s.menu, "track", isHome && s.home)}>
 				<Link href="/archive" className={cn(asPath === '/archive' && s.selected)} onClick={() => setShowIntro(false)}>ARCHIVE</Link>
 				<Link
-					href="/"
+					href={isHome ? '/archive' : '/'}
 					className={cn(s.logo, isHome && s.selected, (showIntro && isHome) && s.intro, scrolledPosition > 30 && s.hide)}
 				>
 					<img src="/images/name.svg" />
