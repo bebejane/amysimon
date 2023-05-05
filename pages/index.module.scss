@@ -3,10 +3,10 @@
   position: fixed !important;
   top: 0;
   left: 0;
+  opacity: 1;
   height: 100vh;
   width: 100%;
   max-width: 100% !important;
-  opacity: 1;
 
   .picture {
     object-fit: cover;
@@ -17,11 +17,11 @@
 
 .loading {
   opacity: 1;
-  z-index: var(--z-overlay);
   transition: opacity 0.8s ease-out;
   animation: hide 0.5s ease-in-out 3s forwards;
   pointer-events: none;
   clip-path: inset(0 0 0 0);
+  z-index: var(--z-intro-foreground);
 
   @keyframes hide {
     to {
@@ -31,9 +31,8 @@
 }
 
 .background {
-  position: absolute !important;
-  z-index: var(--z-background-intro);
+  z-index: var(--z-intro-background);
   top: 0;
   left: 0;
-  opacity: 0.5;
+  opacity: 1;
 }

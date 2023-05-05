@@ -14,9 +14,9 @@ export default function Home({ start: { loadingImage, backgroundImage } }: Props
 
 	const [setShowIntroLoading, setShowIntro] = useStore((s) => [s.setShowIntroLoading, s.setShowIntro])
 	const [loaded, setLoaded] = useState(false)
-	const containerRef = useRef<HTMLDivElement | null>()
 
 	useEffect(() => {
+
 		if (loaded)
 			setTimeout(() => setShowIntroLoading(false), 3500)
 		else
