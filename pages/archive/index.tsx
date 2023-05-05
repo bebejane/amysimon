@@ -127,6 +127,7 @@ export default function Archive({ collections }: Props) {
 
     if (!isMobile) {
 
+      await sleep(100)
       const dImage = document.getElementById(collection.id).querySelector<HTMLImageElement>('picture>img')
       const image = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${idx + 1}) picture>img`)
 
