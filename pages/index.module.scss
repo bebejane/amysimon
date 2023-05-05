@@ -1,5 +1,3 @@
-//
-
 .loading,
 .background {
   position: fixed;
@@ -35,8 +33,7 @@
 
 .background {
   position: absolute !important;
-  z-index: --z-background-intro;
-  z-index: 0;
+  z-index: var(--z-background-intro);
   top: 0;
   left: 0;
   opacity: 0.5;
