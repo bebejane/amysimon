@@ -21,7 +21,7 @@ export type Props = {
   })[]
 }
 
-const transitionDuration = 700;
+const transitionDuration = 500;
 
 export default function Archive({ collections }: Props) {
 
@@ -124,20 +124,19 @@ export default function Archive({ collections }: Props) {
 
     setIndex((s) => ({ ...s, [collection.id]: idx }))
     setTransitioning(true)
-    setShowCollection(false)
+    setTimeout(() => setShowCollection(false), 150)
 
     if (!isMobile) {
 
-      //await sleep(100)
+      await sleep(50)
+
       const dImage = document.getElementById(collection.id).querySelector<HTMLImageElement>('picture>img')
       const image = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${idx + 1}) picture>img`)
 
       if (image && dImage && !isTextSlide)
         await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
-      else {
-        console.log('no image')
+      else
         await sleep(transitionDuration)
-      }
     }
 
     setCollection(null)
