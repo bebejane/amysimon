@@ -47,14 +47,14 @@ export default function Archive({ collections }: Props) {
     if (!collection) return
 
     const slideNumber = index[`${collection.id}-count`] ?? 0
-    const atDescription = collection.description && slideNumber >= collection.artwork.length - 1
-    const slideCount = collection.description ? collection.artwork.length + (atDescription ? 1 : 0) : collection.artwork.length
-    const idx = index[collection.id] >= slideCount - 1 ? 0 : index[collection.id] + 1
+    const atDescription = collection.description && slideNumber === collection.artwork.length - 1
+    const slideCount = collection.artwork.length + (collection.description && atDescription ? 1 : 0)
+    const idx = atDescription ? collection.artwork.length : index[collection.id] >= slideCount - 1 ? 0 : index[collection.id] + 1
 
     setIndex((s) => ({
       ...s,
       [collection.id]: idx,
-      [`${collection.id}-count`]: s[`${collection.id}-count`] ? s[`${collection.id}-count`] + 1 : 1
+      [`${collection.id}-count`]: slideNumber + 1 > collection.artwork.length ? 0 : slideNumber + 1
     }))
 
     setFullscreen(collection.artwork[idx]?.layout === 'full-bleed')
@@ -72,7 +72,7 @@ export default function Archive({ collections }: Props) {
 
   const handleZoomIn = async ({ target }) => {
 
-    if (transitioning) return console.log('transitioning')
+    if (transitioning) return
 
     const id = target.closest('li').id;
     const collection = collections.find(el => el.id === id)
