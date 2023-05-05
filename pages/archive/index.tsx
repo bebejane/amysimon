@@ -256,7 +256,7 @@ export default function Archive({ collections }: Props) {
                       className={cn(s.image, videoPlayId === artwork.id && s.hide)}
                       fadeInDuration={0}
                       usePlaceholder={true}
-                      lazyLoad={false}
+                      //lazyLoad={false}
                       placeholderClassName={s.picture}
                       pictureClassName={s.picture}
                     />

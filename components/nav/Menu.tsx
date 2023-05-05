@@ -31,7 +31,7 @@ export default function Menu({ }: MenuProps) {
 		return () => router.events.off('routeChangeStart', handleRouteChange)
 	}, [])
 
-	if (showIntroLoading) return null
+	if (isHome && showIntroLoading) return null
 
 	return (
 		<>
