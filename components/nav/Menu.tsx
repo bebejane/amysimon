@@ -37,7 +37,7 @@ export default function Menu({ }: MenuProps) {
 		setIsHome(asPath === '/')
 	}, [asPath])
 
-	if (introLoading) return null
+	//if (introLoading) return null
 
 	return (
 		<>

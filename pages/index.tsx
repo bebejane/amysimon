@@ -12,7 +12,7 @@ type Props = {
 
 export default function Home({ start: { loadingImage, backgroundImage } }: Props) {
 
-	const [setShowIntroLoading] = useStore((s) => [s.setShowIntroLoading])
+	const [setShowIntroLoading, setShowIntro] = useStore((s) => [s.setShowIntroLoading, s.setShowIntro])
 	const [loaded, setLoaded] = useState(false)
 	const containerRef = useRef<HTMLDivElement | null>()
 
@@ -20,6 +20,10 @@ export default function Home({ start: { loadingImage, backgroundImage } }: Props
 		if (loaded)
 			setTimeout(() => setShowIntroLoading(false), 3500)
 	}, [loaded])
+
+	useEffect(() => {
+		setShowIntro(true)
+	}, [])
 
 	return (
 		<>
