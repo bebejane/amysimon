@@ -18,7 +18,6 @@ export default function Menu({ }: MenuProps) {
 	const [showMenu, setShowMenu, showIntroLoading, showIntro, setShowIntro] = useStore((state) => [state.showMenu, state.setShowMenu, state.showIntroLoading, state.showIntro, state.setShowIntro])
 	const [active, setActive] = useState<string | null>(null)
 	const [isHome, setIsHome] = useState(router.pathname === '/')
-	const introLoading = (isHome && showIntroLoading)
 	const { scrolledPosition } = useScrollInfo()
 
 	useEffect(() => {
