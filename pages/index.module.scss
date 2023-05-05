@@ -10,7 +10,6 @@
   max-width: 100% !important;
   opacity: 1;
 
-
   .picture {
     object-fit: cover;
     width: 100% !important;
@@ -32,7 +31,6 @@
       clip-path: inset(0 0 0 100vw);
     }
   }
-
 }
 
 .background {
@@ -41,4 +39,5 @@
   z-index: 0;
   top: 0;
   left: 0;
+  opacity: 0.5;
 }
