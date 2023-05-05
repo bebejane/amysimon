@@ -119,6 +119,7 @@ export default function Archive({ collections }: Props) {
     if (!showCollection || transitioning) return
 
     const idx = index[collection.id] >= collection.artwork.length ? 0 : index[collection.id]
+    const isTextSlide = index[collection.id] >= collection.artwork.length
     const gallery = document.getElementById('gallery')
 
     setIndex((s) => ({ ...s, [collection.id]: idx }))
@@ -127,13 +128,14 @@ export default function Archive({ collections }: Props) {
 
     if (!isMobile) {
 
-      await sleep(100)
+      //await sleep(100)
       const dImage = document.getElementById(collection.id).querySelector<HTMLImageElement>('picture>img')
       const image = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${idx + 1}) picture>img`)
 
-      if (image && dImage)
+      if (image && dImage && !isTextSlide)
         await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
       else {
+        console.log('no image')
         await sleep(transitionDuration)
       }
     }
@@ -163,6 +165,7 @@ export default function Archive({ collections }: Props) {
   }, [videoPlayId])
 
   useEffect(() => { // keyboard navigation
+
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowLeft') handlePrev()
       if (e.key === 'ArrowRight') handleNext()
@@ -171,7 +174,7 @@ export default function Archive({ collections }: Props) {
     window.addEventListener('keydown', handleKey)
     return () => window.removeEventListener('keydown', handleKey)
 
-  }, [showCollection, collection, index])
+  }, [showCollection, collection, index, transitioning])
 
   return (
     <>
