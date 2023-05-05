@@ -11,11 +11,11 @@ export default function Layout({ children, title }: LayoutProps) {
 
 	return (
 		<>
-
+			<Menu />
 			<Content title={title}>
 				{children}
 			</Content>
-			<Menu />
+
 			<Grid />
 		</>
 	)

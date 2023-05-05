@@ -22,7 +22,6 @@
   animation: hide 0.5s ease-in-out 3s forwards;
   pointer-events: none;
   clip-path: inset(0 0 0 0);
-  margin-top: calc(-1 * var(--navbar-height));
 
   @keyframes hide {
     to {
