@@ -121,21 +121,22 @@ export default function Archive({ collections }: Props) {
     const isTextSlide = index[collection.id] >= collection.artwork.length
     const gallery = document.getElementById('gallery')
 
-    setIndex((s) => ({ ...s, [collection.id]: idx }))
     setTransitioning(true)
-    setTimeout(() => setShowCollection(false), 150)
+    setTimeout(() => setShowCollection(false), 200)
 
     if (!isMobile) {
 
       const dImage = await awaitElement<HTMLImageElement>(`#${collection.id} picture>img`)
-      const image = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${idx + 1}) picture>img`)
+      const image = await awaitElement<HTMLImageElement>(`.${s.slides} figure:nth-of-type(${idx + 1}) picture>img`)
 
       if (image && dImage && !isTextSlide)
         await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
       else
         await sleep(transitionDuration)
+
     }
 
+    setIndex((s) => ({ ...s, [collection.id]: idx }))
     setCollection(null)
     setFullscreen(false)
     setTransitioning(false)
@@ -339,10 +340,12 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
 
   document.body.appendChild(clone);
 
-  await new Promise((resolve) => clone.onload = () => resolve(true))
+  await new Promise((resolve) => clone.complete ? resolve(true) : (clone.onload = () => resolve(true)))
 
   image.style.visibility = 'hidden';
   dImage.style.visibility = 'hidden';
+
+  await sleep(50)
 
   clone.style.top = `${scrollY + dBounds.top}px`;
   clone.style.left = `${dBounds.left}px`;
