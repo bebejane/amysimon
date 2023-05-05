@@ -24,7 +24,7 @@ export default function Home({ start: { loadingImage, backgroundImage } }: Props
 
 	return (
 		<>
-			<Image data={loadingImage.responsiveImage} fadeInDuration={0} className={s.loading} pictureClassName={s.picture} onLoad={() => setLoaded(true)} />
+			<Image data={loadingImage.responsiveImage} fadeInDuration={0} className={s.loading} placeholderClassName={s.placeholder} pictureClassName={s.picture} onLoad={() => setLoaded(true)} />
 			<Image data={backgroundImage.responsiveImage} fadeInDuration={0} className={s.background} pictureClassName={s.picture} />
 		</>
 	)

@@ -23,6 +23,10 @@
   clip-path: inset(0 0 0 0);
   z-index: var(--z-intro-foreground);
 
+  .placeholder {
+    z-index: var(--z-intro-foreground);
+  }
+
   @keyframes hide {
     to {
       clip-path: inset(0 0 0 100vw);
