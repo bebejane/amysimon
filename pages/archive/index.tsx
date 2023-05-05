@@ -4,7 +4,7 @@ import withGlobalProps from "/lib/withGlobalProps";
 import { AllCollectionsDocument } from "/graphql";
 import { Image } from "react-datocms";
 import { useState, useRef, useEffect } from "react";
-import { artworkCaption, sleep } from "/lib/utils";
+import { artworkCaption, sleep, awaitElement } from "/lib/utils";
 import { GalleryNav } from "/components";
 import { BsPlayCircle } from 'react-icons/bs'
 
@@ -85,8 +85,7 @@ export default function Archive({ collections }: Props) {
 
     if (!isMobile) {
 
-      await sleep(100)
-      const image = document.getElementById(id).querySelector<HTMLImageElement>('picture>img')
+      const image = await awaitElement<HTMLImageElement>(`#${id} picture>img`)
       const dImage = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
       const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
       const dCaption = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
@@ -128,9 +127,7 @@ export default function Archive({ collections }: Props) {
 
     if (!isMobile) {
 
-      await sleep(50)
-
-      const dImage = document.getElementById(collection.id).querySelector<HTMLImageElement>('picture>img')
+      const dImage = await awaitElement<HTMLImageElement>(`#${collection.id} picture>img`)
       const image = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${idx + 1}) picture>img`)
 
       if (image && dImage && !isTextSlide)

@@ -106,3 +106,21 @@ export const artworkCaption = (artwork: ArtworkRecord, withYear: boolean) => {
   const year = withYear ? _allReferencingCollections[0]?.year : undefined
   return [material, location, height && width ? `${height} × ${width} cm${artwork.multiple ? ' each' : ''}` : undefined, year].filter(el => el).join(', ')
 }
+
+export const awaitElement = async <T>(selector: string) => {
+
+  const cleanSelector = function (selector) {
+    (selector.match(/(#[0-9][^\s:,]*)/g) || []).forEach(function (n) {
+      selector = selector.replace(n, '[id="' + n.replace("#", "") + '"]');
+    });
+    return selector;
+  }
+
+  for (let i = 0; i < 100; i++) {
+    const el = document.querySelector(cleanSelector(selector)) as T
+    if (el) return el
+    await sleep(30)
+  }
+
+  throw new Error(`Element ${selector} not found`)
+}
