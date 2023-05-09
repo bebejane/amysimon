@@ -53,10 +53,39 @@
       }
 
       header {
+        display: flex;
+        flex-direction: row;
         font-size: 1rem;
-        //text-transform: uppercase;
         flex: 0 0;
         margin-bottom: 1rem;
+
+        span {
+          flex: 0 0 50%;
+        }
+
+        .indicators {
+          @include desktop-only();
+          display: inline-block;
+          text-align: right;
+          margin-left: 0.9em;
+          opacity: 0;
+          transition: opacity 0.2s ease-in-out;
+
+          &.show {
+            opacity: 1;
+          }
+
+          span {
+            color: lightgray;
+            margin-left: 0.1em;
+            transition: color 0.3s ease-in-out;
+
+            &.active {
+              color: var(--black);
+            }
+          }
+
+        }
       }
 
       figure {

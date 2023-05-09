@@ -186,7 +186,14 @@ export default function Archive({ collections }: Props) {
                 onClick={handleZoomIn}
                 className={cn((id === collection?.id || !showCollection) ? s.active : s.inactive)}
               >
-                <header className="track">{!sameYear ? year ?? 'Also' : ''}</header>
+                <header className="track">
+                  <span className={s.year}>{!sameYear ? year ?? 'Also' : ''}</span>
+                  <span className={cn(s.indicators, id === collection?.id && artwork.length > 1 && s.show)}>
+                    {artwork.map((el, i) =>
+                      <span className={cn(index[collection?.id] === i && s.active)}>•</span>
+                    )}
+                  </span>
+                </header>
                 <figure
                   className={s.wrapper}
                   data-collection-id={id}
