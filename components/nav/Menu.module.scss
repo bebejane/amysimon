@@ -16,8 +16,10 @@
   transition: opacity .3s ease-in-out;
 
 
-  &.hide {
-    opacity: 0;
+  @include mq($from: tablet) {
+    &.hide {
+      opacity: 0;
+    }
   }
 
   @include mq($until: tablet) {
