@@ -173,9 +173,6 @@ export default function Archive({ collections }: Props) {
 
   }, [showCollection, collection, index, transitioning])
 
-  useEffect(() => {
-    if (!hoverCollectionId) setCollection(null)
-  }, [hoverCollectionId])
 
   return (
     <>
@@ -228,7 +225,7 @@ export default function Archive({ collections }: Props) {
                   <figcaption className={cn(hoverCollectionId === id && s.show)}>
 
                     <span>{title}</span>
-                    <span className={cn(s.indicators, id === collection?.id && artwork.length > 1 && s.show)}>
+                    <span className={cn(s.indicators, id === collection?.id && artwork.length > 1 && hoverCollectionId && s.show)}>
                       {artwork.map((el, i) =>
                         <span className={cn(index[collection?.id] === i && s.active)}>•</span>
                       )}
