@@ -32,10 +32,12 @@
       transition: opacity ease-in-out 1000ms;
       cursor: pointer;
       flex: 0 0 33.33333%;
+      width: 33.33333%;
       height: 40vh;
 
       @include mq($until: tablet) {
         flex: 0 0 50%;
+        width: 50%;
         height: 25vh;
 
         figcaption {
@@ -99,7 +101,7 @@
           height: 2em;
           min-height: 2em;
           max-width: 100%;
-          width: 100%;
+          min-width: 100%;
           transition: opacity ease-in-out 0.2s;
           opacity: 0;
 
@@ -108,24 +110,25 @@
           }
 
           >span {
-            display: inline-block;
+            flex: 1 1 100%;
+            display: block;
             line-height: 1;
 
             &:nth-child(1) {
               flex: 0 0 auto;
-              max-width: 100%;
               text-overflow: ellipsis;
+              max-width: 70%;
               overflow: hidden;
               white-space: nowrap;
-
             }
+
           }
 
           .indicators {
             @include desktop-only();
             display: inline-block;
             text-align: right;
-            //padding-left: 0.9em;
+            padding-left: 0.9em;
             opacity: 0;
             transition: opacity 0.2s ease-in-out;
             flex: 0 0;
