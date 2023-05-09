@@ -173,6 +173,10 @@ export default function Archive({ collections }: Props) {
 
   }, [showCollection, collection, index, transitioning])
 
+  useEffect(() => {
+    if (!hoverCollectionId) setCollection(null)
+  }, [hoverCollectionId])
+
   return (
     <>
       <div className={cn(s.container)}>
@@ -187,12 +191,7 @@ export default function Archive({ collections }: Props) {
                 className={cn((id === collection?.id || !showCollection) ? s.active : s.inactive)}
               >
                 <header className="track">
-                  <span className={s.year}>{!sameYear ? year ?? 'Also' : ''}</span>
-                  <span className={cn(s.indicators, id === collection?.id && artwork.length > 1 && s.show)}>
-                    {artwork.map((el, i) =>
-                      <span className={cn(index[collection?.id] === i && s.active)}>•</span>
-                    )}
-                  </span>
+                  {!sameYear ? year ?? 'Also' : ''}
                 </header>
                 <figure
                   className={s.wrapper}
@@ -228,6 +227,11 @@ export default function Archive({ collections }: Props) {
 
                   <figcaption className={cn(hoverCollectionId === id && s.show)}>
                     <span>{title}</span>
+                    <span className={cn(s.indicators, id === collection?.id && artwork.length > 1 && s.show)}>
+                      {artwork.map((el, i) =>
+                        <span className={cn(index[collection?.id] === i && s.active)}>•</span>
+                      )}
+                    </span>
                   </figcaption>
 
                 </figure>
