@@ -222,7 +222,7 @@ export default function Archive({ collections }: Props) {
                       />
                     )}
 
-                  <figcaption className={cn(hoverCollectionId === id && s.show)}>
+                  <figcaption className={cn(s.show)}>
                     <span>{title}</span>
                     <span className={cn(s.indicators, id === collection?.id && artwork.length > 1 && hoverCollectionId && s.show)}>
                       {artwork.map((el, i) =>
@@ -377,7 +377,7 @@ export const transitionElement = async (el: HTMLElement, dEl: HTMLElement, dur: 
   const { scrollY } = window;
 
   clone.style.position = 'absolute';
-  clone.style.top = `${bounds.top + scrollY + topMargin}px`;
+  clone.style.top = `${bounds.top + scrollY}px`;
   clone.style.left = `${bounds.left}px`;
   clone.style.zIndex = 'var(--z-trans-image)';
   clone.style.transition = ['top', 'left', 'opacity'].map(prop => `${prop} ${easing} ${dur}ms`).join(',');
