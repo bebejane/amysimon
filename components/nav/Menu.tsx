@@ -40,12 +40,9 @@ export default function Menu({ }: MenuProps) {
 
 	return (
 		<>
-			<nav className={cn(s.menu, "track", isHome && s.home)}>
+			<nav className={cn(s.menu, "track", isHome && s.home, scrolledPosition > 30 && s.hide)}>
 				<Link href="/archive" className={cn(asPath === '/archive' && s.selected)} onClick={() => setShowIntro(false)}>ARCHIVE</Link>
-				<Link
-					href={isHome ? '/archive' : '/'}
-					className={cn(s.logo, isHome && s.selected, (showIntro && isHome) && s.intro, scrolledPosition > 30 && s.hide)}
-				>
+				<Link href={isHome ? '/archive' : '/'} className={cn(s.logo, isHome && s.selected, (showIntro && isHome) && s.intro)}>
 					<img src="/images/name.svg" />
 				</Link>
 				<Link href="/about" className={cn(asPath === '/about' && s.selected)} onClick={() => setShowIntro(false)}>ABOUT</Link>
