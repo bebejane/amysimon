@@ -108,7 +108,7 @@
 
           span {
             display: inline-block;
-            flex: 0 0 50%;
+            //flex: 0 0 50%;
           }
 
           .indicators {
@@ -125,7 +125,7 @@
 
             span {
               color: lightgray;
-              margin-left: 0.1em;
+              margin-right: 0.1em;
               transition: color 0.3s ease-in-out;
 
               &.active {
