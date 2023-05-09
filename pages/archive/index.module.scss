@@ -108,7 +108,12 @@
 
           span {
             display: inline-block;
-            //flex: 0 0 50%;
+
+          }
+
+          span:nth-child(1) {
+            text-overflow: ellipsis;
+            white-space: pre;
           }
 
           .indicators {

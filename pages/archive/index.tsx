@@ -226,12 +226,14 @@ export default function Archive({ collections }: Props) {
                     )}
 
                   <figcaption className={cn(hoverCollectionId === id && s.show)}>
+
                     <span>{title}</span>
                     <span className={cn(s.indicators, id === collection?.id && artwork.length > 1 && s.show)}>
                       {artwork.map((el, i) =>
                         <span className={cn(index[collection?.id] === i && s.active)}>•</span>
                       )}
                     </span>
+
                   </figcaption>
 
                 </figure>
