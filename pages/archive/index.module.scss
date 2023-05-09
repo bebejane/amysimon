@@ -31,7 +31,6 @@
       margin-bottom: var(--space);
       transition: opacity ease-in-out 1000ms;
       cursor: pointer;
-
       flex: 0 0 33.33333%;
       height: 40vh;
 
@@ -99,6 +98,8 @@
           flex-direction: row;
           height: 2em;
           min-height: 2em;
+          max-width: 100%;
+          width: 100%;
           transition: opacity ease-in-out 0.2s;
           opacity: 0;
 
@@ -106,23 +107,28 @@
             opacity: 1;
           }
 
-          span {
+          >span {
             display: inline-block;
+            line-height: 1;
 
-          }
+            &:nth-child(1) {
+              flex: 0 0 auto;
+              max-width: 100%;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
 
-          span:nth-child(1) {
-            text-overflow: ellipsis;
-            white-space: pre;
+            }
           }
 
           .indicators {
             @include desktop-only();
             display: inline-block;
             text-align: right;
-            margin-left: 0.9em;
+            //padding-left: 0.9em;
             opacity: 0;
             transition: opacity 0.2s ease-in-out;
+            flex: 0 0;
 
             &.show {
               opacity: 1;
@@ -130,8 +136,8 @@
 
             span {
               color: lightgray;
-              margin-right: 0.1em;
-              transition: color 0.3s ease-in-out;
+              padding-right: 0.1em;
+              transition: color 0s ease-in-out;
 
               &.active {
                 color: var(--black);
