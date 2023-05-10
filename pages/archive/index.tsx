@@ -86,7 +86,7 @@ export default function Archive({ collections }: Props) {
     if (!isMobile) {
 
       const image = await awaitElement<HTMLImageElement>(`#${id} picture>img`)
-      const dImage = slidesRef.current.querySelector<HTMLImageElement>(`figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
+      const dImage = await awaitElement<HTMLImageElement>(`#slides figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
       const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
       const dCaption = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
       const dCaptionText = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(2)')
@@ -94,6 +94,7 @@ export default function Archive({ collections }: Props) {
       const dYear = document.getElementById('gallery-year')
 
       dCaptionText.style.visibility = 'hidden'
+      dCaptionText.style.opacity = '0'
 
       const isFullBleed = getComputedStyle(dImage).objectFit === 'cover'
 
@@ -251,7 +252,7 @@ export default function Archive({ collections }: Props) {
               <span className={s.back} onClick={handleZoomOut}>Back</span>
             </header>
 
-            <div className={s.slides} ref={slidesRef}>
+            <div id="slides" className={s.slides} ref={slidesRef}>
               {collection.artwork.map((artwork, i) =>
                 <figure
                   key={artwork.id}
@@ -294,8 +295,16 @@ export default function Archive({ collections }: Props) {
               <figure className={cn(s.description, (index[collection.id] === collection.artwork.length || isMobile) && s.show)}>
                 <span>{collection.description}</span>
               </figure>
-
             </div>
+
+            {collection?.artwork.length > 1 && index[collection.id] < collection.artwork.length &&
+              <div className={cn(s.indicators)}>
+                {collection?.artwork.map((el, i) =>
+                  <span key={i} className={cn(i === index[collection.id] && s.active)}>•</span>
+                )}
+              </div>
+            }
+
             {collection.artwork.length > 1 && showCollection && !transitioning &&
               <GalleryNav show={true} onNext={handleNext} onPrev={handlePrev} />
             }
@@ -399,7 +408,7 @@ export const transitionElement = async (el: HTMLElement, dEl: HTMLElement, dur: 
 
   el.style.opacity = '1';
   dEl.style.opacity = '1';
-  clone.remove()
 
+  clone.remove()
   return clone
 }

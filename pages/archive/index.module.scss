@@ -138,7 +138,7 @@
             }
 
             span {
-              color: lightgray;
+              color: var(--gray-light);
               padding-right: 0.1em;
               transition: color 0s ease-in-out;
 
@@ -481,6 +481,8 @@
           justify-content: center;
           width: 100%;
           white-space: pre;
+          visibility: visible;
+          transition: opacity 0.3s ease-in-out;
 
         }
 
@@ -522,6 +524,24 @@
             left: 0;
           }
         }
+      }
+    }
+  }
+
+  .indicators {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    right: var(--outer-margin);
+    height: var(--navbar-height);
+
+    span {
+      margin-left: .3em;
+      color: var(--gray-light);
+
+      &.active {
+        color: var(--black);
       }
     }
   }
