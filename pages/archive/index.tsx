@@ -80,13 +80,15 @@ export default function Archive({ collections }: Props) {
 
     setIndex(idx)
     setCollection(collection)
-    setShowCollection(true)
-    setTransitioning(true)
 
     if (!isMobile) {
 
       const image = await awaitElement<HTMLImageElement>(`#${id} picture>img`)
       const dImage = await awaitElement<HTMLImageElement>(`#slides figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
+
+      setShowCollection(true)
+      setTransitioning(true)
+
       const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
       const dCaption = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
       const dCaptionText = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(2)')
@@ -194,7 +196,6 @@ export default function Archive({ collections }: Props) {
                 <figure
                   className={s.wrapper}
                   data-collection-id={id}
-                  onMouseMove={handleMouseMove}
                   onMouseEnter={() => setHoverCollectionId(id)}
                   onMouseLeave={() => setHoverCollectionId(null)}
                 >
@@ -225,11 +226,6 @@ export default function Archive({ collections }: Props) {
 
                   <figcaption className={cn(id === hoverCollectionId && s.show)}>
                     <span>{title}</span>
-                    <span className={cn(s.indicators, id === collection?.id && artwork.length > 1 && hoverCollectionId && s.show)}>
-                      {artwork.map((el, i) =>
-                        <span key={i} className={cn(index[collection?.id] === i && s.active)}>•</span>
-                      )}
-                    </span>
                   </figcaption>
                 </figure>
               </li>
