@@ -303,13 +303,13 @@ $mq-media-type: all !default;
 }
 
 @mixin mobile-only() {
-  @include mq($from: tablet) {
+  @include mq($from: mobile) {
     display: none;
   }
 }
 
 @mixin desktop-only() {
-  @include mq($until: desktop) {
+  @include mq($until: tablet) {
     display: none;
   }
 }

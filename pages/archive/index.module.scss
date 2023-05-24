@@ -31,12 +31,13 @@
       margin-bottom: var(--space);
       transition: opacity ease-in-out 1000ms;
       cursor: pointer;
-
       flex: 0 0 33.33333%;
+      width: 33.33333%;
       height: 40vh;
 
       @include mq($until: tablet) {
         flex: 0 0 50%;
+        width: 50%;
         height: 25vh;
 
         figcaption {
@@ -53,10 +54,12 @@
       }
 
       header {
+        display: flex;
+        flex-direction: row;
         font-size: 1rem;
-        //text-transform: uppercase;
         flex: 0 0;
         margin-bottom: 1rem;
+
       }
 
       figure {
@@ -94,8 +97,11 @@
         figcaption {
           display: flex;
           align-items: flex-end;
+          flex-direction: row;
           height: 2em;
           min-height: 2em;
+          max-width: 100%;
+          min-width: 100%;
           transition: opacity ease-in-out 0.2s;
           opacity: 0;
 
@@ -103,8 +109,44 @@
             opacity: 1;
           }
 
-          span {
+          >span {
+            flex: 1 1 100%;
+            display: block;
+            line-height: 1;
+
+            &:nth-child(1) {
+              flex: 0 0 auto;
+              text-overflow: ellipsis;
+              max-width: 70%;
+              overflow: hidden;
+              white-space: nowrap;
+            }
+
+          }
+
+          .indicators {
+            @include desktop-only();
             display: inline-block;
+            text-align: right;
+            padding-left: 0.9em;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            flex: 0 0;
+
+            &.show {
+              opacity: 1;
+            }
+
+            span {
+              color: var(--gray-light);
+              padding-right: 0.1em;
+              transition: color 0s ease-in-out;
+
+              &.active {
+                color: var(--black);
+              }
+            }
+
           }
         }
       }
@@ -439,6 +481,8 @@
           justify-content: center;
           width: 100%;
           white-space: pre;
+          visibility: visible;
+          transition: opacity 0.3s ease-in-out;
 
         }
 
@@ -480,6 +524,24 @@
             left: 0;
           }
         }
+      }
+    }
+  }
+
+  .indicators {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    right: var(--outer-margin);
+    height: var(--navbar-height);
+
+    span {
+      margin-left: .3em;
+      color: var(--gray-light);
+
+      &.active {
+        color: var(--black);
       }
     }
   }

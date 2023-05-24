@@ -7,17 +7,15 @@ import useStore from '/lib/store'
 import { useRouter } from 'next/router'
 import { useScrollInfo } from 'dato-nextjs-utils/hooks'
 
-export type MenuProps = {
 
-}
-
-export default function Menu({ }: MenuProps) {
+export default function Menu() {
 
 	const router = useRouter()
 	const { asPath } = router
 	const [showMenu, setShowMenu, showIntroLoading, setShowIntroLoading, showIntro, setShowIntro, isHome] = useStore((state) => [state.showMenu, state.setShowMenu, state.showIntroLoading, state.setShowIntroLoading, state.showIntro, state.setShowIntro, state.isHome])
 	const [active, setActive] = useState<string | null>(null)
-	const { scrolledPosition } = useScrollInfo()
+	const [hide, setHide] = useState(false)
+	const { scrolledPosition, isScrolledUp } = useScrollInfo()
 
 	useEffect(() => {
 		const handleRouteChange = (url) => {
@@ -36,16 +34,19 @@ export default function Menu({ }: MenuProps) {
 			setShowIntroLoading(false)
 	}, [isHome])
 
+
+	useEffect(() => {
+		setHide(scrolledPosition > 30 && !isScrolledUp)
+	}, [isScrolledUp, scrolledPosition])
+
 	if (showIntroLoading) return null
+
 
 	return (
 		<>
-			<nav className={cn(s.menu, "track", isHome && s.home)}>
+			<nav className={cn(s.menu, "track", isHome && s.home, hide && s.hide)}>
 				<Link href="/archive" className={cn(asPath === '/archive' && s.selected)} onClick={() => setShowIntro(false)}>ARCHIVE</Link>
-				<Link
-					href={isHome ? '/archive' : '/'}
-					className={cn(s.logo, isHome && s.selected, (showIntro && isHome) && s.intro, scrolledPosition > 30 && s.hide)}
-				>
+				<Link href={isHome ? '/archive' : '/'} className={cn(s.logo, isHome && s.selected, (showIntro && isHome) && s.intro)}>
 					<img src="/images/name.svg" />
 				</Link>
 				<Link href="/about" className={cn(asPath === '/about' && s.selected)} onClick={() => setShowIntro(false)}>ABOUT</Link>

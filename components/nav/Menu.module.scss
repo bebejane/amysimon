@@ -13,9 +13,13 @@
   padding-right: var(--outer-margin);
   opacity: 1;
   pointer-events: none;
+  transition: opacity .3s ease-in-out;
 
-  &.hide {
-    opacity: 0;
+
+  @include mq($from: tablet) {
+    &.hide {
+      opacity: 0;
+    }
   }
 
   @include mq($until: tablet) {
@@ -84,11 +88,7 @@
         }
       }
 
-      @include mq($from: desktop) {
-        &.hide {
-          opacity: 0;
-        }
-      }
+
     }
 
     &:nth-child(3) {
