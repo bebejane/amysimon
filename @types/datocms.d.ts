@@ -142,6 +142,7 @@ type ArtworkRecord = RecordInterface & {
 /** Record of type Artwork (artwork) */
 type ArtworkRecord_allReferencingCollectionsArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<CollectionModelFilter>;
   first?: InputMaybe<Scalars['IntType']>;
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<CollectionModelOrderBy>>>;
@@ -152,6 +153,8 @@ type ArtworkRecord_allReferencingCollectionsArgs = {
 
 /** Record of type Artwork (artwork) */
 type ArtworkRecord_allReferencingCollectionsMetaArgs = {
+  filter?: InputMaybe<CollectionModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
   through?: InputMaybe<InverseRelationshipFilterBetweenCollectionAndArtwork>;
 };
 
@@ -2247,7 +2250,7 @@ type Query = {
   /** Returns meta information regarding a record collection */
   _allProjectsMeta: CollectionMetadata;
   /** Returns meta information regarding an assets collection */
-  _allUploadsMeta?: Maybe<CollectionMetadata>;
+  _allUploadsMeta: CollectionMetadata;
   /** Returns the single instance record */
   _site: Site;
   /** Returns the single instance record */
