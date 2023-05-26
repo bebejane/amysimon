@@ -78,6 +78,7 @@ export default function Archive({ collections }: Props) {
     const collection = collections.find(el => el.id === id)
     const idx = { ...index, [`${collection.id}-count`]: 0 }
 
+    setTransitioning(true)
     setIndex(idx)
     setCollection(collection)
 
@@ -87,7 +88,6 @@ export default function Archive({ collections }: Props) {
       const dImage = await awaitElement<HTMLImageElement>(`#slides figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
 
       setShowCollection(true)
-      setTransitioning(true)
 
       const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
       const dCaption = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
@@ -176,6 +176,10 @@ export default function Archive({ collections }: Props) {
 
   }, [showCollection, collection, index, transitioning])
 
+  useEffect(() => {
+    if (hoverCollectionId)
+      setCollection(collections.find(({ id }) => id === hoverCollectionId))
+  }, [hoverCollectionId])
 
   return (
     <>
@@ -210,19 +214,6 @@ export default function Archive({ collections }: Props) {
                       pictureClassName={s.picture}
                     />
                   }
-
-                  {//@ts-ignore
-                    artwork.map(({ thumbnail }, idx) =>
-                      <Image
-                        key={idx}
-                        data={thumbnail.responsiveImage}
-                        className={cn(s.image, s.preload)}
-                        fadeInDuration={0}
-                        lazyLoad={false}
-                        placeholderClassName={s.placeholder}
-                        pictureClassName={s.picture}
-                      />
-                    )}
 
                   <figcaption className={cn(id === hoverCollectionId && s.show)}>
                     <span>{title}</span>
@@ -261,7 +252,7 @@ export default function Archive({ collections }: Props) {
                       fadeInDuration={0}
                       usePlaceholder={true}
                       //lazyLoad={false}
-                      placeholderClassName={s.picture}
+                      placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
                     />
                   }

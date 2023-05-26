@@ -323,6 +323,14 @@
         height: calc(var(--body-height) - var(--navbar-height));
       }
 
+      .placeholder {
+        object-fit: contain;
+        left: 0% !important;
+        top: 0% !important;
+        width: 100% !important;
+        height: 100% !important;
+      }
+
       .video {
         position: absolute;
         display: flex;
