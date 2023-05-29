@@ -112,7 +112,9 @@ export default function Archive({ collections }: Props) {
         dCaptionText.style.visibility = 'visible'
         dCaptionText.style.opacity = '1'
       }, 200)
-    }
+
+    } else
+      setShowCollection(true)
 
     setTransitioning(false)
   }
@@ -180,6 +182,7 @@ export default function Archive({ collections }: Props) {
     if (hoverCollectionId)
       setCollection(collections.find(({ id }) => id === hoverCollectionId))
   }, [hoverCollectionId])
+
 
   return (
     <>
