@@ -537,6 +537,8 @@
   }
 
   .indicators {
+    @include desktop-only();
+
     display: flex;
     align-items: center;
     position: absolute;

@@ -203,8 +203,8 @@ export default function Archive({ collections }: Props) {
                 <figure
                   className={s.wrapper}
                   data-collection-id={id}
-                  onMouseEnter={() => setHoverCollectionId(id)}
-                  onMouseLeave={() => setHoverCollectionId(null)}
+                  onMouseEnter={() => !isMobile && setHoverCollectionId(id)}
+                  onMouseLeave={() => !isMobile && setHoverCollectionId(null)}
                 >
                   {artwork[index[id]]?.thumbnail &&
                     <Image
