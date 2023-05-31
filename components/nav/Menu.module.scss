@@ -38,6 +38,7 @@
     &.home {
       a {
         font-variation-settings: "MONO" 0, "CASL" 0, "CRSV" 0, "wght" 600, "slnt" 0 !important;
+        font-size: 1.4em;
       }
     }
 
@@ -60,7 +61,7 @@
     font-variation-settings: "MONO" 0, "CASL" 1, "CRSV" 0, "wght" 400, "slnt" 0;
     transform: all 2s;
     width: 10rem;
-    transition: font-variation-settings 0.3s ease;
+    transition: font-variation-settings 0.3s ease, font-size 0.3s ease;
     pointer-events: all;
 
     &:hover {
