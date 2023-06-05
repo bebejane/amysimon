@@ -84,43 +84,45 @@ export default function Archive({ collections }: Props) {
     setCollection(collection)
 
     if (!isMobile) {
+      try {
+        const image = await awaitElement<HTMLImageElement>(`#${id} picture>img`)
+        const dImage = await awaitElement<HTMLImageElement>(`#slides figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
 
-      const image = await awaitElement<HTMLImageElement>(`#${id} picture>img`)
-      const dImage = await awaitElement<HTMLImageElement>(`#slides figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
+        setShowCollection(true)
 
-      setShowCollection(true)
+        const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
+        const dCaption = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
+        const dCaptionText = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(2)')
+        const year = document.getElementById(id).querySelector<HTMLElement>('header')
+        const dYear = document.getElementById('gallery-year')
 
-      const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
-      const dCaption = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
-      const dCaptionText = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(2)')
-      const year = document.getElementById(id).querySelector<HTMLElement>('header')
-      const dYear = document.getElementById('gallery-year')
+        dCaptionText.style.visibility = 'hidden'
+        dCaptionText.style.opacity = '0'
 
-      dCaptionText.style.visibility = 'hidden'
-      dCaptionText.style.opacity = '0'
+        const isFullBleed = getComputedStyle(dImage).objectFit === 'cover'
 
-      const isFullBleed = getComputedStyle(dImage).objectFit === 'cover'
+        setFullscreen(isFullBleed)
 
-      setFullscreen(isFullBleed)
+        const [clone] = await Promise.all([
+          transitionImage(image, dImage, transitionDuration, isFullBleed ? 'cover' : 'contain'),
+          transitionElement(caption, dCaption, transitionDuration, -9, isFullBleed ? { color: 'var(--white)' } : {}),
+          transitionElement(year, dYear, transitionDuration, 0, isFullBleed ? { color: 'var(--white)' } : {})
+        ])
 
-      const [clone] = await Promise.all([
-        transitionImage(image, dImage, transitionDuration, isFullBleed ? 'cover' : 'contain'),
-        transitionElement(caption, dCaption, transitionDuration, -9, isFullBleed ? { color: 'var(--white)' } : {}),
-        transitionElement(year, dYear, transitionDuration, 0, isFullBleed ? { color: 'var(--white)' } : {})
-      ])
-      console.log(loaded, collection.artwork[0].image.id)
-      if (!loaded[collection.artwork[0].image.id])
-        cloneRef.current = clone
-      else {
-        console.log('removing clone')
-        clone.remove()
+        if (!loaded[collection.artwork[0].image.id])
+          cloneRef.current = clone
+        else {
+          console.log('removing clone')
+          clone.remove()
+        }
+
+        setTimeout(() => {
+          dCaptionText.style.visibility = 'visible'
+          dCaptionText.style.opacity = '1'
+        }, 200)
+      } catch (e) {
+        console.error(e)
       }
-
-      setTimeout(() => {
-        dCaptionText.style.visibility = 'visible'
-        dCaptionText.style.opacity = '1'
-      }, 200)
-
     } else
       setShowCollection(true)
 
@@ -139,18 +141,22 @@ export default function Archive({ collections }: Props) {
 
     if (!isMobile) {
 
-      const dImage = await awaitElement<HTMLImageElement>(`#${collection.id} picture>img`)
-      const image = await awaitElement<HTMLImageElement>(`.${s.slides} figure:nth-of-type(${idx + 1}) picture>img`)
+      try {
+        const dImage = await awaitElement<HTMLImageElement>(`#${collection.id} picture>img`)
+        const image = await awaitElement<HTMLImageElement>(`.${s.slides} figure:nth-of-type(${idx + 1}) picture>img`)
 
-      if (cloneRef.current) cloneRef.current.remove()
+        if (cloneRef.current) cloneRef.current.remove()
 
-      if (image && dImage && !isTextSlide) {
-        const clone = await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
-        clone.remove()
+        if (image && dImage && !isTextSlide) {
+          const clone = await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
+          clone.remove()
+        }
+        else
+          await sleep(transitionDuration)
+
+      } catch (err) {
+        console.error(err)
       }
-      else
-        await sleep(transitionDuration)
-
     }
 
     setIndex((s) => ({ ...s, [collection.id]: idx }))
