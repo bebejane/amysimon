@@ -29,12 +29,13 @@ export default function Archive({ collections }: Props) {
   const [showCollection, setShowCollection] = useState(false);
   const [collection, setCollection] = useState<CollectionRecord | null>(null);
   const [index, setIndex] = useState<{ [key: string]: number }>({});
+  const [loaded, setLoaded] = useState<{ [key: string]: boolean }>({});
   const [hoverCollectionId, setHoverCollectionId] = useState<string | null>(null);
   const [transitioning, setTransitioning] = useState(false);
   const [videoPlayId, setVideoPlayId] = useState<string | null>(null)
   const { isMobile } = useDevice()
   const slidesRef = useRef<HTMLDivElement>(null);
-
+  const cloneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const idx = {}
@@ -102,11 +103,18 @@ export default function Archive({ collections }: Props) {
 
       setFullscreen(isFullBleed)
 
-      await Promise.all([
+      const [clone] = await Promise.all([
         transitionImage(image, dImage, transitionDuration, isFullBleed ? 'cover' : 'contain'),
         transitionElement(caption, dCaption, transitionDuration, -9, isFullBleed ? { color: 'var(--white)' } : {}),
         transitionElement(year, dYear, transitionDuration, 0, isFullBleed ? { color: 'var(--white)' } : {})
       ])
+      console.log(loaded, collection.artwork[0].image.id)
+      if (!loaded[collection.artwork[0].image.id])
+        cloneRef.current = clone
+      else {
+        console.log('removing clone')
+        clone.remove()
+      }
 
       setTimeout(() => {
         dCaptionText.style.visibility = 'visible'
@@ -134,8 +142,12 @@ export default function Archive({ collections }: Props) {
       const dImage = await awaitElement<HTMLImageElement>(`#${collection.id} picture>img`)
       const image = await awaitElement<HTMLImageElement>(`.${s.slides} figure:nth-of-type(${idx + 1}) picture>img`)
 
-      if (image && dImage && !isTextSlide)
-        await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
+      if (cloneRef.current) cloneRef.current.remove()
+
+      if (image && dImage && !isTextSlide) {
+        const clone = await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
+        clone.remove()
+      }
       else
         await sleep(transitionDuration)
 
@@ -146,20 +158,6 @@ export default function Archive({ collections }: Props) {
     setFullscreen(false)
     setTransitioning(false)
     gallery.classList.remove(s.transitioning)
-  }
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-
-    if (transitioning || isMobile) return
-
-    const target = (e.target as HTMLDivElement)
-    const bounds = target.getBoundingClientRect();
-    const p = (e.clientX - bounds.left) / bounds.width;
-    const collection = collections.find(({ id }) => id === target.closest('figure').dataset.collectionId)
-    const idx = Math.max(0, Math.floor(p * collection.artwork.length))
-
-    setIndex((s) => ({ ...s, [collection.id]: idx }))
-    setCollection(collection)
   }
 
   useEffect(() => {
@@ -203,6 +201,7 @@ export default function Archive({ collections }: Props) {
                 <figure
                   className={s.wrapper}
                   data-collection-id={id}
+                  data-image-id={artwork[index[id]]?.id}
                   onMouseEnter={() => !isMobile && setHoverCollectionId(id)}
                   onMouseLeave={() => !isMobile && setHoverCollectionId(null)}
                 >
@@ -215,6 +214,7 @@ export default function Archive({ collections }: Props) {
                       lazyLoad={false}
                       placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
+
                     />
                   }
 
@@ -254,9 +254,14 @@ export default function Archive({ collections }: Props) {
                       className={cn(s.image, videoPlayId === artwork.id && s.hide)}
                       fadeInDuration={0}
                       usePlaceholder={true}
-                      //lazyLoad={false}
+                      //lazyLoad={i === 0 ? false : true}
                       placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
+                      onLoad={() => {
+                        setLoaded((s) => ({ ...s, [artwork.image.id]: true }))
+                        console.log('loaded', artwork.image.id)
+                        cloneRef.current?.remove()
+                      }}
                     />
                   }
                   {artwork.video &&
@@ -363,7 +368,7 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
   image.style.visibility = 'visible';
   dImage.style.visibility = 'visible';
 
-  setTimeout(() => clone.remove(), 200);
+  //setTimeout(() => clone.remove(), 200);
   return clone
 }
 
