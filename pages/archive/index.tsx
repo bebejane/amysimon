@@ -111,10 +111,8 @@ export default function Archive({ collections }: Props) {
 
         if (!loaded[collection.artwork[0].image.id])
           cloneRef.current = clone
-        else {
-          console.log('removing clone')
+        else
           clone.remove()
-        }
 
         setTimeout(() => {
           dCaptionText.style.visibility = 'visible'
@@ -260,12 +258,11 @@ export default function Archive({ collections }: Props) {
                       className={cn(s.image, videoPlayId === artwork.id && s.hide)}
                       fadeInDuration={0}
                       usePlaceholder={true}
-                      //lazyLoad={i === 0 ? false : true}
+                      lazyLoad={false}
                       placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
                       onLoad={() => {
                         setLoaded((s) => ({ ...s, [artwork.image.id]: true }))
-                        console.log('loaded', artwork.image.id)
                         cloneRef.current?.remove()
                       }}
                     />
