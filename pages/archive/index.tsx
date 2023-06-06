@@ -137,7 +137,7 @@ export default function Archive({ collections }: Props) {
     setTransitioning(true)
     setTimeout(() => setShowCollection(false), 200)
 
-    if (!isMobile) {
+    if (!isMobile && !isTextSlide) {
 
       try {
         const dImage = await awaitElement<HTMLImageElement>(`#${collection.id} picture>img`)
