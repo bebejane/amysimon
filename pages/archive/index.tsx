@@ -109,15 +109,12 @@ export default function Archive({ collections }: Props) {
           transitionElement(year, dYear, transitionDuration, 0, isFullBleed ? { color: 'var(--white)' } : {})
         ])
 
-        if (!loaded[collection.artwork[0].image.id])
-          cloneRef.current = clone
-        else
-          clone.remove()
-
         setTimeout(() => {
+          clone.remove()
           dCaptionText.style.visibility = 'visible'
           dCaptionText.style.opacity = '1'
         }, 200)
+
       } catch (e) {
         console.error(e)
       }
@@ -215,13 +212,12 @@ export default function Archive({ collections }: Props) {
                       className={s.image}
                       fadeInDuration={0}
                       usePlaceholder={true}
-                      lazyLoad={false}
+                      //lazyLoad={false}
                       placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
 
                     />
                   }
-
                   <figcaption className={cn(id === hoverCollectionId && s.show)}>
                     <span>{title}</span>
                   </figcaption>
@@ -263,7 +259,6 @@ export default function Archive({ collections }: Props) {
                       pictureClassName={s.picture}
                       onLoad={() => {
                         setLoaded((s) => ({ ...s, [artwork.image.id]: true }))
-                        cloneRef.current?.remove()
                       }}
                     />
                   }
