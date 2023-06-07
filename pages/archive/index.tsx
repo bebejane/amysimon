@@ -200,7 +200,7 @@ export default function Archive({ collections }: Props) {
                 className={cn((id === collection?.id || !showCollection) ? s.active : s.inactive)}
               >
                 <header className="track">
-                  {!sameYear ? `${year}${yearEnd ? ` – ${yearEnd}` : ''}` ?? 'Also' : ''}
+                  {!sameYear ? year ? `${year}${yearEnd ? ` – ${yearEnd}` : ''}` : 'Also' : ''}
                 </header>
                 <figure
                   className={s.wrapper}
