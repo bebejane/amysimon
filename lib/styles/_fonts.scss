@@ -15,3 +15,10 @@ $headline-font: "Sans", Helvetica, Arial, Sans-Serif;
   font-weight: normal;
   font-style: italic;
 }
+
+@font-face {
+  font-family: "Arrows";
+  src: url("../../public/fonts/Protokoll-Medium.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}

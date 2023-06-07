@@ -24,6 +24,8 @@ type Scalars = {
 type AboutRecord = RecordInterface & {
   __typename?: 'AboutRecord';
   _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
   _modelApiKey: Scalars['String'];
@@ -116,6 +118,8 @@ type ArtworkRecord = RecordInterface & {
   /** Returns meta information regarding a record collection */
   _allReferencingCollectionsMeta: CollectionMetadata;
   _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
   _modelApiKey: Scalars['String'];
@@ -196,6 +200,7 @@ type CollectionModelFilter = {
   id?: InputMaybe<ItemIdFilter>;
   title?: InputMaybe<StringFilter>;
   year?: InputMaybe<IntegerFilter>;
+  yearEnd?: InputMaybe<IntegerFilter>;
 };
 
 enum CollectionModelOrderBy {
@@ -219,6 +224,8 @@ enum CollectionModelOrderBy {
   id_DESC = 'id_DESC',
   title_ASC = 'title_ASC',
   title_DESC = 'title_DESC',
+  yearEnd_ASC = 'yearEnd_ASC',
+  yearEnd_DESC = 'yearEnd_DESC',
   year_ASC = 'year_ASC',
   year_DESC = 'year_DESC'
 }
@@ -227,6 +234,8 @@ enum CollectionModelOrderBy {
 type CollectionRecord = RecordInterface & {
   __typename?: 'CollectionRecord';
   _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
   _modelApiKey: Scalars['String'];
@@ -242,6 +251,7 @@ type CollectionRecord = RecordInterface & {
   id: Scalars['ItemId'];
   title?: Maybe<Scalars['String']>;
   year?: Maybe<Scalars['IntType']>;
+  yearEnd?: Maybe<Scalars['IntType']>;
 };
 
 
@@ -353,6 +363,8 @@ enum ExhibitionModelOrderBy {
 type ExhibitionRecord = RecordInterface & {
   __typename?: 'ExhibitionRecord';
   _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
   _modelApiKey: Scalars['String'];
@@ -2198,6 +2210,8 @@ enum ProjectModelOrderBy {
 type ProjectRecord = RecordInterface & {
   __typename?: 'ProjectRecord';
   _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
   _modelApiKey: Scalars['String'];
@@ -2441,6 +2455,8 @@ type QueryuploadArgs = {
 
 type RecordInterface = {
   _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
   _modelApiKey: Scalars['String'];
@@ -2528,6 +2544,8 @@ enum SiteLocale {
 type StartRecord = RecordInterface & {
   __typename?: 'StartRecord';
   _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
   _firstPublishedAt?: Maybe<Scalars['DateTime']>;
   _isValid: Scalars['BooleanType'];
   _modelApiKey: Scalars['String'];

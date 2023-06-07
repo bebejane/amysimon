@@ -29,10 +29,10 @@ export default function GalleryNav({ show: showFromProps = true, className, onPr
   return (
     <nav className={cn(s.nav, className)}>
       <span id="prev" className={cn(s.prev, show === 'prev' && s.show)} onClick={onPrev} onMouseMove={handleMouseMove} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
-        Back
+        ←
       </span>
       <span id="next" className={cn(s.next, show === 'next' && s.show)} onClick={onNext} onMouseMove={handleMouseMove} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} >
-        Next
+        →
       </span>
     </nav>
   )
