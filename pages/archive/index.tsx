@@ -29,12 +29,13 @@ export default function Archive({ collections }: Props) {
   const [showCollection, setShowCollection] = useState(false);
   const [collection, setCollection] = useState<CollectionRecord | null>(null);
   const [index, setIndex] = useState<{ [key: string]: number }>({});
+  const [loaded, setLoaded] = useState<{ [key: string]: boolean }>({});
   const [hoverCollectionId, setHoverCollectionId] = useState<string | null>(null);
   const [transitioning, setTransitioning] = useState(false);
   const [videoPlayId, setVideoPlayId] = useState<string | null>(null)
   const { isMobile } = useDevice()
   const slidesRef = useRef<HTMLDivElement>(null);
-
+  const cloneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const idx = {}
@@ -78,41 +79,50 @@ export default function Archive({ collections }: Props) {
     const collection = collections.find(el => el.id === id)
     const idx = { ...index, [`${collection.id}-count`]: 0 }
 
+    setTransitioning(true)
     setIndex(idx)
     setCollection(collection)
 
     if (!isMobile) {
+      try {
+        const image = await awaitElement<HTMLImageElement>(`#${id} picture>img`)
+        const dImage = await awaitElement<HTMLImageElement>(`#slides figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
 
-      const image = await awaitElement<HTMLImageElement>(`#${id} picture>img`)
-      const dImage = await awaitElement<HTMLImageElement>(`#slides figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
+        setShowCollection(true)
 
+        const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
+        const dCaption = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
+        const dCaptionText = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(2)')
+        const year = document.getElementById(id).querySelector<HTMLElement>('header')
+        const dYear = document.getElementById('gallery-year')
+
+        dCaptionText.style.visibility = 'hidden'
+        dCaptionText.style.opacity = '0'
+
+        const isFullBleed = getComputedStyle(dImage).objectFit === 'cover'
+
+        setFullscreen(isFullBleed)
+
+        const [clone] = await Promise.all([
+          transitionImage(image, dImage, transitionDuration, isFullBleed ? 'cover' : 'contain'),
+          transitionElement(caption, dCaption, transitionDuration, -9, isFullBleed ? { color: 'var(--white)' } : {}),
+          transitionElement(year, dYear, transitionDuration, 0, isFullBleed ? { color: 'var(--white)' } : {})
+        ])
+
+        if (!loaded[collection.artwork[0].image.id])
+          cloneRef.current = clone
+        else
+          clone.remove()
+
+        setTimeout(() => {
+          dCaptionText.style.visibility = 'visible'
+          dCaptionText.style.opacity = '1'
+        }, 200)
+      } catch (e) {
+        console.error(e)
+      }
+    } else
       setShowCollection(true)
-      setTransitioning(true)
-
-      const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
-      const dCaption = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
-      const dCaptionText = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(2)')
-      const year = document.getElementById(id).querySelector<HTMLElement>('header')
-      const dYear = document.getElementById('gallery-year')
-
-      dCaptionText.style.visibility = 'hidden'
-      dCaptionText.style.opacity = '0'
-
-      const isFullBleed = getComputedStyle(dImage).objectFit === 'cover'
-
-      setFullscreen(isFullBleed)
-
-      await Promise.all([
-        transitionImage(image, dImage, transitionDuration, isFullBleed ? 'cover' : 'contain'),
-        transitionElement(caption, dCaption, transitionDuration, -9, isFullBleed ? { color: 'var(--white)' } : {}),
-        transitionElement(year, dYear, transitionDuration, 0, isFullBleed ? { color: 'var(--white)' } : {})
-      ])
-
-      setTimeout(() => {
-        dCaptionText.style.visibility = 'visible'
-        dCaptionText.style.opacity = '1'
-      }, 200)
-    }
 
     setTransitioning(false)
   }
@@ -127,16 +137,24 @@ export default function Archive({ collections }: Props) {
     setTransitioning(true)
     setTimeout(() => setShowCollection(false), 200)
 
-    if (!isMobile) {
+    if (!isMobile && !isTextSlide) {
 
-      const dImage = await awaitElement<HTMLImageElement>(`#${collection.id} picture>img`)
-      const image = await awaitElement<HTMLImageElement>(`.${s.slides} figure:nth-of-type(${idx + 1}) picture>img`)
+      try {
+        const dImage = await awaitElement<HTMLImageElement>(`#${collection.id} picture>img`)
+        const image = await awaitElement<HTMLImageElement>(`.${s.slides} figure:nth-of-type(${idx + 1}) picture>img`)
 
-      if (image && dImage && !isTextSlide)
-        await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
-      else
-        await sleep(transitionDuration)
+        if (cloneRef.current) cloneRef.current.remove()
 
+        if (image && dImage && !isTextSlide) {
+          const clone = await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
+          clone.remove()
+        }
+        else
+          await sleep(transitionDuration)
+
+      } catch (err) {
+        console.error(err)
+      }
     }
 
     setIndex((s) => ({ ...s, [collection.id]: idx }))
@@ -144,20 +162,6 @@ export default function Archive({ collections }: Props) {
     setFullscreen(false)
     setTransitioning(false)
     gallery.classList.remove(s.transitioning)
-  }
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-
-    if (transitioning || isMobile) return
-
-    const target = (e.target as HTMLDivElement)
-    const bounds = target.getBoundingClientRect();
-    const p = (e.clientX - bounds.left) / bounds.width;
-    const collection = collections.find(({ id }) => id === target.closest('figure').dataset.collectionId)
-    const idx = Math.max(0, Math.floor(p * collection.artwork.length))
-
-    setIndex((s) => ({ ...s, [collection.id]: idx }))
-    setCollection(collection)
   }
 
   useEffect(() => {
@@ -175,6 +179,11 @@ export default function Archive({ collections }: Props) {
     return () => window.removeEventListener('keydown', handleKey)
 
   }, [showCollection, collection, index, transitioning])
+
+  useEffect(() => {
+    if (hoverCollectionId)
+      setCollection(collections.find(({ id }) => id === hoverCollectionId))
+  }, [hoverCollectionId])
 
 
   return (
@@ -196,8 +205,9 @@ export default function Archive({ collections }: Props) {
                 <figure
                   className={s.wrapper}
                   data-collection-id={id}
-                  onMouseEnter={() => setHoverCollectionId(id)}
-                  onMouseLeave={() => setHoverCollectionId(null)}
+                  data-image-id={artwork[index[id]]?.id}
+                  onMouseEnter={() => !isMobile && setHoverCollectionId(id)}
+                  onMouseLeave={() => !isMobile && setHoverCollectionId(null)}
                 >
                   {artwork[index[id]]?.thumbnail &&
                     <Image
@@ -208,21 +218,9 @@ export default function Archive({ collections }: Props) {
                       lazyLoad={false}
                       placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
+
                     />
                   }
-
-                  {//@ts-ignore
-                    artwork.map(({ thumbnail }, idx) =>
-                      <Image
-                        key={idx}
-                        data={thumbnail.responsiveImage}
-                        className={cn(s.image, s.preload)}
-                        fadeInDuration={0}
-                        lazyLoad={false}
-                        placeholderClassName={s.placeholder}
-                        pictureClassName={s.picture}
-                      />
-                    )}
 
                   <figcaption className={cn(id === hoverCollectionId && s.show)}>
                     <span>{title}</span>
@@ -260,9 +258,13 @@ export default function Archive({ collections }: Props) {
                       className={cn(s.image, videoPlayId === artwork.id && s.hide)}
                       fadeInDuration={0}
                       usePlaceholder={true}
-                      //lazyLoad={false}
-                      placeholderClassName={s.picture}
+                      lazyLoad={false}
+                      placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
+                      onLoad={() => {
+                        setLoaded((s) => ({ ...s, [artwork.image.id]: true }))
+                        cloneRef.current?.remove()
+                      }}
                     />
                   }
                   {artwork.video &&
@@ -369,7 +371,7 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
   image.style.visibility = 'visible';
   dImage.style.visibility = 'visible';
 
-  setTimeout(() => clone.remove(), 200);
+  //setTimeout(() => clone.remove(), 200);
   return clone
 }
 

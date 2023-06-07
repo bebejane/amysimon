@@ -303,7 +303,7 @@ $mq-media-type: all !default;
 }
 
 @mixin mobile-only() {
-  @include mq($from: mobile) {
+  @include mq($from: tablet) {
     display: none;
   }
 }
