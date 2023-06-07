@@ -1,6 +1,7 @@
 fragment CollectionFragment on CollectionRecord {
 	id
 	year
+	yearEnd
 	title
 	description
 	artwork {

@@ -190,7 +190,7 @@ export default function Archive({ collections }: Props) {
     <>
       <div className={cn(s.container)}>
         <ul>
-          {collections.map(({ id, title, year, artwork }, idx) => {
+          {collections.map(({ id, title, year, yearEnd, artwork }, idx) => {
             const sameYear = collections[idx - 1]?.year === year
             return (
               <li
@@ -200,7 +200,7 @@ export default function Archive({ collections }: Props) {
                 className={cn((id === collection?.id || !showCollection) ? s.active : s.inactive)}
               >
                 <header className="track">
-                  {!sameYear ? year ?? 'Also' : ''}
+                  {!sameYear ? `${year}${yearEnd ? ` – ${yearEnd}` : ''}` ?? 'Also' : ''}
                 </header>
                 <figure
                   className={s.wrapper}
@@ -237,12 +237,12 @@ export default function Archive({ collections }: Props) {
           <div id="gallery" className={cn(s.gallery, showCollection && s.visible)}>
 
             <header className={cn(s.desktop, fullscreen && s.fullscreen)}>
-              <span id="gallery-year" className={cn(s.year, "track")}>{collection.year ?? 'Also'}</span>
+              <span id="gallery-year" className={cn(s.year, "track")}>{collection.year ? `${collection.year}${collection.yearEnd ? ` – ${collection.yearEnd}` : ''}` : 'Also'}</span>
               <span className={s.close} onClick={handleZoomOut}>Close</span>
             </header>
 
             <header className={s.mobile}>
-              <span className={s.title}>{collection.title}{collection.year && <>, {collection.year}</>}</span>
+              <span className={s.title}>{collection.title}{collection.year && <>, {`${collection.year}${collection.yearEnd ? ` – ${collection.yearEnd}` : ''}`} </>}</span>
               <span className={s.back} onClick={handleZoomOut}>Back</span>
             </header>
 
