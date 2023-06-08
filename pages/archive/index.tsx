@@ -75,6 +75,7 @@ export default function Archive({ collections }: Props) {
 
     if (transitioning) return
 
+    console.log('zoom in')
     const id = target.closest('li').id;
     const collection = collections.find(el => el.id === id)
     const idx = { ...index, [`${collection.id}-count`]: 0 }
@@ -109,15 +110,12 @@ export default function Archive({ collections }: Props) {
           transitionElement(year, dYear, transitionDuration, 0, isFullBleed ? { color: 'var(--white)' } : {})
         ])
 
-        if (!loaded[collection.artwork[0].image.id])
-          cloneRef.current = clone
-        else
-          clone.remove()
-
         setTimeout(() => {
+          clone.remove()
           dCaptionText.style.visibility = 'visible'
           dCaptionText.style.opacity = '1'
         }, 200)
+
       } catch (e) {
         console.error(e)
       }
@@ -134,19 +132,20 @@ export default function Archive({ collections }: Props) {
     const isTextSlide = index[collection.id] >= collection.artwork.length
     const gallery = document.getElementById('gallery')
 
-    setTransitioning(true)
-    setTimeout(() => setShowCollection(false), 200)
-
     if (!isMobile && !isTextSlide) {
 
       try {
         const dImage = await awaitElement<HTMLImageElement>(`#${collection.id} picture>img`)
         const image = await awaitElement<HTMLImageElement>(`.${s.slides} figure:nth-of-type(${idx + 1}) picture>img`)
 
-        if (cloneRef.current) cloneRef.current.remove()
+        if (cloneRef.current)
+          cloneRef.current.remove()
+
+        setTransitioning(true)
 
         if (image && dImage && !isTextSlide) {
-          const clone = await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit)
+
+          const clone = await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit, () => setShowCollection(false))
           clone.remove()
         }
         else
@@ -157,11 +156,13 @@ export default function Archive({ collections }: Props) {
       }
     }
 
+
     setIndex((s) => ({ ...s, [collection.id]: idx }))
     setCollection(null)
     setFullscreen(false)
     setTransitioning(false)
     gallery.classList.remove(s.transitioning)
+
   }
 
   useEffect(() => {
@@ -215,13 +216,12 @@ export default function Archive({ collections }: Props) {
                       className={s.image}
                       fadeInDuration={0}
                       usePlaceholder={true}
-                      lazyLoad={false}
+                      //lazyLoad={false}
                       placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
 
                     />
                   }
-
                   <figcaption className={cn(id === hoverCollectionId && s.show)}>
                     <span>{title}</span>
                   </figcaption>
@@ -233,7 +233,7 @@ export default function Archive({ collections }: Props) {
       </div>
       {collection &&
         <>
-          <div className={cn(s.galleryBackground, showCollection && s.visible)}></div>
+          <div className={cn(s.galleryBackground, showCollection && s.visible)} />
           <div id="gallery" className={cn(s.gallery, showCollection && s.visible)}>
 
             <header className={cn(s.desktop, fullscreen && s.fullscreen)}>
@@ -258,12 +258,11 @@ export default function Archive({ collections }: Props) {
                       className={cn(s.image, videoPlayId === artwork.id && s.hide)}
                       fadeInDuration={0}
                       usePlaceholder={true}
-                      lazyLoad={false}
+                      lazyLoad={i === 0 ? false : true}
                       placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
                       onLoad={() => {
                         setLoaded((s) => ({ ...s, [artwork.image.id]: true }))
-                        cloneRef.current?.remove()
                       }}
                     />
                   }
@@ -330,7 +329,7 @@ export const getStaticProps = withGlobalProps({ queries: [AllCollectionsDocument
 });
 
 
-export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImageElement, dur: number = 600, objectFit = 'contain') => {
+export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImageElement, dur: number = 600, objectFit = 'contain', onReady?: () => void) => {
 
   const bounds = image.getBoundingClientRect();
   const dBounds = dImage.getBoundingClientRect();
@@ -355,6 +354,8 @@ export const transitionImage = async (image: HTMLImageElement, dImage: HTMLImage
   document.body.appendChild(clone);
 
   await new Promise((resolve) => clone.complete ? resolve(true) : (clone.onload = () => resolve(true)))
+
+  onReady?.();
 
   image.style.visibility = 'hidden';
   dImage.style.visibility = 'hidden';
