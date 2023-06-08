@@ -13,7 +13,6 @@ export default function useDevice() {
   const [isTablet, setIsTablet] = useState(false)
   const { height, width } = useWindowSize()
 
-
   useEffect(() => {
     setIsMobile(mobile)
     setIsDesktop(!mobile && !tablet ? true : false)

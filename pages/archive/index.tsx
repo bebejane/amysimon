@@ -156,7 +156,7 @@ export default function Archive({ collections }: Props) {
       }
     }
 
-
+    setShowCollection(false)
     setIndex((s) => ({ ...s, [collection.id]: idx }))
     setCollection(null)
     setFullscreen(false)
