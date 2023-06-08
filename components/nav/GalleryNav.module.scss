@@ -29,8 +29,8 @@
     transition: opacity 0.3s ease-in-out;
     pointer-events: all;
     cursor: pointer;
-    //font-family: "Arrows";
-    font-size: 1.5rem;
+    font-family: "Arrows";
+    font-size: 2rem;
 
     &.show {
       opacity: 1;
