@@ -264,13 +264,13 @@ export default function Archive({ collections }: Props) {
                 {artwork.image?.responsiveImage &&
                   <Image
                     data={artwork.image.responsiveImage}
-                    className={cn(s.image, (i === 0 || mainImagesLoaded) && s.load, videoPlayId === artwork.id && s.hide)}
+                    className={cn(s.image, (i === 0 || mainImagesLoaded || collection?.id === c.id) && s.load, videoPlayId === artwork.id && s.hide)}
                     fadeInDuration={0}
                     usePlaceholder={true}
                     lazyLoad={true}
                     placeholderClassName={s.placeholder}
                     pictureClassName={s.picture}
-                    //priority={collection?.id === c.id}
+                    priority={collection?.id === c.id}
                     onLoad={() => {
                       setLoaded((s) => ({ ...s, [artwork.image.id]: true }))
                     }}
