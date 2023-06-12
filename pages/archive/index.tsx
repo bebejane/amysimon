@@ -36,6 +36,7 @@ export default function Archive({ collections }: Props) {
   const [videoPlayId, setVideoPlayId] = useState<string | null>(null)
   const { isMobile } = useDevice()
   const cloneRef = useRef<HTMLDivElement>(null);
+  const loaderRef = useRef<NodeJS.Timer | null>(null);
 
   useEffect(() => {
     const idx = {}
@@ -188,6 +189,12 @@ export default function Archive({ collections }: Props) {
   useEffect(() => {
     const imageIds = collections.map(({ artwork }) => artwork[0].image.id)
     setMainImagesLoaded(imageIds.filter(id => loaded[id]).length === imageIds.length)
+
+    if (Object.keys(loaded).length === 0) { // if not all main images have loaded, set a timeout to load all
+      clearTimeout(loaderRef.current)
+      loaderRef.current = setTimeout(() => setMainImagesLoaded(true), 5000)
+    }
+
   }, [collections, loaded])
 
   return (
@@ -264,9 +271,9 @@ export default function Archive({ collections }: Props) {
                     lazyLoad={true}
                     placeholderClassName={s.placeholder}
                     pictureClassName={s.picture}
+                    priority={collection?.id === c.id}
                     onLoad={() => {
                       setLoaded((s) => ({ ...s, [artwork.image.id]: true }))
-                      console.log('loaded', artwork.image.id)
                     }}
                   />
                 }
