@@ -76,7 +76,6 @@ export default function Archive({ collections }: Props) {
 
     if (transitioning) return
 
-    console.log('zoom in')
     const id = target.closest('li').id;
     const collection = collections.find(el => el.id === id)
     const idx = { ...index, [`${collection.id}-count`]: 0 }
