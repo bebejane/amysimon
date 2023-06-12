@@ -18,7 +18,7 @@
 .loading {
   opacity: 1;
   transition: opacity 0.8s ease-out;
-  animation: hide 0.5s ease-in-out 3.5s forwards;
+
   clip-path: inset(0 0 0 0);
   z-index: var(--z-intro-foreground);
 
@@ -26,9 +26,13 @@
     z-index: var(--z-intro-foreground);
   }
 
-  @keyframes hide {
-    to {
-      clip-path: inset(0 0 0 100vw);
+  &.hide {
+    animation: hide 0.5s ease-in-out 3.5s forwards;
+
+    @keyframes hide {
+      to {
+        clip-path: inset(0 0 0 100vw);
+      }
     }
   }
 }

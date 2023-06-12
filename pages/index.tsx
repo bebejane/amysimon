@@ -1,4 +1,5 @@
 import s from './index.module.scss'
+import cn from 'classnames'
 import withGlobalProps from '/lib/withGlobalProps'
 import { StartDocument } from '/graphql'
 import { useEffect, useState } from 'react'
@@ -13,19 +14,34 @@ export default function Home({ start: { loadingImage, backgroundImage } }: Props
 
 	const [setShowIntroLoading, setShowIntro] = useStore((s) => [s.setShowIntroLoading, s.setShowIntro])
 	const [loaded, setLoaded] = useState(false)
+	const [hide, setHide] = useState(false)
 
 	useEffect(() => {
 
-		if (loaded)
+		if (loaded) {
+			setHide(true)
 			setTimeout(() => setShowIntroLoading(false), 3500)
-		else
+		} else
 			setShowIntro(true)
+
 	}, [loaded])
 
 	return (
 		<>
-			<Image data={loadingImage.responsiveImage} fadeInDuration={0} className={s.loading} placeholderClassName={s.placeholder} pictureClassName={s.picture} onLoad={() => setLoaded(true)} />
-			<Image data={backgroundImage.responsiveImage} fadeInDuration={0} className={s.background} pictureClassName={s.picture} />
+			<Image
+				data={loadingImage.responsiveImage}
+				className={cn(s.loading, hide && s.hide)}
+				placeholderClassName={s.placeholder}
+				pictureClassName={s.picture}
+				fadeInDuration={0}
+				onLoad={() => setLoaded(true)}
+			/>
+			<Image
+				data={backgroundImage.responsiveImage}
+				fadeInDuration={0}
+				className={s.background}
+				pictureClassName={s.picture}
+			/>
 		</>
 	)
 }
