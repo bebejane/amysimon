@@ -31,6 +31,7 @@
     cursor: pointer;
     font-family: "Arrows";
     font-size: 2rem;
+    user-select: none;
 
     &.show {
       opacity: 1;
