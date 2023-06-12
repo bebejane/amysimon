@@ -30,11 +30,11 @@ export default function Archive({ collections }: Props) {
   const [collection, setCollection] = useState<CollectionRecord | null>(null);
   const [index, setIndex] = useState<{ [key: string]: number }>({});
   const [loaded, setLoaded] = useState<{ [key: string]: boolean }>({});
+  const [mainImagesLoaded, setMainImagesLoaded] = useState(false);
   const [hoverCollectionId, setHoverCollectionId] = useState<string | null>(null);
   const [transitioning, setTransitioning] = useState(false);
   const [videoPlayId, setVideoPlayId] = useState<string | null>(null)
   const { isMobile } = useDevice()
-  const slidesRef = useRef<HTMLDivElement>(null);
   const cloneRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -87,15 +87,15 @@ export default function Archive({ collections }: Props) {
     if (!isMobile) {
       try {
         const image = await awaitElement<HTMLImageElement>(`#${id} picture>img`)
-        const dImage = await awaitElement<HTMLImageElement>(`#slides figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
+        const dImage = await awaitElement<HTMLImageElement>(`#slides-${id} figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
 
         setShowCollection(true)
 
         const caption = document.getElementById(id).querySelector<HTMLElement>('figcaption>span')
-        const dCaption = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
-        const dCaptionText = document.getElementById(`caption-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(2)')
+        const dCaption = document.getElementById(`caption-${id}-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(1)')
+        const dCaptionText = document.getElementById(`caption-${id}-${idx[id]}`).querySelector<HTMLElement>('span:nth-child(2)')
         const year = document.getElementById(id).querySelector<HTMLElement>('header')
-        const dYear = document.getElementById('gallery-year')
+        const dYear = document.getElementById(`gallery-year-${id}`)
 
         dCaptionText.style.visibility = 'hidden'
         dCaptionText.style.opacity = '0'
@@ -130,13 +130,13 @@ export default function Archive({ collections }: Props) {
 
     const idx = index[collection.id] >= collection.artwork.length ? 0 : index[collection.id]
     const isTextSlide = index[collection.id] >= collection.artwork.length
-    const gallery = document.getElementById('gallery')
+    const gallery = document.getElementById(`gallery-${collection.id}`)
 
     if (!isMobile && !isTextSlide) {
 
       try {
         const dImage = await awaitElement<HTMLImageElement>(`#${collection.id} picture>img`)
-        const image = await awaitElement<HTMLImageElement>(`.${s.slides} figure:nth-of-type(${idx + 1}) picture>img`)
+        const image = await awaitElement<HTMLImageElement>(`#slides-${collection.id} figure:nth-of-type(${idx + 1}) picture>img`)
 
         if (cloneRef.current)
           cloneRef.current.remove()
@@ -144,7 +144,6 @@ export default function Archive({ collections }: Props) {
         setTransitioning(true)
 
         if (image && dImage && !isTextSlide) {
-
           const clone = await transitionImage(image, dImage, transitionDuration, getComputedStyle(image).objectFit, () => setShowCollection(false))
           clone.remove()
         }
@@ -186,6 +185,10 @@ export default function Archive({ collections }: Props) {
       setCollection(collections.find(({ id }) => id === hoverCollectionId))
   }, [hoverCollectionId])
 
+  useEffect(() => {
+    const imageIds = collections.map(({ artwork }) => artwork[0].image.id)
+    setMainImagesLoaded(imageIds.filter(id => loaded[id]).length === imageIds.length)
+  }, [collections, loaded])
 
   return (
     <>
@@ -216,7 +219,7 @@ export default function Archive({ collections }: Props) {
                       className={s.image}
                       fadeInDuration={0}
                       usePlaceholder={true}
-                      //lazyLoad={false}
+                      lazyLoad={false}
                       placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
 
@@ -231,84 +234,84 @@ export default function Archive({ collections }: Props) {
           })}
         </ul>
       </div>
-      {collection &&
-        <>
-          <div className={cn(s.galleryBackground, showCollection && s.visible)} />
-          <div id="gallery" className={cn(s.gallery, showCollection && s.visible)}>
+      <div className={cn(s.galleryBackground, showCollection && s.visible)} />
 
-            <header className={cn(s.desktop, fullscreen && s.fullscreen)}>
-              <span id="gallery-year" className={cn(s.year, "track")}>{collection.year ? `${collection.year}${collection.yearEnd ? ` – ${collection.yearEnd}` : ''}` : 'Also'}</span>
-              <span className={s.close} onClick={handleZoomOut}>Close</span>
-            </header>
+      {collections.map((c, idx) =>
+        <div id={`gallery-${c.id}`} key={c.id} className={cn(s.gallery, showCollection && collection?.id === c.id && s.visible)}>
 
-            <header className={s.mobile}>
-              <span className={s.title}>{collection.title}{collection.year && <>, {`${collection.year}${collection.yearEnd ? ` – ${collection.yearEnd}` : ''}`} </>}</span>
-              <span className={s.back} onClick={handleZoomOut}>Back</span>
-            </header>
+          <header className={cn(s.desktop, fullscreen && s.fullscreen)}>
+            <span id={`gallery-year-${c.id}`} className={cn(s.year, "track")}>{c?.year ? `${c.year}${c.yearEnd ? ` – ${c.yearEnd}` : ''}` : 'Also'}</span>
+            <span className={s.close} onClick={handleZoomOut}>Close</span>
+          </header>
 
-            <div id="slides" className={s.slides} ref={slidesRef}>
-              {collection.artwork.map((artwork, i) =>
-                <figure
-                  key={artwork.id}
-                  className={cn(((i === index[collection.id] && showCollection) || isMobile) && s.show, s[artwork.layout])}
-                >
-                  {artwork.image?.responsiveImage &&
-                    <Image
-                      data={artwork.image.responsiveImage}
-                      className={cn(s.image, videoPlayId === artwork.id && s.hide)}
-                      fadeInDuration={0}
-                      usePlaceholder={true}
-                      lazyLoad={i === 0 ? false : true}
-                      placeholderClassName={s.placeholder}
-                      pictureClassName={s.picture}
-                      onLoad={() => {
-                        setLoaded((s) => ({ ...s, [artwork.image.id]: true }))
-                      }}
-                    />
-                  }
-                  {artwork.video &&
-                    <div className={s.video} >
-                      {videoPlayId === artwork.id ?
-                        <div className={s.wrapper} id={`video-${artwork.id}`}>
-                          <div className={s.close} onClick={() => setVideoPlayId(null)}>Back</div>
-                          <Youtube
-                            opts={{ playerVars: { autoplay: true, controls: 0, rel: 0 } }}
-                            videoId={artwork.video.providerUid}
-                            className={cn(s.player, s.show)}
-                          />
-                        </div>
-                        :
-                        <BsPlayCircle className={s.play} onClick={() => setVideoPlayId(artwork.id)} />
-                      }
-                    </div>
-                  }
-                  <figcaption id={`caption-${i}`}>
-                    <span>{collection.title}</span>
-                    <span>{artwork.title && <em>{artwork.title}</em>}{artworkCaption(artwork, isMobile) && <>,&nbsp;</>}{artworkCaption(artwork, isMobile)}</span>
-                  </figcaption>
-                </figure>
-              )}
+          <header className={s.mobile}>
+            <span className={s.title}>{c.title}{c.year && <>, {`${c.year}${c.yearEnd ? ` – ${c.yearEnd}` : ''}`} </>}</span>
+            <span className={s.back} onClick={handleZoomOut}>Back</span>
+          </header>
 
-              <figure className={cn(s.description, (index[collection.id] === collection.artwork.length || isMobile) && s.show)}>
-                <span>{collection.description}</span>
+          <div id={`slides-${c.id}`} className={cn(s.slides, isMobile && collection?.id !== c.id && s.hide)}>
+            {c.artwork.map((artwork, i) =>
+              <figure
+                key={artwork.id}
+                className={cn(((i === index[c.id] && collection?.id === c.id && showCollection) || isMobile) && s.show, s[artwork.layout])}
+              >
+                {artwork.image?.responsiveImage &&
+                  <Image
+                    data={artwork.image.responsiveImage}
+                    className={cn(s.image, (i === 0 || mainImagesLoaded) && s.load, videoPlayId === artwork.id && s.hide)}
+                    fadeInDuration={0}
+                    usePlaceholder={true}
+                    lazyLoad={true}
+                    placeholderClassName={s.placeholder}
+                    pictureClassName={s.picture}
+                    onLoad={() => {
+                      setLoaded((s) => ({ ...s, [artwork.image.id]: true }))
+                      console.log('loaded', artwork.image.id)
+                    }}
+                  />
+                }
+                {artwork.video &&
+                  <div className={s.video} >
+                    {videoPlayId === artwork.id ?
+                      <div className={s.wrapper} id={`video-${artwork.id}`}>
+                        <div className={s.close} onClick={() => setVideoPlayId(null)}>Back</div>
+                        <Youtube
+                          opts={{ playerVars: { autoplay: true, controls: 0, rel: 0 } }}
+                          videoId={artwork.video.providerUid}
+                          className={cn(s.player, s.show)}
+                        />
+                      </div>
+                      :
+                      <BsPlayCircle className={s.play} onClick={() => setVideoPlayId(artwork.id)} />
+                    }
+                  </div>
+                }
+                <figcaption id={`caption-${c.id}-${i}`}>
+                  <span>{c.title}</span>
+                  <span>{artwork.title && <em>{artwork.title}</em>}{artworkCaption(artwork, isMobile) && <>,&nbsp;</>}{artworkCaption(artwork, isMobile)}</span>
+                </figcaption>
               </figure>
+            )}
+
+            <figure className={cn(s.description, (index[c.id] === c.artwork.length || isMobile) && s.show)}>
+              <span>{c.description}</span>
+            </figure>
+          </div>
+
+          {c.artwork.length > 1 && index[c.id] < c.artwork.length &&
+            <div className={cn(s.indicators)}>
+              {c?.artwork.map((el, i) =>
+                <span key={i} className={cn(i === index[c.id] && s.active)}>•</span>
+              )}
             </div>
+          }
 
-            {collection?.artwork.length > 1 && index[collection.id] < collection.artwork.length &&
-              <div className={cn(s.indicators)}>
-                {collection?.artwork.map((el, i) =>
-                  <span key={i} className={cn(i === index[collection.id] && s.active)}>•</span>
-                )}
-              </div>
-            }
+          {c.artwork.length > 1 && collection?.id === c.id && showCollection && !transitioning &&
+            <GalleryNav show={true} onNext={handleNext} onPrev={handlePrev} />
+          }
 
-            {collection.artwork.length > 1 && showCollection && !transitioning &&
-              <GalleryNav show={true} onNext={handleNext} onPrev={handlePrev} />
-            }
-
-          </div >
-        </>
-      }
+        </div>
+      )}
 
     </>
   );

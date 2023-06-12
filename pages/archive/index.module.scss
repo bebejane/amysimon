@@ -279,6 +279,11 @@
     position: relative;
     width: 100%;
 
+    &.hide {
+      display: none;
+
+    }
+
     figure {
       position: absolute;
       top: 0;
@@ -291,6 +296,7 @@
       transition: opacity ease-in-out 700ms;
       cursor: pointer;
       pointer-events: none;
+      z-index: 1;
 
       @include mq($until: tablet) {
         position: relative;
@@ -312,8 +318,13 @@
       }
 
       .image {
+        display: none;
         height: calc(var(--body-height) - var(--navbar-height));
         max-width: none !important;
+
+        &.load {
+          display: block;
+        }
 
       }
 
