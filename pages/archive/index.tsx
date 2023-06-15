@@ -74,7 +74,7 @@ export default function Archive({ collections }: Props) {
 
   const handleZoomIn = async ({ target }) => {
 
-    if (transitioning) return
+    if (transitioning) return console.log('transitioning')
 
     const id = target.closest('li').id;
     const collection = collections.find(el => el.id === id)
@@ -86,8 +86,8 @@ export default function Archive({ collections }: Props) {
 
     if (!isMobile) {
       try {
-        const image = await awaitElement<HTMLImageElement>(`#${id} picture>img`)
-        const dImage = await awaitElement<HTMLImageElement>(`#slides-${id} figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
+        const image = document.getElementById(id).querySelector<HTMLImageElement>(`picture>img`)
+        const dImage = document.getElementById(`slides-${id}`).querySelector<HTMLImageElement>(`figure:nth-of-type(${idx[collection.id] + 1}) picture>img`)
 
         setShowCollection(true)
 
@@ -126,7 +126,7 @@ export default function Archive({ collections }: Props) {
   }
 
   const handleZoomOut = async () => {
-    if (!showCollection || transitioning) return
+    if (!showCollection || transitioning) return console.log('no show collection')
 
     const idx = index[collection.id] >= collection.artwork.length ? 0 : index[collection.id]
     const isTextSlide = index[collection.id] >= collection.artwork.length
@@ -135,8 +135,9 @@ export default function Archive({ collections }: Props) {
     if (!isMobile && !isTextSlide) {
 
       try {
-        const dImage = await awaitElement<HTMLImageElement>(`#${collection.id} picture>img`)
-        const image = await awaitElement<HTMLImageElement>(`#slides-${collection.id} figure:nth-of-type(${idx + 1}) picture>img`)
+
+        const dImage = document.getElementById(collection.id).querySelector<HTMLImageElement>(`picture>img`)
+        const image = document.getElementById(`slides-${collection.id}`).querySelector<HTMLImageElement>(`figure:nth-of-type(${idx + 1}) picture>img`)
 
         if (cloneRef.current)
           cloneRef.current.remove()
@@ -225,10 +226,9 @@ export default function Archive({ collections }: Props) {
                       className={s.image}
                       fadeInDuration={0}
                       usePlaceholder={true}
-                      lazyLoad={false}
+                      lazyLoad={true}
                       placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
-
                     />
                   }
                   <figcaption className={cn(id === hoverCollectionId && s.show)}>
