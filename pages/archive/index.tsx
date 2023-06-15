@@ -270,7 +270,6 @@ export default function Archive({ collections }: Props) {
                     lazyLoad={true}
                     placeholderClassName={s.placeholder}
                     pictureClassName={s.picture}
-                    priority={collection?.id === c.id}
                     onLoad={() => {
                       setLoaded((s) => ({ ...s, [artwork.image.id]: true }))
                     }}
