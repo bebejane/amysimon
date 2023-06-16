@@ -31,14 +31,17 @@ export default function Archive({ collections }: Props) {
   const [collection, setCollection] = useState<CollectionRecord | null>(null);
   const [index, setIndex] = useState<{ [key: string]: number }>({});
   const [thumbLoaded, setThumbLoaded] = useState<{ [key: string]: boolean }>({});
+  const [allThumbsLoaded, setAllThumbsLoaded] = useState(false);
   const [loaded, setLoaded] = useState<{ [key: string]: boolean }>({});
   const [mainImagesLoaded, setMainImagesLoaded] = useState(false);
+
   const [hoverCollectionId, setHoverCollectionId] = useState<string | null>(null);
   const [transitioning, setTransitioning] = useState(false);
   const [videoPlayId, setVideoPlayId] = useState<string | null>(null)
   const { isMobile } = useDevice()
   const cloneRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<NodeJS.Timer | null>(null);
+  const thumbsLoaderRef = useRef<NodeJS.Timer | null>(null);
 
   useEffect(() => {
     const idx = {}
@@ -192,12 +195,14 @@ export default function Archive({ collections }: Props) {
     const imageIds = collections.map(({ artwork }) => artwork[0].image.id)
     setMainImagesLoaded(imageIds.filter(id => loaded[id]).length === imageIds.length)
 
-    if (Object.keys(loaded).length === 0) { // if not all main images have loaded, set a timeout to load all
-      clearTimeout(loaderRef.current)
+    if (Object.keys(loaded).length === 0 && !loaderRef.current) { // if not all main images have loaded, set a timeout to load all
       loaderRef.current = setTimeout(() => setMainImagesLoaded(true), 5000)
     }
+    if (Object.keys(thumbLoaded).length === 0 && !thumbsLoaderRef.current) { // if not all main images have loaded, set a timeout to load all
+      thumbsLoaderRef.current = setTimeout(() => setAllThumbsLoaded(true), 2000)
+    }
 
-  }, [collections, loaded])
+  }, [collections, loaded, thumbLoaded])
 
   return (
     <>
@@ -273,7 +278,7 @@ export default function Archive({ collections }: Props) {
                   {artwork.image?.responsiveImage &&
                     <Image
                       data={artwork.image.responsiveImage}
-                      className={cn(s.image, (i === 0 || mainImagesLoaded || collection?.id === c.id) && s.load, videoPlayId === artwork.id && s.hide)}
+                      className={cn(s.image, allThumbsLoaded && (i === 0 || mainImagesLoaded || collection?.id === c.id) && s.load, videoPlayId === artwork.id && s.hide)}
                       fadeInDuration={0}
                       usePlaceholder={true}
                       lazyLoad={true}
