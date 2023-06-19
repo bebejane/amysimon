@@ -234,7 +234,6 @@ export default function Archive({ collections }: Props) {
                       usePlaceholder={true}
                       placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
-                      priority={true}
                       onLoad={() => setThumbLoaded((s) => ({ ...s, [artwork[index[id]]?.thumbnail.id]: true }))}
                     />
                   }
