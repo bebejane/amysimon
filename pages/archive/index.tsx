@@ -197,11 +197,14 @@ export default function Archive({ collections }: Props) {
 
     if (Object.keys(loaded).length === 0 && !loaderRef.current) { // if not all main images have loaded, set a timeout to load all
       loaderRef.current = setTimeout(() => setMainImagesLoaded(true), 3000)
-
     }
     if (Object.keys(thumbLoaded).length === 0 && !thumbsLoaderRef.current) { // if not all main images have loaded, set a timeout to load all
       thumbsLoaderRef.current = setTimeout(() => setAllThumbsLoaded(true), 2000)
     }
+    //console.log('--')
+    //collections.forEach(({ title, artwork }) => console.log(`${title}: ${artwork.filter(({ image }) => loaded[image.id]).length}/${artwork.length}`))
+    //console.log('--')
+
 
   }, [collections, loaded, thumbLoaded])
 

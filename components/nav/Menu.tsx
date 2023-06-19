@@ -15,7 +15,7 @@ export default function Menu() {
 	const [showMenu, setShowMenu, showIntroLoading, setShowIntroLoading, showIntro, setShowIntro, isHome] = useStore((state) => [state.showMenu, state.setShowMenu, state.showIntroLoading, state.setShowIntroLoading, state.showIntro, state.setShowIntro, state.isHome])
 	const [active, setActive] = useState<string | null>(null)
 	const [hide, setHide] = useState(false)
-	const { scrolledPosition, isScrolledUp } = useScrollInfo()
+	const { scrolledPosition, isScrolledUp, isPageBottom } = useScrollInfo()
 
 	useEffect(() => {
 		const handleRouteChange = (url) => {
@@ -36,11 +36,10 @@ export default function Menu() {
 
 
 	useEffect(() => {
-		setHide(scrolledPosition > 30 && !isScrolledUp)
-	}, [isScrolledUp, scrolledPosition])
+		setHide(scrolledPosition > 30 && !isScrolledUp || isPageBottom)
+	}, [isScrolledUp, scrolledPosition, isPageBottom])
 
 	if (showIntroLoading) return null
-
 
 	return (
 		<>
