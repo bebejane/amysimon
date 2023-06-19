@@ -141,12 +141,15 @@
             display: block;
             line-height: 1;
 
+
             &:nth-child(1) {
               flex: 0 0 auto;
               text-overflow: ellipsis;
               max-width: 70%;
               overflow: hidden;
               white-space: nowrap;
+
+
             }
 
           }
@@ -516,7 +519,6 @@
         }
 
         span:last-child {
-          @include desktop-only();
 
           position: absolute;
           display: flex;
@@ -534,14 +536,22 @@
 
         @include mq($until: tablet) {
           margin-bottom: var(--space);
-          justify-content: center;
-          height: auto;
+          justify-content: flex-start;
           padding-right: var(--outer-margin);
 
+          flex: 1 1 auto;
+
           span {
+            display: block !important;
+            position: relative !important;
             padding-top: 1.5rem;
-            display: block;
             line-height: 1.45;
+            text-overflow: ellipsis;
+            overflow-x: hidden;
+
+            &:first-child {
+              display: none !important;
+            }
           }
         }
       }
