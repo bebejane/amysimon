@@ -195,12 +195,11 @@ export default function Archive({ collections }: Props) {
     const imageIds = collections.map(({ artwork }) => artwork[0].image.id)
     setMainImagesLoaded(imageIds.filter(id => loaded[id]).length === imageIds.length)
 
-    if (Object.keys(loaded).length === 0 && !loaderRef.current) {
+    if (Object.keys(loaded).length === 0 && !loaderRef.current)
       loaderRef.current = setTimeout(() => setMainImagesLoaded(true), 3000)
-    }
-    if (Object.keys(thumbLoaded).length === 0 && !thumbsLoaderRef.current) {
+
+    if (Object.keys(thumbLoaded).length === 0 && !thumbsLoaderRef.current)
       thumbsLoaderRef.current = setTimeout(() => setAllThumbsLoaded(true), 2000)
-    }
 
   }, [collections, loaded, thumbLoaded])
 
@@ -276,7 +275,7 @@ export default function Archive({ collections }: Props) {
                 {artwork.image?.responsiveImage &&
                   <Image
                     data={artwork.image.responsiveImage}
-                    className={cn(s.image, (i === 0 || collection?.id === c.id) && s.load, videoPlayId === artwork.id && s.hide)}
+                    className={cn(s.image, allThumbsLoaded && (i === 0 || collection?.id === c.id) && s.load, videoPlayId === artwork.id && s.hide)}
                     fadeInDuration={0}
                     usePlaceholder={true}
                     lazyLoad={true}
