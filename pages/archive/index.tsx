@@ -275,10 +275,11 @@ export default function Archive({ collections }: Props) {
                 {artwork.image?.responsiveImage &&
                   <Image
                     data={artwork.image.responsiveImage}
-                    className={cn(s.image, allThumbsLoaded && (i === 0 || collection?.id === c.id) && s.load, videoPlayId === artwork.id && s.hide)}
+                    className={cn(s.image, (i === 0 || collection?.id === c.id) && s.load, videoPlayId === artwork.id && s.hide)}
                     fadeInDuration={0}
                     usePlaceholder={true}
-                    lazyLoad={true}
+                    //lazyLoad={true}
+                    priority={true}
                     placeholderClassName={s.placeholder}
                     pictureClassName={s.picture}
                     onLoad={() => setLoaded((s) => ({ ...s, [artwork.image.id]: true }))}
