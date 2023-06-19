@@ -36,7 +36,7 @@ export default function Menu() {
 
 
 	useEffect(() => {
-		setHide(scrolledPosition > 30 && !isScrolledUp || isPageBottom)
+		setHide(scrolledPosition > 30 && (!isScrolledUp || isPageBottom))
 	}, [isScrolledUp, scrolledPosition, isPageBottom])
 
 	if (showIntroLoading) return null
