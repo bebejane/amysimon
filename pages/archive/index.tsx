@@ -234,6 +234,7 @@ export default function Archive({ collections }: Props) {
                       usePlaceholder={true}
                       placeholderClassName={s.placeholder}
                       pictureClassName={s.picture}
+                      priority={true}
                       onLoad={() => setThumbLoaded((s) => ({ ...s, [artwork[index[id]]?.thumbnail.id]: true }))}
                     />
                   }
@@ -278,8 +279,7 @@ export default function Archive({ collections }: Props) {
                     className={cn(s.image, (i === 0 || collection?.id === c.id) && s.load, videoPlayId === artwork.id && s.hide)}
                     fadeInDuration={0}
                     usePlaceholder={true}
-                    //lazyLoad={true}
-                    priority={true}
+                    lazyLoad={true}
                     placeholderClassName={s.placeholder}
                     pictureClassName={s.picture}
                     onLoad={() => setLoaded((s) => ({ ...s, [artwork.image.id]: true }))}
