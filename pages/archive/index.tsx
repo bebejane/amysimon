@@ -198,8 +198,9 @@ export default function Archive({ collections }: Props) {
     if (Object.keys(loaded).length === 0 && !loaderRef.current)
       loaderRef.current = setTimeout(() => setMainImagesLoaded(true), 3000)
 
-    if (Object.keys(thumbLoaded).length === 0 && !thumbsLoaderRef.current)
-      thumbsLoaderRef.current = setTimeout(() => setAllThumbsLoaded(true), 2000)
+    if (Object.keys(thumbLoaded).length === 0 && !thumbsLoaderRef.current) {
+      thumbsLoaderRef.current = setTimeout(() => setAllThumbsLoaded(true), 1000)
+    }
 
   }, [collections, loaded, thumbLoaded])
 
@@ -217,7 +218,7 @@ export default function Archive({ collections }: Props) {
                 className={cn((id === collection?.id || !showCollection) ? s.active : s.inactive)}
               >
                 <header className="track">
-                  {!sameYear ? year ? `${year}${yearEnd ? ` – ${yearEnd}` : ''}` : 'Also' : ''}
+                  {!sameYear ? year ? `${year}${yearEnd ? `–${yearEnd}` : ''}` : 'Also' : ''}
                 </header>
                 <figure
                   className={s.wrapper}
@@ -257,12 +258,12 @@ export default function Archive({ collections }: Props) {
         <div id={`gallery-${c.id}`} key={c.id} className={cn(s.gallery, showCollection && collection?.id === c.id && s.visible)}>
 
           <header className={cn(s.desktop, fullscreen && s.fullscreen)}>
-            <span id={`gallery-year-${c.id}`} className={cn(s.year, "track")}>{c?.year ? `${c.year}${c.yearEnd ? ` – ${c.yearEnd}` : ''}` : 'Also'}</span>
+            <span id={`gallery-year-${c.id}`} className={cn(s.year, "track")}>{c?.year ? `${c.year}${c.yearEnd ? `–${c.yearEnd}` : ''}` : 'Also'}</span>
             <span className={s.close} onClick={handleZoomOut}>Close</span>
           </header>
 
           <header className={s.mobile}>
-            <span className={s.title}>{c.title}{c.year && <>, {`${c.year}${c.yearEnd ? ` – ${c.yearEnd}` : ''}`} </>}</span>
+            <span className={s.title}>{c.title}{c.year && <>, {`${c.year}${c.yearEnd ? `–${c.yearEnd}` : ''}`} </>}</span>
             <span className={s.back} onClick={handleZoomOut}>Back</span>
           </header>
 
@@ -275,7 +276,7 @@ export default function Archive({ collections }: Props) {
                 {artwork.image?.responsiveImage &&
                   <Image
                     data={artwork.image.responsiveImage}
-                    className={cn(s.image, (i === 0 || collection?.id === c.id) && s.load, videoPlayId === artwork.id && s.hide)}
+                    className={cn(s.image, (allThumbsLoaded && (i === 0 || collection?.id === c.id)) && s.load, videoPlayId === artwork.id && s.hide)}
                     fadeInDuration={0}
                     usePlaceholder={true}
                     lazyLoad={true}

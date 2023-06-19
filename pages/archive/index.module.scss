@@ -528,7 +528,7 @@
           align-items: center;
           justify-content: center;
           width: 100%;
-          white-space: pre;
+
           visibility: visible;
           transition: opacity 0.3s ease-in-out;
 
@@ -548,6 +548,7 @@
             line-height: 1.45;
             text-overflow: ellipsis;
             overflow-x: hidden;
+            white-space: normal;
 
             &:first-child {
               display: none !important;
