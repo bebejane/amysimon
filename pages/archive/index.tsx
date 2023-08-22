@@ -8,6 +8,7 @@ import { artworkCaption, sleep } from "/lib/utils";
 import { GalleryNav } from "/components";
 import { BsPlayCircle } from 'react-icons/bs'
 import { ImSpinner8 } from 'react-icons/im'
+import { DatoMarkdown as Markdown } from "dato-nextjs-utils/components";
 
 import Youtube from 'react-youtube'
 import useDevice from "/lib/hooks/useDevice";
@@ -309,7 +310,7 @@ export default function Archive({ collections }: Props) {
             )}
 
             <figure className={cn(s.description, (index[c.id] === c.artwork.length || isMobile) && s.show)}>
-              <span>{c.description}</span>
+              <Markdown>{c.description}</Markdown>
             </figure>
           </div>
 
@@ -321,7 +322,7 @@ export default function Archive({ collections }: Props) {
             </div>
           }
 
-          {c.artwork.length > 1 && collection?.id === c.id && showCollection && !transitioning &&
+          {(c.artwork.length > 1 || (c.description && c.artwork.length === 1)) && collection?.id === c.id && showCollection && !transitioning &&
             <GalleryNav show={true} onNext={handleNext} onPrev={handlePrev} />
           }
         </div>
