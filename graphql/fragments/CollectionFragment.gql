@@ -4,6 +4,7 @@ fragment CollectionFragment on CollectionRecord {
 	yearEnd
 	title
 	description
+	additionalInfo
 	artwork {
 		...ArtworkFragment
 	}

@@ -310,7 +310,10 @@ export default function Archive({ collections }: Props) {
             )}
 
             <figure className={cn(s.description, (index[c.id] === c.artwork.length || isMobile) && s.show)}>
-              <Markdown>{c.description}</Markdown>
+              <Markdown className={s.description}>{c.description}</Markdown>
+              {c.additionalInfo &&
+                <p className={s.additional}>{c.additionalInfo}</p>
+              }
             </figure>
           </div>
 
