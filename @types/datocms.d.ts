@@ -174,6 +174,78 @@ type BooleanFilter = {
   eq?: InputMaybe<Scalars['BooleanType']>;
 };
 
+type CollectionAboutModelFilter = {
+  AND?: InputMaybe<Array<InputMaybe<CollectionAboutModelFilter>>>;
+  OR?: InputMaybe<Array<InputMaybe<CollectionAboutModelFilter>>>;
+  _createdAt?: InputMaybe<CreatedAtFilter>;
+  _firstPublishedAt?: InputMaybe<PublishedAtFilter>;
+  _isValid?: InputMaybe<BooleanFilter>;
+  _publicationScheduledAt?: InputMaybe<PublishedAtFilter>;
+  _publishedAt?: InputMaybe<PublishedAtFilter>;
+  _status?: InputMaybe<StatusFilter>;
+  _unpublishingScheduledAt?: InputMaybe<PublishedAtFilter>;
+  _updatedAt?: InputMaybe<UpdatedAtFilter>;
+  description?: InputMaybe<StringFilter>;
+  from?: InputMaybe<IntegerFilter>;
+  id?: InputMaybe<ItemIdFilter>;
+  until?: InputMaybe<IntegerFilter>;
+};
+
+enum CollectionAboutModelOrderBy {
+  _createdAt_ASC = '_createdAt_ASC',
+  _createdAt_DESC = '_createdAt_DESC',
+  _firstPublishedAt_ASC = '_firstPublishedAt_ASC',
+  _firstPublishedAt_DESC = '_firstPublishedAt_DESC',
+  _isValid_ASC = '_isValid_ASC',
+  _isValid_DESC = '_isValid_DESC',
+  _publicationScheduledAt_ASC = '_publicationScheduledAt_ASC',
+  _publicationScheduledAt_DESC = '_publicationScheduledAt_DESC',
+  _publishedAt_ASC = '_publishedAt_ASC',
+  _publishedAt_DESC = '_publishedAt_DESC',
+  _status_ASC = '_status_ASC',
+  _status_DESC = '_status_DESC',
+  _unpublishingScheduledAt_ASC = '_unpublishingScheduledAt_ASC',
+  _unpublishingScheduledAt_DESC = '_unpublishingScheduledAt_DESC',
+  _updatedAt_ASC = '_updatedAt_ASC',
+  _updatedAt_DESC = '_updatedAt_DESC',
+  description_ASC = 'description_ASC',
+  description_DESC = 'description_DESC',
+  from_ASC = 'from_ASC',
+  from_DESC = 'from_DESC',
+  id_ASC = 'id_ASC',
+  id_DESC = 'id_DESC',
+  until_ASC = 'until_ASC',
+  until_DESC = 'until_DESC'
+}
+
+/** Record of type Collection on about (collection_about) */
+type CollectionAboutRecord = RecordInterface & {
+  __typename?: 'CollectionAboutRecord';
+  _createdAt: Scalars['DateTime'];
+  /** Editing URL */
+  _editingUrl?: Maybe<Scalars['String']>;
+  _firstPublishedAt?: Maybe<Scalars['DateTime']>;
+  _isValid: Scalars['BooleanType'];
+  _modelApiKey: Scalars['String'];
+  _publicationScheduledAt?: Maybe<Scalars['DateTime']>;
+  _publishedAt?: Maybe<Scalars['DateTime']>;
+  /** SEO meta tags */
+  _seoMetaTags: Array<Tag>;
+  _status: ItemStatus;
+  _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
+  _updatedAt: Scalars['DateTime'];
+  description: Scalars['String'];
+  from: Scalars['IntType'];
+  id: Scalars['ItemId'];
+  until?: Maybe<Scalars['IntType']>;
+};
+
+
+/** Record of type Collection on about (collection_about) */
+type CollectionAboutRecord_seoMetaTagsArgs = {
+  locale?: InputMaybe<SiteLocale>;
+};
+
 type CollectionMetadata = {
   __typename?: 'CollectionMetadata';
   count: Scalars['IntType'];
@@ -2268,6 +2340,8 @@ type Query = {
   /** Returns meta information regarding a record collection */
   _allArtworksMeta: CollectionMetadata;
   /** Returns meta information regarding a record collection */
+  _allCollectionAboutsMeta: CollectionMetadata;
+  /** Returns meta information regarding a record collection */
   _allCollectionsMeta: CollectionMetadata;
   /** Returns meta information regarding a record collection */
   _allExhibitionsMeta: CollectionMetadata;
@@ -2282,6 +2356,8 @@ type Query = {
   /** Returns a collection of records */
   allArtworks: Array<ArtworkRecord>;
   /** Returns a collection of records */
+  allCollectionAbouts: Array<CollectionAboutRecord>;
+  /** Returns a collection of records */
   allCollections: Array<CollectionRecord>;
   /** Returns a collection of records */
   allExhibitions: Array<ExhibitionRecord>;
@@ -2293,6 +2369,8 @@ type Query = {
   artwork?: Maybe<ArtworkRecord>;
   /** Returns a specific record */
   collection?: Maybe<CollectionRecord>;
+  /** Returns a specific record */
+  collectionAbout?: Maybe<CollectionAboutRecord>;
   /** Returns a specific record */
   exhibition?: Maybe<ExhibitionRecord>;
   /** Returns a specific record */
@@ -2308,6 +2386,14 @@ type Query = {
 type Query_allArtworksMetaArgs = {
   fallbackLocales?: InputMaybe<Array<SiteLocale>>;
   filter?: InputMaybe<ArtworkModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+};
+
+
+/** The query root for this schema */
+type Query_allCollectionAboutsMetaArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<CollectionAboutModelFilter>;
   locale?: InputMaybe<SiteLocale>;
 };
 
@@ -2364,6 +2450,17 @@ type QueryallArtworksArgs = {
   first?: InputMaybe<Scalars['IntType']>;
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<ArtworkModelOrderBy>>>;
+  skip?: InputMaybe<Scalars['IntType']>;
+};
+
+
+/** The query root for this schema */
+type QueryallCollectionAboutsArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<CollectionAboutModelFilter>;
+  first?: InputMaybe<Scalars['IntType']>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<CollectionAboutModelOrderBy>>>;
   skip?: InputMaybe<Scalars['IntType']>;
 };
 
@@ -2427,6 +2524,15 @@ type QuerycollectionArgs = {
   filter?: InputMaybe<CollectionModelFilter>;
   locale?: InputMaybe<SiteLocale>;
   orderBy?: InputMaybe<Array<InputMaybe<CollectionModelOrderBy>>>;
+};
+
+
+/** The query root for this schema */
+type QuerycollectionAboutArgs = {
+  fallbackLocales?: InputMaybe<Array<SiteLocale>>;
+  filter?: InputMaybe<CollectionAboutModelFilter>;
+  locale?: InputMaybe<SiteLocale>;
+  orderBy?: InputMaybe<Array<InputMaybe<CollectionAboutModelOrderBy>>>;
 };
 
 
@@ -3030,7 +3136,7 @@ type focalPoint = {
 type AboutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'AboutRecord', bio: string, email?: string | null } | null, exhibitions: Array<{ __typename?: 'ExhibitionRecord', id: any, year: any, title: string, location?: string | null, city?: string | null, country?: string | null }>, projects: Array<{ __typename?: 'ProjectRecord', id: any, from: any, until?: any | null, description: string }> };
+type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'AboutRecord', bio: string, email?: string | null } | null, exhibitions: Array<{ __typename?: 'ExhibitionRecord', id: any, year: any, title: string, location?: string | null, city?: string | null, country?: string | null }>, projects: Array<{ __typename?: 'ProjectRecord', id: any, from: any, until?: any | null, description: string }>, collections: Array<{ __typename?: 'CollectionAboutRecord', id: any, from: any, until?: any | null, description: string }> };
 
 type AllCollectionsQueryVariables = Exact<{ [key: string]: never; }>;
 

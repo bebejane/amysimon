@@ -17,4 +17,10 @@ query About {
 		until
 		description
 	}
+	collections: allCollectionAbouts(first: 100, orderBy: from_DESC) {
+		id
+		from
+		until
+		description
+	}
 }

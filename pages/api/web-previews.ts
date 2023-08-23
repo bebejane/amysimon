@@ -15,6 +15,9 @@ export default withWebPreviews(async ({ itemType }) => {
     case 'exhibition':
       path = `/about`;
       break;
+    case 'collection_about':
+      path = `/about`;
+      break;
     case 'artwork':
       path = `/archive`;
       break;

@@ -8,9 +8,10 @@ export type Props = {
   about: AboutRecord
   exhibitions: ExhibitionRecord[]
   projects: ProjectRecord[]
+  collections: CollectionAboutRecord[]
 }
 
-export default function About({ about, exhibitions, projects }: Props) {
+export default function About({ about, exhibitions, projects, collections }: Props) {
 
   let animationDelay = 0;
 
@@ -28,7 +29,7 @@ export default function About({ about, exhibitions, projects }: Props) {
         <li>
           <h2>Selected Solo Exhibitions</h2>
           <ul>
-            {exhibitions.map(({ id, title, year, location, city, country }, idx) =>
+            {exhibitions.map(({ title, year, location, city, country }, idx) =>
               <li key={idx} style={{ animationDelay: `${(animationDelay += 100)}ms` }}>
                 <span>{year}</span>
                 <span><em>{title}</em>, {[location, city, country].filter(el => el).join(', ')}</span>
@@ -37,9 +38,20 @@ export default function About({ about, exhibitions, projects }: Props) {
           </ul>
         </li>
         <li>
+          <h2>collections</h2>
+          <ul>
+            {collections.map(({ from, until, description }, idx) =>
+              <li key={idx}>
+                <span className={s.long}>{from}{until ? `-${(until + '').substring(2)}` : ''}</span>
+                <span>{description}</span>
+              </li>
+            )}
+          </ul>
+        </li>
+        <li>
           <h2>Awards / Projects</h2>
           <ul>
-            {projects.map(({ id, from, until, description }, idx) =>
+            {projects.map(({ from, until, description }, idx) =>
               <li key={idx}>
                 <span className={s.long}>{from}{until ? `-${(until + '').substring(2)}` : ''}</span>
                 <span>{description}</span>
