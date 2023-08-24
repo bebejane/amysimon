@@ -2,7 +2,6 @@ import s from "./index.module.scss";
 import withGlobalProps from "/lib/withGlobalProps";
 import { AboutDocument } from "/graphql";
 import { DatoMarkdown as Markdown } from "dato-nextjs-utils/components";
-import Link from "next/link";
 
 export type Props = {
   about: AboutRecord
@@ -40,7 +39,7 @@ export default function About({ about, exhibitions, projects, collections }: Pro
         <li>
           <h2>Collections</h2>
           <ul>
-            {collections.map(({ from, until, description }, idx) =>
+            {collections.map(({ description }, idx) =>
               <li key={idx}>
                 <span className={s.long}></span>
                 <span>{description}</span>
