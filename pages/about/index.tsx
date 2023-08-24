@@ -38,11 +38,11 @@ export default function About({ about, exhibitions, projects, collections }: Pro
           </ul>
         </li>
         <li>
-          <h2>collections</h2>
+          <h2>Collections</h2>
           <ul>
             {collections.map(({ from, until, description }, idx) =>
               <li key={idx}>
-                <span className={s.long}>{from}{until ? `-${(until + '').substring(2)}` : ''}</span>
+                <span className={s.long}></span>
                 <span>{description}</span>
               </li>
             )}
