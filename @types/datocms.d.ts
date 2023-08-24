@@ -186,9 +186,7 @@ type CollectionAboutModelFilter = {
   _unpublishingScheduledAt?: InputMaybe<PublishedAtFilter>;
   _updatedAt?: InputMaybe<UpdatedAtFilter>;
   description?: InputMaybe<StringFilter>;
-  from?: InputMaybe<IntegerFilter>;
   id?: InputMaybe<ItemIdFilter>;
-  until?: InputMaybe<IntegerFilter>;
 };
 
 enum CollectionAboutModelOrderBy {
@@ -210,12 +208,8 @@ enum CollectionAboutModelOrderBy {
   _updatedAt_DESC = '_updatedAt_DESC',
   description_ASC = 'description_ASC',
   description_DESC = 'description_DESC',
-  from_ASC = 'from_ASC',
-  from_DESC = 'from_DESC',
   id_ASC = 'id_ASC',
-  id_DESC = 'id_DESC',
-  until_ASC = 'until_ASC',
-  until_DESC = 'until_DESC'
+  id_DESC = 'id_DESC'
 }
 
 /** Record of type Collection on about (collection_about) */
@@ -235,9 +229,7 @@ type CollectionAboutRecord = RecordInterface & {
   _unpublishingScheduledAt?: Maybe<Scalars['DateTime']>;
   _updatedAt: Scalars['DateTime'];
   description: Scalars['String'];
-  from: Scalars['IntType'];
   id: Scalars['ItemId'];
-  until?: Maybe<Scalars['IntType']>;
 };
 
 
@@ -3136,7 +3128,7 @@ type focalPoint = {
 type AboutQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'AboutRecord', bio: string, email?: string | null } | null, exhibitions: Array<{ __typename?: 'ExhibitionRecord', id: any, year: any, title: string, location?: string | null, city?: string | null, country?: string | null }>, projects: Array<{ __typename?: 'ProjectRecord', id: any, from: any, until?: any | null, description: string }>, collections: Array<{ __typename?: 'CollectionAboutRecord', id: any, from: any, until?: any | null, description: string }> };
+type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'AboutRecord', bio: string, email?: string | null } | null, exhibitions: Array<{ __typename?: 'ExhibitionRecord', id: any, year: any, title: string, location?: string | null, city?: string | null, country?: string | null }>, projects: Array<{ __typename?: 'ProjectRecord', id: any, from: any, until?: any | null, description: string }>, collections: Array<{ __typename?: 'CollectionAboutRecord', id: any, description: string }> };
 
 type AllCollectionsQueryVariables = Exact<{ [key: string]: never; }>;
 

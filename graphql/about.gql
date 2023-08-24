@@ -17,10 +17,8 @@ query About {
 		until
 		description
 	}
-	collections: allCollectionAbouts(first: 100, orderBy: from_DESC) {
+	collections: allCollectionAbouts(first: 100) {
 		id
-		from
-		until
 		description
 	}
 }
