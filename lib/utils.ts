@@ -104,7 +104,7 @@ export const randomInt = (min, max) => {
 export const artworkCaption = (artwork: ArtworkRecord, withYear: boolean) => {
   const { material, width, height, location, _allReferencingCollections } = artwork
   const year = withYear ? `${_allReferencingCollections[0]?.year}${_allReferencingCollections[0].yearEnd ? ` – ${_allReferencingCollections[0].yearEnd}` : ''}` : undefined
-  return [material, location, height && width ? `${height} × ${width} cm${artwork.multiple ? ' each' : ''}` : undefined, year].filter(el => el).join(', ')
+  return [material, location, height && width ? `${height} × ${width} cm${artwork.multiple ? ' each' : ''}` : undefined].filter(el => el).join(', ')
 }
 
 export const awaitElement = async <T>(selector: string) => {
