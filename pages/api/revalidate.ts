@@ -5,8 +5,6 @@ export default withRevalidate(async (record, revalidate) => {
   const paths = []
   const { api_key } = record.model;
 
-  //console.log('revalidate api_key', api_key)
-
   switch (api_key) {
     case 'about':
       paths.push(`/about`);
@@ -34,5 +32,5 @@ export default withRevalidate(async (record, revalidate) => {
       break;
   }
 
-  revalidate(paths)
+  await revalidate(paths)
 })
