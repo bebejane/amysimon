@@ -3,8 +3,8 @@ on:
   schedule:
     - cron: '* * * * *'
 jobs:
-  build:
+  report:
     runs-on: ubuntu-latest
     steps:
       - name: Call backup API route
-        run: curl --header "Authentication:Bearer ${{GITHUB_TOKEN}}" --request GET --url 'https://www.amysimon.net/api/backup'
+        run: curl --username "${{secrets.BASIC_AUTH_USER}}" --password "${{secrets.BASIC_AUTH_PASSWORD}}" --request GET --url 'https://www.amysimon.net/api/backup'
