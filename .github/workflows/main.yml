@@ -7,4 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Call backup API route
-        run: curl --username "${{secrets.BASIC_AUTH_USER}}" --password "${{secrets.BASIC_AUTH_PASSWORD}}" --request GET --url 'https://www.amysimon.net/api/backup'
+        run: curl 
+          -u "${{ secrets.BASIC_AUTH_USER }}:${{ secrets.BASIC_AUTH_PASSWORD }}" 
+          --request GET 
+          --url "https://www.amysimon.net/api/backup"
