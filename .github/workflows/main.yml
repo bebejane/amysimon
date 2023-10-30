@@ -10,4 +10,4 @@ jobs:
         run: curl 
           -u "${{ secrets.BASIC_AUTH_USER }}:${{ secrets.BASIC_AUTH_PASSWORD }}" 
           --request GET 
-          --url "https://www.amysimon.net/api/backup"
+          --url "https://www.amysimon.net/api/backup?max=3"
