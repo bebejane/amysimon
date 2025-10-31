@@ -3,3 +3,45 @@ query AllCollections {
 		...CollectionFragment
 	}
 }
+
+fragment CollectionFragment on CollectionRecord {
+	id
+	year
+	yearEnd
+	title
+	description
+	additionalInfo
+	artwork {
+		...ArtworkFragment
+	}
+}
+
+fragment ArtworkFragment on ArtworkRecord {
+	id
+	title
+	height
+	width
+	material
+	location
+	layout
+	multiple
+	image {
+		...ImageFragment
+	}
+	thumbnail: image {
+		...ImageThumbnailFragment
+	}
+	video {
+		provider
+		providerUid
+		thumbnailUrl
+		title
+		url
+		width
+		height
+	}
+	_allReferencingCollections {
+		title
+		year
+	}
+}

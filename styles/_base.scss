@@ -1,0 +1,151 @@
+@use 'mediaqueries' as *;
+
+:root {
+	--black: #191919;
+	--white: #ffffff;
+	--red: red;
+	--line-color: #e8e8e8;
+	--gray-light: lightgray;
+	--outer-margin: 2.5rem;
+	--logo-size: 40px;
+	--navbar-height: calc(calc(2 * var(--outer-margin)) + 1rem);
+	--body-height: calc(100vh - var(--navbar-height));
+	--space: 5rem;
+	--small-space: 1rem;
+
+	--body-font: 'Sans', Helvetica, Sans-Serif;
+	--headline-font: 'Sans', Helvetica, Arial, Sans-Serif;
+
+	--z-video: 600;
+	--z-play: 610;
+	--z-gallery-nav: 800;
+	--z-close-collection: 810;
+	--z-archive-menu-mobile: 910;
+	--z-intro-background: 950;
+	--z-menu-mobile: 990;
+	--z-menu: 1000;
+	--z-hamburger: 1100;
+	--z-gallery-background: 1900;
+	--z-overlay: 2000;
+	--z-trans-image: 2001;
+	--z-intro-foreground: 3000;
+
+	@include mq($until: desktop) {
+		--outer-margin: 1rem;
+		--navbar-height: 64px;
+	}
+
+	@include mq($from: wide) {
+		--outer-margin: 2rem;
+	}
+}
+
+body {
+	width: 100%;
+	font-size: 100%;
+	line-height: 1em;
+	color: var(--foreground);
+	background-color: var(--background);
+	font-family: var(--body-font);
+	-webkit-font-smoothing: antialiased;
+	font-feature-settings: 'liga', 'kern';
+	overflow-x: hidden;
+	transition: background-color 0.7s ease-in-out;
+
+	.home {
+		background-color: var(--page-color);
+	}
+}
+
+html {
+	box-sizing: border-box;
+}
+
+html,
+body {
+	//height: 100%;
+}
+
+::-webkit-scrollbar {
+	-webkit-appearance: none;
+	background: var(--white);
+}
+
+::-webkit-scrollbar:vertical {
+	width: 10px;
+}
+
+::-webkit-scrollbar:horizontal {
+	height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--page-color);
+}
+
+*,
+*:before,
+*:after {
+	box-sizing: inherit;
+}
+
+a {
+	text-decoration: none;
+	color: var(--foreground);
+	transition: color 0.3s;
+
+	&:hover {
+		color: var(--beige-dark);
+	}
+
+	&:visited {
+		//color: var(--foreground);
+	}
+}
+
+article p a {
+	text-decoration: none;
+	border-bottom: 1px solid var(--page-color);
+
+	&:hover {
+		color: var(--page-color);
+	}
+}
+
+.intro {
+	margin-bottom: var(--small-space);
+	margin-top: -0.2em;
+}
+
+button {
+}
+
+figcaption {
+}
+
+input,
+textarea,
+select {
+	background-color: var(--beige-light);
+	margin-bottom: 1em;
+	padding: 0.8em;
+	padding-bottom: 0.9em;
+	padding-left: 1em;
+	font-family: 'Jazz';
+	border: none;
+
+	&:focus {
+		outline: 1px solid var(--beige-mid);
+	}
+}
+
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-image: url("data:image/svg+xml;utf8,<svg fill='black' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/><path d='M0 0h24v24H0z' fill='none'/></svg>");
+	background-repeat: no-repeat;
+	background-position-x: calc(100% - 1em);
+	background-position-y: center;
+	color: var(--black);
+}
