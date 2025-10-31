@@ -1,7 +1,6 @@
-import s from './page.module.scss';
 import { AllCollectionsDocument } from '@/graphql';
-import ArchiveGallery from './ArchiveGallery';
 import { apiQuery } from 'next-dato-utils/api';
+import ArchiveGallery from '@/components/ArchiveGallery';
 
 export default async function ArchivePage() {
 	const { allCollections } = await apiQuery(AllCollectionsDocument);

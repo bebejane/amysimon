@@ -12,10 +12,12 @@
 	font-size: 2rem;
 	font-weight: bold;
 	background-color: var(--white);
-
+	h2 {
+		margin: 2rem;
+		padding: 0%;
+	}
 	.message {
-		font-size: 0.7rem;
-		color: var(--red);
+		font-size: 0.8rem;
 	}
 	button {
 		margin: 0;

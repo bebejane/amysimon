@@ -5,6 +5,7 @@ import cn from 'classnames';
 import { useEffect, useState } from 'react';
 import { Image } from 'react-datocms';
 import useStore, { useShallow } from '@/lib/store';
+import { usePathname } from 'next/navigation';
 
 type Props = {
 	start: StartQuery['start'];

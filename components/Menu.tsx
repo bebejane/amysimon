@@ -4,40 +4,42 @@ import s from './Menu.module.scss';
 import cn from 'classnames';
 import Link from 'next/link';
 import Hamburger from './Hamburger';
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import useStore, { useShallow } from '@/lib/store';
 import { useScrollInfo } from 'next-dato-utils/hooks';
 import { usePathname } from 'next/navigation';
 
 export default function Menu() {
 	const pathname = usePathname();
-	const [showMenu, setShowMenu, showIntroLoading, setShowIntroLoading, showIntro, setShowIntro, isHome] = useStore(
-		useShallow((s) => [
-			s.showMenu,
-			s.setShowMenu,
-			s.showIntroLoading,
-			s.setShowIntroLoading,
-			s.showIntro,
-			s.setShowIntro,
-			s.isHome,
-		])
-	);
+	const [showMenu, setShowMenu, showIntroLoading, setShowIntroLoading, showIntro, setShowIntro, isHome, setIsHome] =
+		useStore(
+			useShallow((s) => [
+				s.showMenu,
+				s.setShowMenu,
+				s.showIntroLoading,
+				s.setShowIntroLoading,
+				s.showIntro,
+				s.setShowIntro,
+				s.isHome,
+				s.setIsHome,
+			])
+		);
 	const [active, setActive] = useState<string | null>(null);
 	const [hide, setHide] = useState(false);
 	const { scrolledPosition, isScrolledUp, isPageBottom } = useScrollInfo();
 
 	useEffect(() => {
-		const handleRouteChange = (url) => {
+		function handleRouteChangeStart(url: string) {
 			setActive(url);
 			setTimeout(() => {
 				setShowMenu(false);
 				setActive(null);
 			}, 600);
-		};
-		handleRouteChange(pathname);
-		//router.events.on('routeChangeStart', handleRouteChange);
-		//return () => router.events.off('routeChangeStart', handleRouteChange);
-	}, []);
+		}
+		handleRouteChangeStart(pathname);
+	}, [pathname]);
+
+	useEffect(() => setIsHome(pathname === '/'), [pathname]);
 
 	useEffect(() => {
 		if (!isHome) setShowIntroLoading(false);
@@ -48,7 +50,7 @@ export default function Menu() {
 	}, [isScrolledUp, scrolledPosition, isPageBottom]);
 
 	if (showIntroLoading) return null;
-	console.log(isHome);
+
 	return (
 		<>
 			<nav className={cn(s.menu, 'track', isHome && s.home, hide && s.hide)}>

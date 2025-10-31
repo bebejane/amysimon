@@ -4,11 +4,12 @@ import s from './ArchiveGallery.module.scss';
 import cn from 'classnames';
 import { Image } from 'react-datocms';
 import { useState, useRef, useEffect } from 'react';
-import { artworkCaption, sleep } from '@/lib/utils';
+import { artworkCaption } from '@/lib/utils';
 import GalleryNav from '@/components/GalleryNav';
 import { BsPlayCircle } from 'react-icons/bs';
 import { ImSpinner8 } from 'react-icons/im';
 import { Markdown } from 'next-dato-utils/components';
+import { sleep } from 'next-dato-utils/utils';
 import Youtube from 'react-youtube';
 import useDevice from '@/lib/hooks/useDevice';
 
@@ -410,7 +411,6 @@ export const transitionImage = async (
 	image.style.visibility = 'visible';
 	dImage.style.visibility = 'visible';
 
-	//setTimeout(() => clone.remove(), 200);
 	return clone;
 };
 

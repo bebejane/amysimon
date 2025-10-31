@@ -1,5 +1,3 @@
-'use client';
-
 import s from './GalleryNav.module.scss';
 import cn from 'classnames';
 import { useRef, useState } from 'react';

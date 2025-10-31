@@ -1,11 +1,16 @@
-import { apiQuery } from 'next-dato-utils/api';
-import { DatoCmsConfig, getUploadReferenceRoutes, getItemReferenceRoutes } from 'next-dato-utils/config';
+import { DatoCmsConfig } from 'next-dato-utils/config';
 import { MetadataRoute } from 'next';
 
 export default {
 	routes: {
-		start: async (record, locale) => ['/'],
-		upload: async (record, locale) => getUploadReferenceRoutes(record.id),
+		start: async () => ['/'],
+		about: async () => ['/about'],
+		project: async () => ['/about'],
+		exhibition: async () => ['/about'],
+		collection_about: async () => ['/about'],
+		artwork: async () => ['/', '/archive'],
+		collection: async () => ['/archive'],
+		upload: async ({ id }) => ['/archive', '/'],
 	},
 	sitemap: async () => {
 		return [
@@ -19,9 +24,10 @@ export default {
 	},
 	manifest: async () => {
 		return {
-			name: 'next-dato-boiler',
-			short_name: 'next-dato-boiler',
-			description: 'next-dato-boiler description',
+			name: 'Amy Simon',
+			short_name: 'Amy Simon',
+			description:
+				'Artist. Born in New York City, NY, 1957 Lives and Works in Stockholm, Sweden, and New York City, US',
 			start_url: '/',
 			display: 'standalone',
 			background_color: '#ffffff',
@@ -40,7 +46,6 @@ export default {
 			rules: {
 				userAgent: '*',
 				allow: '/',
-				disallow: '/medlem/',
 			},
 		};
 	},

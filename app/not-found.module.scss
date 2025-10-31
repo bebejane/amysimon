@@ -1,8 +1,11 @@
 .container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: calc(100vh - var(--main-offset));
-  width: 100%;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: calc(100vh - var(--navbar-height));
+	width: 100%;
+	h2 {
+		padding: 1rem;
+	}
 }
