@@ -202,7 +202,7 @@ $mq-media-type: all !default;
 	@include mq-show-breakpoints;
 }
 
-@if length($mq-show-breakpoints) >0 {
+@if list.length($mq-show-breakpoints) >0 {
 	@include mq-show-breakpoints;
 }
 

@@ -3536,10 +3536,13 @@ type focalPoint = {
   y: Scalars['FloatType']['output'];
 };
 
-type AboutQueryVariables = Exact<{ [key: string]: never; }>;
+type AboutQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['IntType']['input']>;
+  skip?: InputMaybe<Scalars['IntType']['input']>;
+}>;
 
 
-type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'AboutRecord', bio: string, email?: string | null } | null, exhibitions: Array<{ __typename?: 'ExhibitionRecord', id: any, year: any, title: string, location?: string | null, city?: string | null, country?: string | null }>, projects: Array<{ __typename?: 'ProjectRecord', id: any, from: any, until?: any | null, description: string }>, collections: Array<{ __typename?: 'CollectionAboutRecord', id: any, description: string }> };
+type AboutQuery = { __typename?: 'Query', about?: { __typename?: 'AboutRecord', bio: string, email?: string | null } | null, allExhibitions: Array<{ __typename?: 'ExhibitionRecord', id: any, year: any, title: string, location?: string | null, city?: string | null, country?: string | null }>, _allExhibitionsMeta: { __typename?: 'CollectionMetadata', count: any }, allProjects: Array<{ __typename?: 'ProjectRecord', id: any, from: any, until?: any | null, description: string }>, _allProjectsMeta: { __typename?: 'CollectionMetadata', count: any }, allCollectionAbouts: Array<{ __typename?: 'CollectionAboutRecord', id: any, description: string }>, _allCollectionAboutsMeta: { __typename?: 'CollectionMetadata', count: any } };
 
 type AllCollectionsQueryVariables = Exact<{
   first?: InputMaybe<Scalars['IntType']['input']>;

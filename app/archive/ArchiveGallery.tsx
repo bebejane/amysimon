@@ -19,19 +19,20 @@ export type ArtworkWithThumbnailRecord = ArtworkRecord & {
 const transitionDuration = 500;
 
 export type Props = {
-	collections: AllCollectionsQuery['collections'];
+	collections: AllCollectionsQuery['allCollections'];
 };
+
+type Collection = AllCollectionsQuery['allCollections'][0];
 
 export default function ArchiveGallery({ collections }: Props) {
 	const [fullscreen, setFullscreen] = useState(false);
 	const [showCollection, setShowCollection] = useState(false);
-	const [collection, setCollection] = useState<CollectionRecord | null>(null);
+	const [collection, setCollection] = useState<Collection | null>(null);
 	const [index, setIndex] = useState<{ [key: string]: number }>({});
 	const [thumbLoaded, setThumbLoaded] = useState<{ [key: string]: boolean }>({});
 	const [allThumbsLoaded, setAllThumbsLoaded] = useState(false);
 	const [loaded, setLoaded] = useState<{ [key: string]: boolean }>({});
 	const [mainImagesLoaded, setMainImagesLoaded] = useState(false);
-
 	const [hoverCollectionId, setHoverCollectionId] = useState<string | null>(null);
 	const [transitioning, setTransitioning] = useState(false);
 	const [videoPlayId, setVideoPlayId] = useState<string | null>(null);
@@ -235,7 +236,7 @@ export default function ArchiveGallery({ collections }: Props) {
 											fadeInDuration={0}
 											usePlaceholder={true}
 											placeholderClassName={s.placeholder}
-											pictureClassName={s.picture}
+											imgClassName={s.picture}
 											onLoad={() => setThumbLoaded((s) => ({ ...s, [artwork[index[id]]?.thumbnail.id]: true }))}
 										/>
 									)}
@@ -299,9 +300,8 @@ export default function ArchiveGallery({ collections }: Props) {
 										)}
 										fadeInDuration={0}
 										usePlaceholder={true}
-										lazyLoad={true}
 										placeholderClassName={s.placeholder}
-										pictureClassName={s.picture}
+										imgClassName={s.picture}
 										onLoad={() => setLoaded((s) => ({ ...s, [artwork.image.id]: true }))}
 									/>
 								)}
@@ -327,15 +327,15 @@ export default function ArchiveGallery({ collections }: Props) {
 									<span>{c.title}</span>
 									<span>
 										{artwork.title && <em>{artwork.title}</em>}
-										{artworkCaption(artwork, isMobile) && <>,&nbsp;</>}
-										{artworkCaption(artwork, isMobile)}
+										{artworkCaption(artwork as any, isMobile) && <>,&nbsp;</>}
+										{artworkCaption(artwork as any, isMobile)}
 									</span>
 								</figcaption>
 							</figure>
 						))}
 
 						<figure className={cn(s.description, (index[c.id] === c.artwork.length || isMobile) && s.show)}>
-							<Markdown className={s.description}>{c.description}</Markdown>
+							<Markdown className={s.description} content={c.description} />
 							{c.additionalInfo && <p className={s.additional}>{c.additionalInfo}</p>}
 						</figure>
 					</div>

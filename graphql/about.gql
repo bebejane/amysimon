@@ -1,9 +1,9 @@
-query About {
+query About($first: IntType = 500, $skip: IntType = 0) {
 	about {
 		bio(markdown: false)
 		email
 	}
-	exhibitions: allExhibitions(first: 100, orderBy: year_DESC) {
+	allExhibitions(first: $first, skip: $skip, orderBy: year_DESC) {
 		id
 		year
 		title
@@ -11,14 +11,23 @@ query About {
 		city
 		country
 	}
-	projects: allProjects(first: 100, orderBy: from_DESC) {
+	_allExhibitionsMeta {
+		count
+	}
+	allProjects(first: $first, skip: $skip, orderBy: from_DESC) {
 		id
 		from
 		until
 		description
 	}
-	collections: allCollectionAbouts(first: 100) {
+	_allProjectsMeta {
+		count
+	}
+	allCollectionAbouts(first: $first, skip: $skip) {
 		id
 		description
+	}
+	_allCollectionAboutsMeta {
+		count
 	}
 }
