@@ -201,3 +201,19 @@ $mq-media-type: all !default;
 @if list.length($mq-show-breakpoints) > 0 {
 	@include mq-show-breakpoints;
 }
+
+@if length($mq-show-breakpoints) >0 {
+	@include mq-show-breakpoints;
+}
+
+@mixin mobile-only() {
+	@include mq($from: tablet) {
+		display: none;
+	}
+}
+
+@mixin desktop-only() {
+	@include mq($until: tablet) {
+		display: none;
+	}
+}

@@ -1,6 +1,9 @@
-query AllCollections {
-	collections: allCollections(first: 100, orderBy: year_DESC) {
+query AllCollections($first: IntType = 500, $skip: IntType = 0) {
+	allCollections(first: $first, skip: $skip, orderBy: year_DESC) {
 		...CollectionFragment
+	}
+	_allCollectionsMeta {
+		count
 	}
 }
 
@@ -40,7 +43,7 @@ fragment ArtworkFragment on ArtworkRecord {
 		width
 		height
 	}
-	_allReferencingCollections {
+	_allReferencingCollections(first: 100) {
 		title
 		year
 	}
