@@ -217,7 +217,7 @@ export default function ArchiveGallery({ collections }: Props) {
 							<li
 								id={id}
 								key={id}
-								onClick={handleZoomIn}
+								onMouseDown={handleZoomIn}
 								className={cn(id === collection?.id || !showCollection ? s.active : s.inactive)}
 							>
 								<header className='track'>
@@ -277,12 +277,16 @@ export default function ArchiveGallery({ collections }: Props) {
 							{c.title}
 							{c.year && <>, {`${c.year}${c.yearEnd ? `–${c.yearEnd}` : ''}`} </>}
 						</span>
-						<span className={s.back} onClick={handleZoomOut}>
+						<span className={s.back} onMouseDown={handleZoomOut}>
 							Back
 						</span>
 					</header>
 
-					<div id={`slides-${c.id}`} className={cn(s.slides, isMobile && collection?.id !== c.id && s.hide)}>
+					<div
+						id={`slides-${c.id}`}
+						className={cn(s.slides, isMobile && collection?.id !== c.id && s.hide)}
+						onMouseDown={() => handleNext()}
+					>
 						{c.artwork.map((artwork, i) => (
 							<figure
 								key={artwork.id}
